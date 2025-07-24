@@ -1,9 +1,7 @@
+import { AppDataSource } from '../config/database';
 import { openai, CHAT_CONFIG } from '../config/openai';
 import { ChatMessage, ChatRequest, ChatResponse, ConversationSession } from '../types/chat';
-import { randomUUID } from 'crypto';
-
-// In-memory storage for demo purposes - in production, use a database
-const conversations: Map<string, ConversationSession> = new Map();
+import { Conversation, Message, MessageRole } from '../entities';
 
 // System prompt for the UX Whiteboard Challenge Facilitator
 const SYSTEM_PROMPT = `You are a senior UX interviewer at a tech company conducting 60-minute whiteboard design challenges. Your role is to evaluate candidates through realistic design problems commonly used in UX/UI job interviews.
@@ -23,37 +21,61 @@ Communication Style:
 Your goal is to assess how candidates approach design challenges, handle ambiguity, ask clarifying questions, and structure their problem-solving process independently.`;
 
 export class ChatService {
+  private conversationRepository = AppDataSource.getRepository(Conversation);
+  private messageRepository = AppDataSource.getRepository(Message);
+
   async sendMessage(request: ChatRequest): Promise<ChatResponse> {
     try {
-      let conversationId: string = request.sessionId || randomUUID();
-      let conversation: ConversationSession;
+      let conversation: Conversation;
 
-      // Get or create conversation session
-      if (request.sessionId && conversations.has(request.sessionId)) {
-        conversation = conversations.get(request.sessionId)!;
+      // Get or create conversation
+      if (request.sessionId) {
+        const existingConversation = await this.conversationRepository.findOne({
+          where: { id: request.sessionId },
+          relations: ['messages']
+        });
+
+        if (existingConversation) {
+          conversation = existingConversation;
+        } else {
+          // Session ID provided but not found, create new conversation
+          conversation = this.conversationRepository.create({
+            id: request.sessionId,
+            messages: []
+          });
+          await this.conversationRepository.save(conversation);
+        }
       } else {
-        conversationId = randomUUID();
-        conversation = {
-          id: conversationId,
-          messages: [],
-          createdAt: new Date(),
-          lastUpdated: new Date(),
-        };
-        conversations.set(conversationId, conversation);
+        // Create new conversation
+        conversation = this.conversationRepository.create({
+          messages: []
+        });
+        await this.conversationRepository.save(conversation);
       }
 
       // Add user message to conversation
-      const userMessage: ChatMessage = {
-        role: 'user',
+      const userMessage = this.messageRepository.create({
+        conversationId: conversation.id,
+        role: MessageRole.USER,
         content: request.message,
-        timestamp: new Date(),
-      };
-      conversation.messages.push(userMessage);
+        timestamp: new Date()
+      });
+      await this.messageRepository.save(userMessage);
 
-      // Prepare messages for OpenAI API
+      // Prepare messages for OpenAI API (reload conversation to get latest messages)
+      const updatedConversation = await this.conversationRepository.findOne({
+        where: { id: conversation.id },
+        relations: ['messages'],
+        order: { messages: { timestamp: 'ASC' } }
+      });
+
+      if (!updatedConversation) {
+        throw new Error('Failed to retrieve updated conversation');
+      }
+
       const messages: any[] = [
         { role: 'system', content: SYSTEM_PROMPT },
-        ...conversation.messages.map(msg => ({
+        ...updatedConversation.messages.map(msg => ({
           role: msg.role,
           content: msg.content,
         })),
@@ -72,18 +94,22 @@ export class ChatService {
         throw new Error('No response from OpenAI API');
       }
 
-      // Add assistant message to conversation
-      const assistantChatMessage: ChatMessage = {
-        role: 'assistant',
+      // Save assistant message to database
+      const assistantMessageEntity = this.messageRepository.create({
+        conversationId: conversation.id,
+        role: MessageRole.ASSISTANT,
         content: assistantMessage,
-        timestamp: new Date(),
-      };
-      conversation.messages.push(assistantChatMessage);
+        timestamp: new Date()
+      });
+      await this.messageRepository.save(assistantMessageEntity);
+
+      // Update conversation lastUpdated
       conversation.lastUpdated = new Date();
+      await this.conversationRepository.save(conversation);
 
       return {
         message: assistantMessage,
-        conversationId: conversationId,
+        conversationId: conversation.id,
         timestamp: new Date(),
       };
     } catch (error) {
@@ -92,15 +118,65 @@ export class ChatService {
     }
   }
 
-  getConversation(conversationId: string): ConversationSession | null {
-    return conversations.get(conversationId) || null;
+  async getConversation(conversationId: string): Promise<ConversationSession | null> {
+    try {
+      const conversation = await this.conversationRepository.findOne({
+        where: { id: conversationId },
+        relations: ['messages'],
+        order: { messages: { timestamp: 'ASC' } }
+      });
+
+      if (!conversation) {
+        return null;
+      }
+
+      // Convert TypeORM entities to interface format
+      return {
+        id: conversation.id,
+        messages: conversation.messages.map(msg => ({
+          role: msg.role as 'system' | 'user' | 'assistant',
+          content: msg.content,
+          timestamp: msg.timestamp
+        })),
+        createdAt: conversation.createdAt,
+        lastUpdated: conversation.lastUpdated
+      };
+    } catch (error) {
+      console.error('Error getting conversation:', error);
+      return null;
+    }
   }
 
-  getAllConversations(): ConversationSession[] {
-    return Array.from(conversations.values());
+  async getAllConversations(): Promise<ConversationSession[]> {
+    try {
+      const conversations = await this.conversationRepository.find({
+        relations: ['messages'],
+        order: { lastUpdated: 'DESC' }
+      });
+
+      return conversations.map(conversation => ({
+        id: conversation.id,
+        messages: conversation.messages.map(msg => ({
+          role: msg.role as 'system' | 'user' | 'assistant',
+          content: msg.content,
+          timestamp: msg.timestamp
+        })),
+        createdAt: conversation.createdAt,
+        lastUpdated: conversation.lastUpdated
+      }));
+    } catch (error) {
+      console.error('Error getting conversations:', error);
+      return [];
+    }
   }
 
-  deleteConversation(conversationId: string): boolean {
-    return conversations.delete(conversationId);
+  async deleteConversation(conversationId: string): Promise<boolean> {
+    try {
+      const result = await this.conversationRepository.delete(conversationId);
+      return (result.affected ?? 0) > 0;
+    } catch (error) {
+      console.error('Error deleting conversation:', error);
+      return false;
+    }
   }
 } 
