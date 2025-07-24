@@ -47,7 +47,7 @@ export class ChatController {
         return;
       }
 
-      const conversation = chatService.getConversation(conversationId);
+      const conversation = await chatService.getConversation(conversationId);
 
       if (!conversation) {
         res.status(404).json({
@@ -71,7 +71,7 @@ export class ChatController {
 
   async getAllConversations(req: Request, res: Response): Promise<void> {
     try {
-      const conversations = chatService.getAllConversations();
+      const conversations = await chatService.getAllConversations();
 
       res.json({
         success: true,
@@ -97,7 +97,7 @@ export class ChatController {
         return;
       }
 
-      const deleted = chatService.deleteConversation(conversationId);
+      const deleted = await chatService.deleteConversation(conversationId);
 
       if (!deleted) {
         res.status(404).json({

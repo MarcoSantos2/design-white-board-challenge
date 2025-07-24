@@ -1,6 +1,8 @@
+import 'reflect-metadata';
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import { AppDataSource } from './config/database';
 import chatRoutes from './routes/chatRoutes';
 
 // Load environment variables
@@ -8,6 +10,15 @@ dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3001;
+
+// Initialize database connection
+AppDataSource.initialize()
+  .then(() => {
+    console.log('Database connection initialized successfully');
+  })
+  .catch((error) => {
+    console.error('Error during database initialization:', error);
+  });
 
 // Middleware
 app.use(cors());
@@ -24,7 +35,11 @@ app.get('/', (req, res) => {
 
 // Health check
 app.get('/health', (req, res) => {
-  res.json({ status: 'OK', timestamp: new Date().toISOString() });
+  res.json({ 
+    status: 'OK', 
+    timestamp: new Date().toISOString(),
+    database: AppDataSource.isInitialized ? 'Connected' : 'Disconnected'
+  });
 });
 
 // Error handling middleware
