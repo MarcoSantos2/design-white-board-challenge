@@ -1,7 +1,7 @@
 import { AppDataSource } from '../config/database';
 import { openai, CHAT_CONFIG } from '../config/openai';
 import { ChatMessage, ChatRequest, ChatResponse, ConversationSession } from '../types/chat';
-import { Conversation, Message, MessageRole } from '../entities';
+import { Conversation, Message, MessageRole } from '../models';
 
 // System prompt for the UX Whiteboard Challenge Facilitator
 const SYSTEM_PROMPT = `You are a senior UX interviewer at a tech company conducting 60-minute whiteboard design challenges. Your role is to evaluate candidates through realistic design problems commonly used in UX/UI job interviews.
