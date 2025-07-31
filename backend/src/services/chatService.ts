@@ -43,14 +43,14 @@ export class ChatService {
             id: request.sessionId,
             messages: []
           });
-          await this.conversationRepository.save(conversation);
+          conversation = await this.conversationRepository.save(conversation);
         }
       } else {
         // Create new conversation
         conversation = this.conversationRepository.create({
           messages: []
         });
-        await this.conversationRepository.save(conversation);
+        conversation = await this.conversationRepository.save(conversation);
       }
 
       // Add user message to conversation

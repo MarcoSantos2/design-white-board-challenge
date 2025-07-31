@@ -7,6 +7,7 @@
     "start": "node dist/app.js",
     "dev": "nodemon src/app.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
+    "test:conversation": "ts-node src/scripts/testConversation.ts",
     "migration:generate": "typeorm-ts-node-commonjs migration:generate -d src/config/datasource.ts",
     "migration:create": "typeorm-ts-node-commonjs migration:create",
     "migration:run": "typeorm-ts-node-commonjs migration:run -d src/config/datasource.ts",
