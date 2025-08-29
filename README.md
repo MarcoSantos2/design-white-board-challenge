@@ -1,6 +1,6 @@
 # Design White Board Challenge
 
-A web application to help UX Designers practice whiteboard challenges for job interviews. Features AI-powered feedback through MCP (Model Context Protocol) integration.
+A web application to help UX Designers practice whiteboard challenges for job interviews. Features AI-powered feedback through MCP (Model Context Protocol) integration. Use design sytem within figma.
 
 ## 🚀 Tech Stack
 
