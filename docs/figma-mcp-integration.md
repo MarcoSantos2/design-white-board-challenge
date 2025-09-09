@@ -189,3 +189,5 @@ The Figma MCP server uses JSON-RPC 2.0 protocol over HTTP:
 - [Figma MCP Server Documentation](https://help.figma.com/hc/en-us/articles/32132100833559-Guide-to-the-Dev-Mode-MCP-Server)
 - [Model Context Protocol Specification](https://modelcontextprotocol.io/)
 - [JSON-RPC 2.0 Specification](https://www.jsonrpc.org/specification)
+
+
