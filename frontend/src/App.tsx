@@ -1,6 +1,7 @@
 import React from 'react'
 import { ThemeProvider, ThemeToggle, useTheme } from './design-tokens/SimpleThemeProvider'
 import { ButtonDemo } from './components/ButtonDemo'
+import { InputDemo } from './components/InputDemo'
 
 function AppContent() {
   const { mode } = useTheme()
@@ -44,12 +45,13 @@ function AppContent() {
           color: 'var(--text-secondary-alt)',
           margin: 0,
         }}>
-          Advanced Button System - Theme: <strong>{mode}</strong>
+          Design System Components - Theme: <strong>{mode}</strong>
         </p>
       </div>
 
-      {/* Main Content - Advanced Button Demo */}
+      {/* Main Content - Component Demos */}
       <ButtonDemo />
+      <InputDemo />
     </div>
   )
 }
