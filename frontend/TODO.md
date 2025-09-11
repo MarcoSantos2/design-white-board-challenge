@@ -1,39 +1,93 @@
-You are working inside a monorepo for a web app:
-- frontend: React + TypeScript + Vite + Tailwind
-- backend: Express + TS
-- shared: cross-package types & tokens
+# UX Whiteboard Challenge - Development TODO
 
-Goal: Integrate **Figma design variables** into the frontend codebase and scaffold UI components.
+## Make sure to follow a mobile first approach.
 
-Context:
-- Designer has already set up variables in Figma (colors, typography, spacing, radii).
-- These should be exported to `shared/design-tokens/tokens.json`.
-- From that JSON, generate:
-  - `frontend/src/design-system/tokens.css` (CSS vars)
-  - `frontend/src/design-system/tokens.d.ts` (type declarations)
-  - Tailwind config mapped to those CSS vars.
+## ✅ COMPLETED
+- [x] Project setup (React + Vite + TypeScript)
+- [x] Backend API setup (Express + TypeScript)
+- [x] Figma design system analysis
+- [x] Design tokens export from Figma
+- [x] MCP integration research (abandoned - not suitable)
+- [x] Clean up MCP-related files and configurations
+- [x] Theme system debugging and CSS specificity fixes
 
-Steps to follow in code:
-1. Create `scripts/build-tokens.ts` using Style Dictionary that transforms `shared/design-tokens/tokens.json` → CSS variables + TS types.
-2. Add an npm script `"tokens": "tsx scripts/build-tokens.ts"` to package.json at root.
-3. Update `frontend/tailwind.config.ts` so theme values (colors, spacing, radius) map to CSS vars instead of hardcoded values.
-4. Import `tokens.css` inside `frontend/src/styles/globals.css` to expose variables.
-5. Scaffold a `MainLayout` in `frontend/src/app/layouts/` that matches Figma frame structure (header + left panel + canvas + right panel).
-6. Use **shadcn/ui + Radix** components, styled with Tailwind semantic tokens. Start with Button, Input, Dialog.
-7. Ensure no raw hex, px, or hardcoded values in code; always reference tokens or Tailwind scale.
-8. Add a `/styleguide` route to render a dashboard showing tokens and basic components (sanity check).
+## 🚀 DEVELOPMENT PHASES
 
-When asked to implement UI from Figma:
-- Look at Figma variables (semantic names) and auto-layout settings.
-- Translate grids, spacing, radius, typography to Tailwind classes using tokens.
-- Refactor any hardcoded values into semantic utilities.
-- Extract reusable React components for repeated patterns.
+### 📋 PHASE 1: Foundation
+**Goal: Set up design system foundation and core components**
 
-When generating JSX:
-- Prefer semantic Tailwind utilities (bg-bg, text-fg, rounded-md).
-- Use flex/grid layouts that mirror Figma auto-layout.
-- Add ARIA attributes where applicable.
+- [x] **Step 1: Design Token Integration** ✅ *COMPLETED*
+  - [x] Convert Figma CSS variables to TypeScript tokens
+  - [x] Create theme provider for light/dark mode switching
+  - [x] Set up CSS custom properties in the app
+  - [x] Test theme switching functionality
 
-Always keep designs and code in sync:
-- Figma variables → export JSON → regenerate tokens with `npm run tokens` → components update automatically.
+- [x] **Step 2: Theme System + Basic Buttons** ✅ *COMPLETED*
+  - [x] Working theme provider with light/dark switching
+  - [x] CSS variable integration with Figma tokens
+  - [x] Live theme switching with proper visual feedback
+  - [x] Basic button styling with theme-aware colors
+  - [x] CSS specificity debugging and fixes
 
+- [ ] **Step 3: Input/Form Components**
+  - [ ] Text input with stroke tokens
+  - [ ] Focus states using design system
+  - [ ] Form validation styling
+  - [ ] Input variants (default, error, success)
+
+### 📋 PHASE 2: Core UI Components
+**Goal: Build essential UI components for the interface**
+
+- [ ] **Step 4: Card/Container Components**
+  - [ ] Base card component with surface tokens
+  - [ ] Message bubbles for chat interface
+  - [ ] Content containers with proper spacing
+
+- [ ] **Step 5: Navigation Components**
+  - [ ] Global navigation bar
+  - [ ] Sidebar navigation
+  - [ ] Breadcrumb components
+  - [ ] Navigation states and interactions
+
+- [ ] **Step 6: Layout Structure**
+  - [ ] Main app layout (header + sidebar + canvas)
+  - [ ] Responsive grid system
+  - [ ] Layout utilities and containers
+
+### 📋 PHASE 3: Chatbot-Specific Features
+**Goal: Implement chatbot and whiteboard-specific functionality**
+
+- [ ] **Step 7: Dialogue Elements**
+  - [ ] Chat message components (user/assistant)
+  - [ ] Message timestamps and status indicators
+  - [ ] Typing indicators and loading states
+  - [ ] Message actions (copy, edit, delete)
+
+- [ ] **Step 8: Whiteboard Interface**
+  - [ ] Canvas area component
+  - [ ] Tool palette for drawing/design tools
+  - [ ] Property panels for tool settings
+  - [ ] Whiteboard interactions and state management
+
+- [ ] **Step 9: Advanced Features**
+  - [ ] Modal/overlay components
+  - [ ] Tooltip system
+  - [ ] Notification/toast system
+  - [ ] Advanced layout components
+
+## 📋 CURRENT PRIORITY
+**🎯 NEXT UP: Advanced Button Component System**
+- Complete Button component with all variants and states
+- Mobile-first responsive design
+- Advanced interactions and animations
+
+## 📝 NOTES
+- Focus on primary buttons first, then expand to other variants
+- Group related components together for efficiency
+- Maintain exact visual appearance while converting to TypeScript
+- Test each component thoroughly before moving to next step
+
+## 🎨 DESIGN RESOURCES
+- Figma File: https://www.figma.com/design/z4fUgn6ctT1LV1eWm21DcR/Chatbot--UX-Whiteboard?node-id=283-501&m=dev
+- Exported Tokens: `frontend/src/design-tokens/Chatbot- UX Whiteboard-variables.css`
+- Token Data: `frontend/src/design-tokens/Chatbot- UX Whiteboard-variables.json`

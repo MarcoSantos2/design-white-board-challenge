@@ -1,16 +1,62 @@
+/* Import Figma design tokens */
+@import './design-tokens/chatbot-variables.css';
+
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Force CSS variables to be inherited properly */
+html, body {
+  color: var(--text-primary, #333);
+  background-color: var(--surface-primary, #fff);
+  transition: all 0.3s ease;
+}
+
+/* Test to see if CSS selectors work */
+html[data-Semantic-tokens="Light"] {
+  --test-color: red;
+}
+
+html[data-Semantic-tokens="Dark"] {
+  --test-color: blue;
+}
+
+/* Force override Figma CSS with higher specificity */
+html[data-Semantic-tokens="Light"][data-Primitive-tokens="Mode-1"] {
+  --surface-primary: rgb(255, 255, 255) !important;
+  --surface-secondary: rgb(242, 242, 242) !important;
+  --text-primary: rgb(51, 51, 51) !important;
+  --text-secondary: rgb(26, 26, 26) !important;
+  --text-secondary-alt: rgb(102, 102, 102) !important;
+  --text-dialogue: rgb(102, 102, 102) !important;
+  --text-dialogue-bg: rgb(242, 242, 242) !important;
+  --button-primary: rgb(26, 26, 26) !important;
+  --button-on-primary: rgb(255, 227, 105) !important;
+  --button-secondary: rgb(255, 255, 255) !important;
+  --button-on-secondary: rgb(26, 26, 26) !important;
+  --stroke-stroke: rgb(179, 179, 179) !important;
+}
+
+html[data-Semantic-tokens="Dark"][data-Primitive-tokens="Mode-1"] {
+  --surface-primary: rgb(26, 26, 26) !important;
+  --surface-secondary: rgb(51, 51, 51) !important;
+  --text-primary: rgb(242, 242, 242) !important;
+  --text-secondary: rgb(255, 255, 255) !important;
+  --text-secondary-alt: rgb(179, 179, 179) !important;
+  --text-dialogue: rgb(179, 179, 179) !important;
+  --text-dialogue-bg: rgb(51, 51, 51) !important;
+  --button-primary: rgb(255, 227, 105) !important;
+  --button-on-primary: rgb(26, 26, 26) !important;
+  --button-secondary: rgb(26, 26, 26) !important;
+  --button-on-secondary: rgb(255, 227, 105) !important;
+  --stroke-stroke: rgb(77, 77, 77) !important;
 }
 
 a {
@@ -24,10 +70,11 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  background-color: var(--surface-primary);
+  color: var(--text-primary);
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 h1 {
