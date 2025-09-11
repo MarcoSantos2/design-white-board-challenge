@@ -1,36 +1,21 @@
 import React, { useState } from 'react';
 import { 
-  Button, 
   PrimaryButton, 
   SecondaryButton, 
   PrimaryAltButton, 
   SecondaryAltButton 
 } from './ui/Button';
 
-// Simple icons for demo (we'll build proper Icon system later)
-const ArrowRightIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-    <path d="M5 12h14m-7-7l7 7-7 7"/>
-  </svg>
-);
-
-const PlusIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-    <path d="M12 5v14m-7-7h14"/>
-  </svg>
-);
-
-const DownloadIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-    <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/>
-  </svg>
-);
-
-const CheckIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-    <path d="M20 6L9 17l-5-5"/>
-  </svg>
-);
+import { 
+  ArrowRightIcon, 
+  PlusIcon, 
+  DownloadIcon, 
+  CheckIcon,
+  UserIcon,
+  MessageIcon,
+  StarIcon,
+  Icon
+} from './ui/Icon';
 
 // ========================================
 // ADVANCED BUTTON DEMO COMPONENT
@@ -203,19 +188,19 @@ export const ButtonDemo: React.FC = () => {
           marginBottom: '16px',
           fontSize: '18px',
         }}>
-          🎯 Icon Integration
+          🎯 Icon Integration with Buttons
         </h2>
         
         <div style={buttonRowStyle}>
-          <PrimaryButton startIcon={<PlusIcon />}>
+          <PrimaryButton startIcon={<PlusIcon size="sm" />}>
             Create New
           </PrimaryButton>
-          <SecondaryButton endIcon={<ArrowRightIcon />}>
+          <SecondaryButton endIcon={<ArrowRightIcon size="sm" />}>
             Continue
           </SecondaryButton>
           <PrimaryAltButton 
-            startIcon={<DownloadIcon />}
-            endIcon={<ArrowRightIcon />}
+            startIcon={<DownloadIcon size="sm" />}
+            endIcon={<ArrowRightIcon size="sm" />}
           >
             Download
           </PrimaryAltButton>
@@ -223,12 +208,274 @@ export const ButtonDemo: React.FC = () => {
         
         <div style={buttonRowStyle}>
           <SecondaryAltButton 
-            startIcon={<CheckIcon />}
+            startIcon={<CheckIcon size="sm" />}
             loading={loadingStates.iconLoading}
             onClick={() => handleLoadingTest('iconLoading')}
           >
             {loadingStates.iconLoading ? 'Processing...' : 'Confirm'}
           </SecondaryAltButton>
+          <PrimaryButton startIcon={<UserIcon size="sm" />}>
+            Profile
+          </PrimaryButton>
+          <SecondaryButton startIcon={<MessageIcon size="sm" />}>
+            Chat
+          </SecondaryButton>
+        </div>
+      </section>
+
+      {/* Comprehensive Icon System Showcase */}
+      <section style={demoSectionStyle}>
+        <h2 style={{ 
+          color: 'var(--text-primary)', 
+          marginBottom: '16px',
+          fontSize: '18px',
+        }}>
+          🎨 Comprehensive Icon System (20+ Icons)
+        </h2>
+        
+        <p style={{ 
+          color: 'var(--text-secondary-alt)', 
+          fontSize: '14px',
+          marginBottom: '16px',
+          lineHeight: '1.4',
+        }}>
+          Complete icon library with mobile-first design, multiple sizes, weights, and variants.
+        </p>
+
+        {/* Icon Sizes Demo */}
+        <div style={{ marginBottom: '20px' }}>
+          <h3 style={{ 
+            color: 'var(--text-primary)', 
+            fontSize: '16px',
+            marginBottom: '12px',
+          }}>
+            📏 Icon Sizes (Mobile-First)
+          </h3>
+          <div style={{ 
+            display: 'flex', 
+            alignItems: 'center', 
+            gap: '16px',
+            flexWrap: 'wrap',
+            background: 'var(--text-dialogue-bg)',
+            padding: '12px',
+            borderRadius: 'var(--radius-1)',
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+              <StarIcon size="xs" />
+              <span style={{ fontSize: '12px', color: 'var(--text-secondary-alt)' }}>xs (12px)</span>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+              <StarIcon size="sm" />
+              <span style={{ fontSize: '12px', color: 'var(--text-secondary-alt)' }}>sm (16px)</span>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+              <StarIcon size="md" />
+              <span style={{ fontSize: '12px', color: 'var(--text-secondary-alt)' }}>md (20px)</span>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+              <StarIcon size="lg" />
+              <span style={{ fontSize: '12px', color: 'var(--text-secondary-alt)' }}>lg (24px)</span>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+              <StarIcon size="xl" />
+              <span style={{ fontSize: '12px', color: 'var(--text-secondary-alt)' }}>xl (32px)</span>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+              <StarIcon size="xxl" />
+              <span style={{ fontSize: '12px', color: 'var(--text-secondary-alt)' }}>xxl (48px)</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Icon Categories */}
+        <div style={{ marginBottom: '20px' }}>
+          <h3 style={{ 
+            color: 'var(--text-primary)', 
+            fontSize: '16px',
+            marginBottom: '12px',
+          }}>
+            📚 Icon Categories
+          </h3>
+          
+          {/* Navigation Icons */}
+          <div style={{ marginBottom: '16px' }}>
+            <h4 style={{ 
+              color: 'var(--text-secondary-alt)', 
+              fontSize: '14px',
+              marginBottom: '8px',
+            }}>
+              Navigation & Arrows
+            </h4>
+            <div style={{ 
+              display: 'flex', 
+              gap: '12px',
+              flexWrap: 'wrap',
+              background: 'var(--text-dialogue-bg)',
+              padding: '12px',
+              borderRadius: 'var(--radius-1)',
+            }}>
+              <Icon name="arrow-right" size="md" />
+              <Icon name="arrow-left" size="md" />
+              <Icon name="arrow-up" size="md" />
+              <Icon name="arrow-down" size="md" />
+              <Icon name="chevron-right" size="md" />
+              <Icon name="chevron-left" size="md" />
+              <Icon name="external-link" size="md" />
+            </div>
+          </div>
+
+          {/* Action Icons */}
+          <div style={{ marginBottom: '16px' }}>
+            <h4 style={{ 
+              color: 'var(--text-secondary-alt)', 
+              fontSize: '14px',
+              marginBottom: '8px',
+            }}>
+              Actions & Controls
+            </h4>
+            <div style={{ 
+              display: 'flex', 
+              gap: '12px',
+              flexWrap: 'wrap',
+              background: 'var(--text-dialogue-bg)',
+              padding: '12px',
+              borderRadius: 'var(--radius-1)',
+            }}>
+              <Icon name="plus" size="md" />
+              <Icon name="minus" size="md" />
+              <Icon name="x" size="md" />
+              <Icon name="check" size="md" />
+              <Icon name="edit" size="md" />
+              <Icon name="trash" size="md" />
+              <Icon name="copy" size="md" />
+              <Icon name="share" size="md" />
+              <Icon name="save" size="md" />
+            </div>
+          </div>
+
+          {/* Interface Icons */}
+          <div style={{ marginBottom: '16px' }}>
+            <h4 style={{ 
+              color: 'var(--text-secondary-alt)', 
+              fontSize: '14px',
+              marginBottom: '8px',
+            }}>
+              Interface & Layout
+            </h4>
+            <div style={{ 
+              display: 'flex', 
+              gap: '12px',
+              flexWrap: 'wrap',
+              background: 'var(--text-dialogue-bg)',
+              padding: '12px',
+              borderRadius: 'var(--radius-1)',
+            }}>
+              <Icon name="menu" size="md" />
+              <Icon name="grid" size="md" />
+              <Icon name="list" size="md" />
+              <Icon name="search" size="md" />
+              <Icon name="filter" size="md" />
+              <Icon name="settings" size="md" />
+              <Icon name="more-horizontal" size="md" />
+            </div>
+          </div>
+
+          {/* Communication Icons */}
+          <div style={{ marginBottom: '16px' }}>
+            <h4 style={{ 
+              color: 'var(--text-secondary-alt)', 
+              fontSize: '14px',
+              marginBottom: '8px',
+            }}>
+              Communication & Social
+            </h4>
+            <div style={{ 
+              display: 'flex', 
+              gap: '12px',
+              flexWrap: 'wrap',
+              background: 'var(--text-dialogue-bg)',
+              padding: '12px',
+              borderRadius: 'var(--radius-1)',
+            }}>
+              <Icon name="message" size="md" />
+              <Icon name="chat" size="md" />
+              <Icon name="mail" size="md" />
+              <Icon name="phone" size="md" />
+              <Icon name="video" size="md" />
+              <Icon name="mic" size="md" />
+              <Icon name="bell" size="md" />
+            </div>
+          </div>
+
+          {/* Status & Feedback Icons */}
+          <div>
+            <h4 style={{ 
+              color: 'var(--text-secondary-alt)', 
+              fontSize: '14px',
+              marginBottom: '8px',
+            }}>
+              Status & Feedback
+            </h4>
+            <div style={{ 
+              display: 'flex', 
+              gap: '12px',
+              flexWrap: 'wrap',
+              background: 'var(--text-dialogue-bg)',
+              padding: '12px',
+              borderRadius: 'var(--radius-1)',
+            }}>
+              <Icon name="info" size="md" />
+              <Icon name="warning" size="md" />
+              <Icon name="error" size="md" />
+              <Icon name="success" size="md" />
+              <Icon name="star" size="md" />
+              <Icon name="heart" size="md" />
+              <Icon name="bookmark" size="md" />
+            </div>
+          </div>
+        </div>
+
+        {/* Interactive Icons Demo */}
+        <div>
+          <h3 style={{ 
+            color: 'var(--text-primary)', 
+            fontSize: '16px',
+            marginBottom: '12px',
+          }}>
+            ⚡ Interactive Icons (Click & Touch)
+          </h3>
+          <div style={{ 
+            display: 'flex', 
+            gap: '12px',
+            flexWrap: 'wrap',
+          }}>
+            <Icon 
+              name="heart" 
+              size="lg" 
+              variant="outline"
+              onClick={() => alert('Heart clicked! ❤️')}
+              style={{ color: 'var(--button-primary)' }}
+            />
+            <Icon 
+              name="star" 
+              size="lg" 
+              variant="filled"
+              onClick={() => alert('Star clicked! ⭐')}
+              style={{ color: '#FFD700' }}
+            />
+            <Icon 
+              name="settings" 
+              size="lg" 
+              onClick={() => alert('Settings clicked! ⚙️')}
+              style={{ color: 'var(--text-secondary-alt)' }}
+            />
+            <Icon 
+              name="bell" 
+              size="lg" 
+              onClick={() => alert('Notification! 🔔')}
+              style={{ color: 'var(--button-primary)' }}
+            />
+          </div>
         </div>
       </section>
 
