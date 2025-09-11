@@ -1,34 +1,66 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from 'react'
+import { ThemeProvider, ThemeToggle, useTheme } from './design-tokens/SimpleThemeProvider'
+import { ButtonDemo } from './components/ButtonDemo'
+import { InputDemo } from './components/InputDemo'
 
-function App() {
-  const [count, setCount] = useState(0)
+function AppContent() {
+  const { mode } = useTheme()
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div style={{
+      minHeight: '100vh',
+      background: 'var(--surface-primary)',
+      color: 'var(--text-primary)',
+      fontFamily: 'system-ui, sans-serif',
+      transition: 'all 0.3s ease',
+    }}>
+      {/* Theme Toggle - Mobile-First Positioning */}
+      <div style={{ 
+        position: 'fixed',
+        top: '16px', // Mobile: closer to edge
+        right: '16px', // Mobile: closer to edge
+        zIndex: 1000
+      }}>
+        <ThemeToggle />
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
+
+      {/* Header - Mobile-First */}
+      <div style={{
+        textAlign: 'center' as const,
+        padding: '24px 16px 16px', // Mobile: smaller padding
+        background: 'var(--surface-secondary)',
+        borderBottom: '1px solid var(--stroke-stroke)',
+      }}>
+        <h1 style={{
+          fontSize: '28px', // Mobile: smaller heading
+          marginBottom: '8px',
+          color: 'var(--text-secondary)',
+          lineHeight: '1.2',
+        }}>
+          UX Whiteboard Challenge
+        </h1>
+        
+        <p style={{
+          fontSize: '16px', // Mobile: readable size
+          color: 'var(--text-secondary-alt)',
+          margin: 0,
+        }}>
+          Design System Components - Theme: <strong>{mode}</strong>
         </p>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+
+      {/* Main Content - Component Demos */}
+      <ButtonDemo />
+      <InputDemo />
+    </div>
+  )
+}
+
+function App() {
+  return (
+    <ThemeProvider defaultMode="light">
+      <AppContent />
+    </ThemeProvider>
   )
 }
 

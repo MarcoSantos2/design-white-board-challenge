@@ -1,0 +1,671 @@
+{
+  "schemaVersion": 1,
+  "lastModified": "2025-09-11T01:18:39.331Z",
+  "collections": [
+    {
+      "name": "Primitive tokens",
+      "variables": [
+        {
+          "name": "neutral/0",
+          "resolvedType": "COLOR",
+          "valuesByMode": {
+            "Mode 1": {
+              "value": {
+                "r": 1,
+                "g": 1,
+                "b": 1,
+                "a": 1
+              }
+            }
+          }
+        },
+        {
+          "name": "yellow/50",
+          "resolvedType": "COLOR",
+          "valuesByMode": {
+            "Mode 1": {
+              "value": {
+                "r": 1,
+                "g": 0.98,
+                "b": 0.9,
+                "a": 1
+              }
+            }
+          }
+        },
+        {
+          "name": "yellow/100",
+          "resolvedType": "COLOR",
+          "valuesByMode": {
+            "Mode 1": {
+              "value": {
+                "r": 1,
+                "g": 0.96,
+                "b": 0.8,
+                "a": 1
+              }
+            }
+          }
+        },
+        {
+          "name": "yellow/200",
+          "resolvedType": "COLOR",
+          "valuesByMode": {
+            "Mode 1": {
+              "value": {
+                "r": 1,
+                "g": 0.92,
+                "b": 0.6,
+                "a": 1
+              }
+            }
+          }
+        },
+        {
+          "name": "yellow/300",
+          "resolvedType": "COLOR",
+          "valuesByMode": {
+            "Mode 1": {
+              "value": {
+                "r": 1,
+                "g": 0.89,
+                "b": 0.41,
+                "a": 1
+              }
+            }
+          }
+        },
+        {
+          "name": "yellow/500",
+          "resolvedType": "COLOR",
+          "valuesByMode": {
+            "Mode 1": {
+              "value": {
+                "r": 1,
+                "g": 0.87,
+                "b": 0.3,
+                "a": 1
+              }
+            }
+          }
+        },
+        {
+          "name": "yellow/600",
+          "resolvedType": "COLOR",
+          "valuesByMode": {
+            "Mode 1": {
+              "value": {
+                "r": 1,
+                "g": 0.81,
+                "b": 0,
+                "a": 1
+              }
+            }
+          }
+        },
+        {
+          "name": "yellow/700",
+          "resolvedType": "COLOR",
+          "valuesByMode": {
+            "Mode 1": {
+              "value": {
+                "r": 0.8,
+                "g": 0.65,
+                "b": 0,
+                "a": 1
+              }
+            }
+          }
+        },
+        {
+          "name": "radius/0",
+          "resolvedType": "FLOAT",
+          "valuesByMode": {
+            "Mode 1": {
+              "value": 0
+            }
+          }
+        },
+        {
+          "name": "radius/1",
+          "resolvedType": "FLOAT",
+          "valuesByMode": {
+            "Mode 1": {
+              "value": 8
+            }
+          }
+        },
+        {
+          "name": "radius/2",
+          "resolvedType": "FLOAT",
+          "valuesByMode": {
+            "Mode 1": {
+              "value": 16
+            }
+          }
+        },
+        {
+          "name": "radius/3",
+          "resolvedType": "FLOAT",
+          "valuesByMode": {
+            "Mode 1": {
+              "value": 24
+            }
+          }
+        },
+        {
+          "name": "radius/4",
+          "resolvedType": "FLOAT",
+          "valuesByMode": {
+            "Mode 1": {
+              "value": 32
+            }
+          }
+        },
+        {
+          "name": "radius/5",
+          "resolvedType": "FLOAT",
+          "valuesByMode": {
+            "Mode 1": {
+              "value": 40
+            }
+          }
+        },
+        {
+          "name": "neutral/50",
+          "resolvedType": "COLOR",
+          "valuesByMode": {
+            "Mode 1": {
+              "value": {
+                "r": 0.95,
+                "g": 0.95,
+                "b": 0.95,
+                "a": 1
+              }
+            }
+          }
+        },
+        {
+          "name": "neutral/100",
+          "resolvedType": "COLOR",
+          "valuesByMode": {
+            "Mode 1": {
+              "value": {
+                "r": 0.9,
+                "g": 0.9,
+                "b": 0.9,
+                "a": 1
+              }
+            }
+          }
+        },
+        {
+          "name": "neutral/200",
+          "resolvedType": "COLOR",
+          "valuesByMode": {
+            "Mode 1": {
+              "value": {
+                "r": 0.8,
+                "g": 0.8,
+                "b": 0.8,
+                "a": 1
+              }
+            }
+          }
+        },
+        {
+          "name": "neutral/300",
+          "resolvedType": "COLOR",
+          "valuesByMode": {
+            "Mode 1": {
+              "value": {
+                "r": 0.7,
+                "g": 0.7,
+                "b": 0.7,
+                "a": 1
+              }
+            }
+          }
+        },
+        {
+          "name": "neutral/400",
+          "resolvedType": "COLOR",
+          "valuesByMode": {
+            "Mode 1": {
+              "value": {
+                "r": 0.6,
+                "g": 0.6,
+                "b": 0.6,
+                "a": 1
+              }
+            }
+          }
+        },
+        {
+          "name": "neutral/500",
+          "resolvedType": "COLOR",
+          "valuesByMode": {
+            "Mode 1": {
+              "value": {
+                "r": 0.5,
+                "g": 0.5,
+                "b": 0.5,
+                "a": 1
+              }
+            }
+          }
+        },
+        {
+          "name": "neutral/600",
+          "resolvedType": "COLOR",
+          "valuesByMode": {
+            "Mode 1": {
+              "value": {
+                "r": 0.4,
+                "g": 0.4,
+                "b": 0.4,
+                "a": 1
+              }
+            }
+          }
+        },
+        {
+          "name": "neutral/700",
+          "resolvedType": "COLOR",
+          "valuesByMode": {
+            "Mode 1": {
+              "value": {
+                "r": 0.3,
+                "g": 0.3,
+                "b": 0.3,
+                "a": 1
+              }
+            }
+          }
+        },
+        {
+          "name": "neutral/800",
+          "resolvedType": "COLOR",
+          "valuesByMode": {
+            "Mode 1": {
+              "value": {
+                "r": 0.2,
+                "g": 0.2,
+                "b": 0.2,
+                "a": 1
+              }
+            }
+          }
+        },
+        {
+          "name": "neutral/900",
+          "resolvedType": "COLOR",
+          "valuesByMode": {
+            "Mode 1": {
+              "value": {
+                "r": 0.1,
+                "g": 0.1,
+                "b": 0.1,
+                "a": 1
+              }
+            }
+          }
+        },
+        {
+          "name": "spacing/0",
+          "resolvedType": "FLOAT",
+          "valuesByMode": {
+            "Mode 1": {
+              "value": 0
+            }
+          }
+        },
+        {
+          "name": "spacing/1",
+          "resolvedType": "FLOAT",
+          "valuesByMode": {
+            "Mode 1": {
+              "value": 2
+            }
+          }
+        },
+        {
+          "name": "spacing/2",
+          "resolvedType": "FLOAT",
+          "valuesByMode": {
+            "Mode 1": {
+              "value": 4
+            }
+          }
+        },
+        {
+          "name": "spacing/3",
+          "resolvedType": "FLOAT",
+          "valuesByMode": {
+            "Mode 1": {
+              "value": 8
+            }
+          }
+        },
+        {
+          "name": "spacing/4",
+          "resolvedType": "FLOAT",
+          "valuesByMode": {
+            "Mode 1": {
+              "value": 12
+            }
+          }
+        },
+        {
+          "name": "spacing/5",
+          "resolvedType": "FLOAT",
+          "valuesByMode": {
+            "Mode 1": {
+              "value": 16
+            }
+          }
+        },
+        {
+          "name": "spacing/6",
+          "resolvedType": "FLOAT",
+          "valuesByMode": {
+            "Mode 1": {
+              "value": 20
+            }
+          }
+        },
+        {
+          "name": "spacing/7",
+          "resolvedType": "FLOAT",
+          "valuesByMode": {
+            "Mode 1": {
+              "value": 24
+            }
+          }
+        },
+        {
+          "name": "spacing/8",
+          "resolvedType": "FLOAT",
+          "valuesByMode": {
+            "Mode 1": {
+              "value": 32
+            }
+          }
+        },
+        {
+          "name": "spacing/9",
+          "resolvedType": "FLOAT",
+          "valuesByMode": {
+            "Mode 1": {
+              "value": 40
+            }
+          }
+        },
+        {
+          "name": "spacing/10",
+          "resolvedType": "FLOAT",
+          "valuesByMode": {
+            "Mode 1": {
+              "value": 48
+            }
+          }
+        },
+        {
+          "name": "spacing/11",
+          "resolvedType": "FLOAT",
+          "valuesByMode": {
+            "Mode 1": {
+              "value": 64
+            }
+          }
+        },
+        {
+          "name": "spacing/12",
+          "resolvedType": "FLOAT",
+          "valuesByMode": {
+            "Mode 1": {
+              "value": 80
+            }
+          }
+        },
+        {
+          "name": "spacing/13",
+          "resolvedType": "FLOAT",
+          "valuesByMode": {
+            "Mode 1": {
+              "value": 96
+            }
+          }
+        },
+        {
+          "name": "spacing/14",
+          "resolvedType": "FLOAT",
+          "valuesByMode": {
+            "Mode 1": {
+              "value": 112
+            }
+          }
+        },
+        {
+          "name": "spacing/15",
+          "resolvedType": "FLOAT",
+          "valuesByMode": {
+            "Mode 1": {
+              "value": 120
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Semantic tokens",
+      "variables": [
+        {
+          "name": "surface/primary",
+          "resolvedType": "COLOR",
+          "valuesByMode": {
+            "Light": {
+              "aliasOf": "neutral/0"
+            },
+            "Dark": {
+              "aliasOf": "neutral/900"
+            }
+          }
+        },
+        {
+          "name": "surface/secondary",
+          "resolvedType": "COLOR",
+          "valuesByMode": {
+            "Light": {
+              "aliasOf": "neutral/50"
+            },
+            "Dark": {
+              "aliasOf": "neutral/800"
+            }
+          }
+        },
+        {
+          "name": "text/primary",
+          "resolvedType": "COLOR",
+          "valuesByMode": {
+            "Light": {
+              "aliasOf": "neutral/800"
+            },
+            "Dark": {
+              "aliasOf": "neutral/50"
+            }
+          }
+        },
+        {
+          "name": "text/secondary",
+          "resolvedType": "COLOR",
+          "valuesByMode": {
+            "Light": {
+              "aliasOf": "neutral/900"
+            },
+            "Dark": {
+              "aliasOf": "neutral/0"
+            }
+          }
+        },
+        {
+          "name": "text/secondary-alt",
+          "resolvedType": "COLOR",
+          "valuesByMode": {
+            "Light": {
+              "aliasOf": "neutral/600"
+            },
+            "Dark": {
+              "aliasOf": "neutral/300"
+            }
+          }
+        },
+        {
+          "name": "text/dialogue",
+          "resolvedType": "COLOR",
+          "valuesByMode": {
+            "Light": {
+              "aliasOf": "neutral/600"
+            },
+            "Dark": {
+              "aliasOf": "neutral/300"
+            }
+          }
+        },
+        {
+          "name": "text/dialogue-bg",
+          "resolvedType": "COLOR",
+          "valuesByMode": {
+            "Light": {
+              "aliasOf": "neutral/50"
+            },
+            "Dark": {
+              "aliasOf": "neutral/800"
+            }
+          }
+        },
+        {
+          "name": "button/primary",
+          "resolvedType": "COLOR",
+          "valuesByMode": {
+            "Light": {
+              "aliasOf": "neutral/900"
+            },
+            "Dark": {
+              "aliasOf": "yellow/300"
+            }
+          }
+        },
+        {
+          "name": "button/on-primary",
+          "resolvedType": "COLOR",
+          "valuesByMode": {
+            "Light": {
+              "aliasOf": "yellow/300"
+            },
+            "Dark": {
+              "aliasOf": "neutral/900"
+            }
+          }
+        },
+        {
+          "name": "button/primary-alt",
+          "resolvedType": "COLOR",
+          "valuesByMode": {
+            "Light": {
+              "aliasOf": "neutral/800"
+            },
+            "Dark": {
+              "aliasOf": "neutral/0"
+            }
+          }
+        },
+        {
+          "name": "button/on-primary-alt",
+          "resolvedType": "COLOR",
+          "valuesByMode": {
+            "Light": {
+              "aliasOf": "neutral/200"
+            },
+            "Dark": {
+              "aliasOf": "neutral/700"
+            }
+          }
+        },
+        {
+          "name": "button/secondary",
+          "resolvedType": "COLOR",
+          "valuesByMode": {
+            "Light": {
+              "aliasOf": "neutral/0"
+            },
+            "Dark": {
+              "aliasOf": "neutral/900"
+            }
+          }
+        },
+        {
+          "name": "button/on-secondary",
+          "resolvedType": "COLOR",
+          "valuesByMode": {
+            "Light": {
+              "aliasOf": "neutral/900"
+            },
+            "Dark": {
+              "aliasOf": "yellow/300"
+            }
+          }
+        },
+        {
+          "name": "button/secondary-alt",
+          "resolvedType": "COLOR",
+          "valuesByMode": {
+            "Light": {
+              "aliasOf": "neutral/200"
+            },
+            "Dark": {
+              "aliasOf": "neutral/700"
+            }
+          }
+        },
+        {
+          "name": "button/on-secondary-alt",
+          "resolvedType": "COLOR",
+          "valuesByMode": {
+            "Light": {
+              "aliasOf": "neutral/800"
+            },
+            "Dark": {
+              "aliasOf": "neutral/0"
+            }
+          }
+        },
+        {
+          "name": "stroke/stroke",
+          "resolvedType": "COLOR",
+          "valuesByMode": {
+            "Light": {
+              "aliasOf": "neutral/300"
+            },
+            "Dark": {
+              "aliasOf": "neutral/700"
+            }
+          }
+        },
+        {
+          "name": "stroke/stroke-contrast",
+          "resolvedType": "COLOR",
+          "valuesByMode": {
+            "Light": {
+              "aliasOf": "neutral/600"
+            },
+            "Dark": {
+              "aliasOf": "neutral/400"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "fileName": "Chatbot- UX Whiteboard-variables.json"
+}
