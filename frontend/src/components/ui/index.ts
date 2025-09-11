@@ -7,3 +7,6 @@ export * from './Button';
 
 // Icon components  
 export * from './Icon';
+
+// Input/Form components
+export * from './Input';
