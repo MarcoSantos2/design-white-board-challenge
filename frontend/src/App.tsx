@@ -2,6 +2,7 @@ import React from 'react'
 import { ThemeProvider, ThemeToggle, useTheme } from './design-tokens/SimpleThemeProvider'
 import { ButtonDemo } from './components/ButtonDemo'
 import { InputDemo } from './components/InputDemo'
+import { CardDemo } from './components/CardDemo'
 
 function AppContent() {
   const { mode } = useTheme()
@@ -50,6 +51,7 @@ function AppContent() {
       </div>
 
       {/* Main Content - Component Demos */}
+      <CardDemo />
       <ButtonDemo />
       <InputDemo />
     </div>
