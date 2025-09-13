@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, Icon } from './ui';
 import { useTheme } from '../design-tokens/SimpleThemeProvider';
 
@@ -10,64 +10,101 @@ import { useTheme } from '../design-tokens/SimpleThemeProvider';
  */
 export const Homepage: React.FC = () => {
   const { mode, toggleMode } = useTheme();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
-    <div style={{
-      minHeight: '100vh',
-      background: 'var(--surface-primary)',
-      color: 'var(--text-primary)',
-      fontFamily: 'var(--font-family-roboto)',
-      display: 'flex',
-      flexDirection: 'column',
-    }}>
+    <>
+      <style>{`
+        @media (min-width: 768px) {
+          .desktop-nav {
+            display: flex !important;
+          }
+          .desktop-actions {
+            display: flex !important;
+          }
+          .mobile-menu-toggle {
+            display: none !important;
+          }
+        }
+        @media (max-width: 767px) {
+          .desktop-nav {
+            display: none !important;
+          }
+          .desktop-actions {
+            display: none !important;
+          }
+          .mobile-menu-toggle {
+            display: flex !important;
+          }
+        }
+      `}</style>
+      <div style={{
+        minHeight: '100vh',
+        background: 'var(--surface-primary)',
+        color: 'var(--text-primary)',
+        fontFamily: 'var(--font-family-roboto)',
+        display: 'flex',
+        flexDirection: 'column',
+      }}>
       {/* Navigation Bar */}
       <nav style={{
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        padding: 'var(--spacing-5) var(--spacing-6)',
+        padding: 'var(--spacing-4) var(--spacing-4)',
         borderBottom: '1px solid var(--stroke-stroke)',
         backgroundColor: 'var(--surface-primary)',
         position: 'sticky',
         top: 0,
         zIndex: 100,
+        flexWrap: 'wrap',
+        gap: 'var(--spacing-3)',
       }}>
         {/* Logo and Title */}
         <div style={{
           display: 'flex',
           alignItems: 'center',
-          gap: 'var(--spacing-3)',
+          gap: 'var(--spacing-2)',
+          flex: '1',
+          minWidth: '200px',
         }}>
           <div style={{
-            width: '32px',
-            height: '32px',
+            width: '28px',
+            height: '28px',
             backgroundColor: 'var(--button-primary)',
             borderRadius: 'var(--radius-1)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
+            flexShrink: 0,
           }}>
-            <Icon name="monitor" size="md" color="var(--button-on-primary)" />
+            <Icon name="monitor" size="sm" color="var(--button-on-primary)" />
           </div>
           <h1 style={{
             fontFamily: 'Roboto, sans-serif',
-            fontSize: 'var(--Static-Title-Large-Size)',
+            fontSize: 'clamp(18px, 4vw, 24px)',
             fontWeight: 'var(--Static-Title-Large-Weight)',
             lineHeight: 'var(--Static-Title-Large-Line-Height)',
             letterSpacing: 'var(--Static-Title-Large-Tracking)',
             margin: 0,
             color: 'var(--text-primary)',
+            whiteSpace: 'nowrap',
           }}>
             UX Whiteboard
           </h1>
         </div>
 
-        {/* Navigation Links */}
+        {/* Desktop Navigation Links - Center Position */}
         <div style={{
-          display: 'flex',
+          display: 'none',
           alignItems: 'center',
           gap: 'var(--spacing-6)',
-        }}>
+          position: 'absolute',
+          left: '50%',
+          transform: 'translateX(-50%)',
+        }}
+        className="desktop-nav"
+        >
           <a href="#features" style={{
             fontFamily: 'Roboto, sans-serif',
             fontSize: 'var(--Static-Body-Medium-Size)',
@@ -109,35 +146,184 @@ export const Homepage: React.FC = () => {
           </a>
         </div>
 
-        {/* Action Buttons */}
+        {/* Action Buttons - Responsive Layout */}
         <div style={{
           display: 'flex',
           alignItems: 'center',
-          gap: 'var(--spacing-3)',
+          gap: 'var(--spacing-2)',
+          flexWrap: 'wrap',
         }}>
+          {/* Theme Toggle - Always Visible */}
           <Button
             variant="secondary"
             size="small"
             onClick={toggleMode}
-            startIcon={<Icon name="settings" size="sm" />}
+            startIcon={<Icon name={mode === 'light' ? 'moon' : 'sun'} size="xs" />}
+            style={{
+              minWidth: 'auto',
+              padding: 'var(--spacing-2)',
+            }}
+            aria-label={`Switch to ${mode === 'light' ? 'dark' : 'light'} mode`}
           >
-            {mode === 'light' ? 'Dark' : 'Light'}
+            <span style={{ display: 'none' }}>{mode === 'light' ? 'Dark' : 'Light'}</span>
           </Button>
-          <Button
-            variant="primary"
-            size="medium"
-            onClick={() => console.log('Login clicked')}
+
+          {/* Desktop Action Buttons */}
+          <div style={{
+            display: 'none',
+            alignItems: 'center',
+            gap: 'var(--spacing-2)',
+          }}
+          className="desktop-actions"
           >
-            Log In
-          </Button>
+            <Button
+              variant="primary"
+              size="small"
+              onClick={() => console.log('Login clicked')}
+            >
+              Log In
+            </Button>
+            <Button
+              variant="secondary"
+              size="small"
+              onClick={() => console.log('Sign Up clicked')}
+            >
+              Sign Up
+            </Button>
+          </div>
+
+          {/* Mobile Menu Toggle */}
           <Button
             variant="secondary"
-            size="medium"
-            onClick={() => console.log('Sign Up clicked')}
+            size="small"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            style={{
+              minWidth: 'auto',
+              padding: 'var(--spacing-2)',
+            }}
+            className="mobile-menu-toggle"
           >
-            Sign Up
+            <Icon name={isMobileMenuOpen ? "x" : "menu"} size="sm" />
           </Button>
         </div>
+
+        {/* Mobile Menu Overlay */}
+        {isMobileMenuOpen && (
+          <div style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            zIndex: 1000,
+            display: 'flex',
+            alignItems: 'flex-start',
+            justifyContent: 'flex-end',
+            paddingTop: '80px',
+          }}
+          onClick={() => setIsMobileMenuOpen(false)}
+          >
+            <div style={{
+              backgroundColor: 'var(--surface-primary)',
+              border: '1px solid var(--stroke-stroke)',
+              borderRadius: 'var(--radius-2)',
+              padding: 'var(--spacing-4)',
+              margin: 'var(--spacing-4)',
+              minWidth: '280px',
+              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)',
+            }}
+            onClick={(e) => e.stopPropagation()}
+            >
+              {/* Mobile Navigation Links */}
+              <div style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 'var(--spacing-4)',
+                marginBottom: 'var(--spacing-6)',
+              }}>
+                <a href="#features" style={{
+                  fontFamily: 'Roboto, sans-serif',
+                  fontSize: 'var(--Static-Body-Large-Size)',
+                  fontWeight: 'var(--Static-Body-Large-Weight)',
+                  color: 'var(--text-primary)',
+                  textDecoration: 'none',
+                  padding: 'var(--spacing-3)',
+                  borderRadius: 'var(--radius-1)',
+                  transition: 'background-color 0.2s ease',
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--surface-secondary)'}
+                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+                onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Features
+                </a>
+                <a href="#about" style={{
+                  fontFamily: 'Roboto, sans-serif',
+                  fontSize: 'var(--Static-Body-Large-Size)',
+                  fontWeight: 'var(--Static-Body-Large-Weight)',
+                  color: 'var(--text-primary)',
+                  textDecoration: 'none',
+                  padding: 'var(--spacing-3)',
+                  borderRadius: 'var(--radius-1)',
+                  transition: 'background-color 0.2s ease',
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--surface-secondary)'}
+                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+                onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  About
+                </a>
+                <a href="#contact" style={{
+                  fontFamily: 'Roboto, sans-serif',
+                  fontSize: 'var(--Static-Body-Large-Size)',
+                  fontWeight: 'var(--Static-Body-Large-Weight)',
+                  color: 'var(--text-primary)',
+                  textDecoration: 'none',
+                  padding: 'var(--spacing-3)',
+                  borderRadius: 'var(--radius-1)',
+                  transition: 'background-color 0.2s ease',
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--surface-secondary)'}
+                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+                onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Contact
+                </a>
+              </div>
+
+              {/* Mobile Action Buttons */}
+              <div style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 'var(--spacing-3)',
+              }}>
+                <Button
+                  variant="primary"
+                  size="medium"
+                  onClick={() => {
+                    console.log('Login clicked');
+                    setIsMobileMenuOpen(false);
+                  }}
+                  style={{ width: '100%' }}
+                >
+                  Log In
+                </Button>
+                <Button
+                  variant="secondary"
+                  size="medium"
+                  onClick={() => {
+                    console.log('Sign Up clicked');
+                    setIsMobileMenuOpen(false);
+                  }}
+                  style={{ width: '100%' }}
+                >
+                  Sign Up
+                </Button>
+              </div>
+            </div>
+          </div>
+        )}
       </nav>
 
       {/* Hero Section */}
@@ -148,8 +334,8 @@ export const Homepage: React.FC = () => {
         alignItems: 'center',
         justifyContent: 'center',
         textAlign: 'center',
-        padding: 'var(--spacing-15) var(--spacing-6)',
-        gap: 'var(--spacing-8)',
+        padding: 'clamp(var(--spacing-8), 8vw, var(--spacing-15)) var(--spacing-4)',
+        gap: 'clamp(var(--spacing-6), 6vw, var(--spacing-8))',
       }}>
         {/* Main Title */}
         <h2 style={{
@@ -216,7 +402,7 @@ export const Homepage: React.FC = () => {
 
       {/* Features Section */}
       <section id="features" style={{
-        padding: 'var(--spacing-15) var(--spacing-6)',
+        padding: 'clamp(var(--spacing-8), 8vw, var(--spacing-15)) var(--spacing-4)',
         backgroundColor: 'var(--surface-secondary)',
       }}>
         <div style={{
@@ -238,8 +424,8 @@ export const Homepage: React.FC = () => {
           
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-            gap: 'var(--spacing-8)',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+            gap: 'clamp(var(--spacing-6), 6vw, var(--spacing-8))',
           }}>
             {[
               {
@@ -327,6 +513,7 @@ export const Homepage: React.FC = () => {
           © 2024 UX Whiteboard. All rights reserved.
         </p>
       </footer>
-    </div>
+      </div>
+    </>
   );
 };
