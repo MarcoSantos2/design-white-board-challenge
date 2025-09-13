@@ -16,3 +16,6 @@ export * from './Card';
 
 // Navigation components
 export * from './Navigation';
+
+// Layout components
+export * from './Layout';
