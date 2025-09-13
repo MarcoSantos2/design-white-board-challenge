@@ -2,5 +2,77 @@
  * Icon Component Exports
  */
 
-export * from './Icon';
-export { Icon as default } from './Icon';
+// Import everything from Icon.tsx
+import { 
+  Icon,
+  type IconName,
+  type IconSize,
+  type IconWeight,
+  type IconVariant,
+  type IconProps,
+  // All the convenience components
+  ArrowRightIcon,
+  ArrowLeftIcon,
+  ChevronRightIcon,
+  ChevronLeftIcon,
+  PlusIcon,
+  XIcon,
+  CheckIcon,
+  EditIcon,
+  TrashIcon,
+  SearchIcon,
+  MenuIcon,
+  SettingsIcon,
+  MoreHorizontalIcon,
+  DownloadIcon,
+  UploadIcon,
+  FileIcon,
+  UserIcon,
+  UsersIcon,
+  MessageIcon,
+  MailIcon,
+  InfoIcon,
+  WarningIcon,
+  ErrorIcon,
+  SuccessIcon,
+  HeartIcon,
+  StarIcon,
+} from './Icon';
+
+// Re-export everything explicitly
+export {
+  Icon,
+  type IconName,
+  type IconSize,
+  type IconWeight,
+  type IconVariant,
+  type IconProps,
+  ArrowRightIcon,
+  ArrowLeftIcon,
+  ChevronRightIcon,
+  ChevronLeftIcon,
+  PlusIcon,
+  XIcon,
+  CheckIcon,
+  EditIcon,
+  TrashIcon,
+  SearchIcon,
+  MenuIcon,
+  SettingsIcon,
+  MoreHorizontalIcon,
+  DownloadIcon,
+  UploadIcon,
+  FileIcon,
+  UserIcon,
+  UsersIcon,
+  MessageIcon,
+  MailIcon,
+  InfoIcon,
+  WarningIcon,
+  ErrorIcon,
+  SuccessIcon,
+  HeartIcon,
+  StarIcon,
+};
+
+export default Icon;
