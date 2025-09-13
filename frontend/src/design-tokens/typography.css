@@ -1,0 +1,225 @@
+/* Material Design 3 Typography Scale with Roboto */
+/* Generated from Figma design system */
+
+:root {
+  /* Font Family */
+  --font-family-roboto: 'Roboto', sans-serif;
+  
+  /* Display Large (57px) - Homepage titles */
+  --Static-Display-Large-Font: var(--font-family-roboto);
+  --Static-Display-Large-Size: 57px;
+  --Static-Display-Large-Line-Height: 64px;
+  --Static-Display-Large-Tracking: -0.25px;
+  --Static-Display-Large-Weight: 500;
+  
+  /* Body Small (12px) - Small text */
+  --Static-Body-Small-Font: var(--font-family-roboto);
+  --Static-Body-Small-Size: 12px;
+  --Static-Body-Small-Line-Height: 16px;
+  --Static-Body-Small-Tracking: 0.4px;
+  --Static-Body-Small-Weight: 400;
+  
+  /* Label Large (14px) - Buttons */
+  --Static-Label-Large-Font: var(--font-family-roboto);
+  --Static-Label-Large-Size: 14px;
+  --Static-Label-Large-Line-Height: 20px;
+  --Static-Label-Large-Tracking: 0.1px;
+  --Static-Label-Large-Weight: 500;
+  
+  /* Body Medium (14px) - Regular body text */
+  --Static-Body-Medium-Font: var(--font-family-roboto);
+  --Static-Body-Medium-Size: 14px;
+  --Static-Body-Medium-Line-Height: 20px;
+  --Static-Body-Medium-Tracking: 0.25px;
+  --Static-Body-Medium-Weight: 400;
+  
+  /* Headline Small (24px) - Section headings */
+  --Static-Headline-Small-Font: var(--font-family-roboto);
+  --Static-Headline-Small-Size: 24px;
+  --Static-Headline-Small-Line-Height: 32px;
+  --Static-Headline-Small-Tracking: 0px;
+  --Static-Headline-Small-Weight: 500;
+  
+  /* Title Large (22px) - Component titles */
+  --Static-Title-Large-Font: var(--font-family-roboto);
+  --Static-Title-Large-Size: 22px;
+  --Static-Title-Large-Line-Height: 28px;
+  --Static-Title-Large-Tracking: 0px;
+  --Static-Title-Large-Weight: 500;
+  
+  /* Title Medium (16px) - Subheadings */
+  --Static-Title-Medium-Font: var(--font-family-roboto);
+  --Static-Title-Medium-Size: 16px;
+  --Static-Title-Medium-Line-Height: 24px;
+  --Static-Title-Medium-Tracking: 0.15px;
+  --Static-Title-Medium-Weight: 500;
+  
+  /* Label Medium (12px) - Small labels */
+  --Static-Label-Medium-Font: var(--font-family-roboto);
+  --Static-Label-Medium-Size: 12px;
+  --Static-Label-Medium-Line-Height: 16px;
+  --Static-Label-Medium-Tracking: 0.5px;
+  --Static-Label-Medium-Weight: 500;
+}
+
+/* Roboto Variable Font Classes */
+.roboto-thin {
+  font-family: "Roboto", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 100;
+  font-style: normal;
+  font-variation-settings: "wdth" 100;
+}
+
+.roboto-light {
+  font-family: "Roboto", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-style: normal;
+  font-variation-settings: "wdth" 100;
+}
+
+.roboto-regular {
+  font-family: "Roboto", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-variation-settings: "wdth" 100;
+}
+
+.roboto-medium {
+  font-family: "Roboto", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+  font-variation-settings: "wdth" 100;
+}
+
+.roboto-bold {
+  font-family: "Roboto", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: normal;
+  font-variation-settings: "wdth" 100;
+}
+
+.roboto-black {
+  font-family: "Roboto", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 900;
+  font-style: normal;
+  font-variation-settings: "wdth" 100;
+}
+
+.roboto-thin-italic {
+  font-family: "Roboto", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 100;
+  font-style: italic;
+  font-variation-settings: "wdth" 100;
+}
+
+.roboto-light-italic {
+  font-family: "Roboto", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-style: italic;
+  font-variation-settings: "wdth" 100;
+}
+
+.roboto-regular-italic {
+  font-family: "Roboto", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: italic;
+  font-variation-settings: "wdth" 100;
+}
+
+.roboto-medium-italic {
+  font-family: "Roboto", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: italic;
+  font-variation-settings: "wdth" 100;
+}
+
+.roboto-bold-italic {
+  font-family: "Roboto", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: italic;
+  font-variation-settings: "wdth" 100;
+}
+
+.roboto-black-italic {
+  font-family: "Roboto", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 900;
+  font-style: italic;
+  font-variation-settings: "wdth" 100;
+}
+
+/* Typography Utility Classes */
+.typography-display-large {
+  font-family: var(--Static-Display-Large-Font);
+  font-size: var(--Static-Display-Large-Size);
+  font-weight: var(--Static-Display-Large-Weight);
+  line-height: var(--Static-Display-Large-Line-Height);
+  letter-spacing: var(--Static-Display-Large-Tracking);
+}
+
+.typography-headline-small {
+  font-family: var(--Static-Headline-Small-Font);
+  font-size: var(--Static-Headline-Small-Size);
+  font-weight: var(--Static-Headline-Small-Weight);
+  line-height: var(--Static-Headline-Small-Line-Height);
+  letter-spacing: var(--Static-Headline-Small-Tracking);
+}
+
+.typography-title-large {
+  font-family: var(--Static-Title-Large-Font);
+  font-size: var(--Static-Title-Large-Size);
+  font-weight: var(--Static-Title-Large-Weight);
+  line-height: var(--Static-Title-Large-Line-Height);
+  letter-spacing: var(--Static-Title-Large-Tracking);
+}
+
+.typography-title-medium {
+  font-family: var(--Static-Title-Medium-Font);
+  font-size: var(--Static-Title-Medium-Size);
+  font-weight: var(--Static-Title-Medium-Weight);
+  line-height: var(--Static-Title-Medium-Line-Height);
+  letter-spacing: var(--Static-Title-Medium-Tracking);
+}
+
+.typography-body-medium {
+  font-family: var(--Static-Body-Medium-Font);
+  font-size: var(--Static-Body-Medium-Size);
+  font-weight: var(--Static-Body-Medium-Weight);
+  line-height: var(--Static-Body-Medium-Line-Height);
+  letter-spacing: var(--Static-Body-Medium-Tracking);
+}
+
+.typography-body-small {
+  font-family: var(--Static-Body-Small-Font);
+  font-size: var(--Static-Body-Small-Size);
+  font-weight: var(--Static-Body-Small-Weight);
+  line-height: var(--Static-Body-Small-Line-Height);
+  letter-spacing: var(--Static-Body-Small-Tracking);
+}
+
+.typography-label-large {
+  font-family: var(--Static-Label-Large-Font);
+  font-size: var(--Static-Label-Large-Size);
+  font-weight: var(--Static-Label-Large-Weight);
+  line-height: var(--Static-Label-Large-Line-Height);
+  letter-spacing: var(--Static-Label-Large-Tracking);
+}
+
+.typography-label-medium {
+  font-family: var(--Static-Label-Medium-Font);
+  font-size: var(--Static-Label-Medium-Size);
+  font-weight: var(--Static-Label-Medium-Weight);
+  line-height: var(--Static-Label-Medium-Line-Height);
+  letter-spacing: var(--Static-Label-Medium-Tracking);
+}

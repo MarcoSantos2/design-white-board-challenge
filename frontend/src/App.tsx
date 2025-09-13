@@ -12,7 +12,7 @@ function AppContent() {
       minHeight: '100vh',
       background: 'var(--surface-primary)',
       color: 'var(--text-primary)',
-      fontFamily: 'system-ui, sans-serif',
+      fontFamily: 'var(--font-family-roboto, Roboto, sans-serif)',
       transition: 'all 0.3s ease',
     }}>
       {/* Theme Toggle - Mobile-First Positioning */}
@@ -33,16 +33,23 @@ function AppContent() {
         borderBottom: '1px solid var(--stroke-stroke)',
       }}>
         <h1 style={{
-          fontSize: '28px', // Mobile: smaller heading
+          fontFamily: 'var(--Static-Display-Large-Font)',
+          fontSize: 'var(--Static-Display-Large-Size)',
+          fontWeight: 'var(--Static-Display-Large-Weight)',
+          lineHeight: 'var(--Static-Display-Large-Line-Height)',
+          letterSpacing: 'var(--Static-Display-Large-Tracking)',
           marginBottom: '8px',
           color: 'var(--text-secondary)',
-          lineHeight: '1.2',
         }}>
           UX Whiteboard Challenge
         </h1>
         
         <p style={{
-          fontSize: '16px', // Mobile: readable size
+          fontFamily: 'var(--Static-Body-Medium-Font)',
+          fontSize: 'var(--Static-Body-Medium-Size)',
+          fontWeight: 'var(--Static-Body-Medium-Weight)',
+          lineHeight: 'var(--Static-Body-Medium-Line-Height)',
+          letterSpacing: 'var(--Static-Body-Medium-Tracking)',
           color: 'var(--text-secondary-alt)',
           margin: 0,
         }}>

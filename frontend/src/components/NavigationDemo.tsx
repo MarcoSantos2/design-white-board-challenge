@@ -153,7 +153,7 @@ export const NavigationDemo: React.FC = () => {
     backgroundColor: 'var(--surface-primary)',
     color: 'var(--text-primary)',
     minHeight: '100vh',
-    fontFamily: 'system-ui, sans-serif',
+    fontFamily: 'var(--font-family-roboto, Roboto, sans-serif)',
   };
 
   const headerStyles: React.CSSProperties = {
