@@ -1,8 +1,9 @@
 /* Import Figma design tokens */
 @import './design-tokens/chatbot-variables.css';
+@import './design-tokens/typography.css';
 
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Roboto', sans-serif;
   line-height: 1.5;
   font-weight: 400;
   color-scheme: light dark;
@@ -17,6 +18,12 @@ html, body {
   color: var(--text-primary, #333);
   background-color: var(--surface-primary, #fff);
   transition: all 0.3s ease;
+  font-family: 'Roboto', sans-serif;
+}
+
+/* Ensure all elements use Roboto font */
+* {
+  font-family: 'Roboto', sans-serif;
 }
 
 /* Test to see if CSS selectors work */

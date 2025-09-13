@@ -44,7 +44,7 @@ const getButtonStyles = (
     alignItems: 'center',
     justifyContent: 'center',
     gap: '8px', // Mobile: smaller gap
-    fontFamily: 'inherit',
+    fontFamily: 'var(--font-family-roboto, Roboto, sans-serif)',
     fontWeight: '500',
     textDecoration: 'none',
     cursor: disabled || loading ? 'not-allowed' : 'pointer',

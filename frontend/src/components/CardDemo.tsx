@@ -57,7 +57,7 @@ export const CardDemo: React.FC = () => {
         minHeight: '100vh',
         backgroundColor: 'var(--surface-secondary)',
         padding: 'var(--spacing-5)',
-        fontFamily: 'system-ui, -apple-system, sans-serif',
+        fontFamily: 'var(--font-family-roboto, Roboto, sans-serif)',
       }}
     >
       {/* Header */}
@@ -85,7 +85,7 @@ export const CardDemo: React.FC = () => {
           variant="secondary"
           size="medium"
           onClick={toggleTheme}
-          startIcon={<Icon name={theme === 'light' ? 'moon' : 'sun'} size="sm" />}
+          startIcon={<Icon name="settings" size="sm" />}
         >
           {theme === 'light' ? 'Dark' : 'Light'} Mode
         </Button>
@@ -179,7 +179,7 @@ export const CardDemo: React.FC = () => {
             onClick={() => alert('Primary card clicked!')}
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-3)' }}>
-              <Icon name="mouse-pointer" size="md" color="var(--text-primary)" />
+              <Icon name="arrow-right" size="md" color="var(--text-primary)" />
               <div>
                 <h3 style={{ margin: '0 0 var(--spacing-2) 0', color: 'var(--text-primary)' }}>
                   Clickable Card
@@ -275,7 +275,7 @@ export const CardDemo: React.FC = () => {
                 message.sender === 'user' ? (
                   <Icon name="user" size="sm" />
                 ) : (
-                  <Icon name="bot" size="sm" />
+                  <Icon name="user" size="sm" />
                 )
               }
             >
@@ -312,7 +312,7 @@ export const CardDemo: React.FC = () => {
               }}
             />
             <Button variant="primary" size="small">
-              <Icon name="send" size="sm" />
+              <Icon name="arrow-right" size="sm" />
             </Button>
           </div>
         </div>
@@ -350,7 +350,7 @@ export const CardDemo: React.FC = () => {
           </Card>
 
           <Card variant="primary" size="comfortable" bordered>
-            <Icon name="palette" size="lg" color="var(--text-primary)" style={{ marginBottom: 'var(--spacing-3)' }} />
+            <Icon name="settings" size="lg" color="var(--text-primary)" style={{ marginBottom: 'var(--spacing-3)' }} />
             <h3 style={{ margin: '0 0 var(--spacing-3) 0', color: 'var(--text-primary)' }}>
               Design Token Integration
             </h3>
@@ -360,7 +360,7 @@ export const CardDemo: React.FC = () => {
           </Card>
 
           <Card variant="primary" size="comfortable" bordered>
-            <Icon name="zap" size="lg" color="var(--text-primary)" style={{ marginBottom: 'var(--spacing-3)' }} />
+            <Icon name="star" size="lg" color="var(--text-primary)" style={{ marginBottom: 'var(--spacing-3)' }} />
             <h3 style={{ margin: '0 0 var(--spacing-3) 0', color: 'var(--text-primary)' }}>
               Interactive Components
             </h3>
