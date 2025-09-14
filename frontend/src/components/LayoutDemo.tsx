@@ -3,7 +3,6 @@ import {
   MainLayout,
   Grid,
   Container,
-  Header,
   LayoutSidebar,
   Canvas,
   Button,

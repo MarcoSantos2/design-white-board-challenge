@@ -89,8 +89,7 @@ const getCardStyles = (
     },
   };
 
-  // Auto padding based on size if no custom padding
-  const autoPadding = padding === 'none' ? sizeStyles[size] : paddingStyles[padding];
+  // Final padding calculation
   const finalPadding = padding !== 'none' 
     ? paddingStyles[padding] 
     : size === 'compact' 

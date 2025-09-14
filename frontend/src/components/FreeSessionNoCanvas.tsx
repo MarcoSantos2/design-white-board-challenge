@@ -20,7 +20,7 @@ const FreeSessionNoCanvas: React.FC = () => {
 
   // Timer functionality
   useEffect(() => {
-    let interval: NodeJS.Timeout;
+    let interval: number;
     if (isSessionActive) {
       interval = setInterval(() => {
         setSessionTime(prev => {
@@ -72,11 +72,8 @@ const FreeSessionNoCanvas: React.FC = () => {
     // Get the scrollHeight
     const scrollHeight = textarea.scrollHeight;
 
-    // Calculate the actual content height by subtracting padding
+    // Get computed style for line height calculation
     const computedStyle = getComputedStyle(textarea);
-    const paddingTop = parseFloat(computedStyle.paddingTop) || 0;
-    const paddingBottom = parseFloat(computedStyle.paddingBottom) || 0;
-    const actualContentHeight = scrollHeight - paddingTop - paddingBottom;
 
     // Get line height for more accurate calculation
     const lineHeight = parseFloat(computedStyle.lineHeight) || 20;
@@ -203,8 +200,8 @@ const FreeSessionNoCanvas: React.FC = () => {
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
             <Button
-              variant="ghost"
-              size="sm"
+              variant="secondary"
+              size="small"
               onClick={() => window.history.back()}
               style={{ padding: '8px' }}
             >
@@ -223,8 +220,8 @@ const FreeSessionNoCanvas: React.FC = () => {
           {/* Theme Toggle */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
             <Button
-              variant="ghost"
-              size="sm"
+              variant="secondary"
+              size="small"
               onClick={toggleMode}
               style={{ padding: '8px' }}
             >
@@ -371,7 +368,7 @@ const FreeSessionNoCanvas: React.FC = () => {
             {inputValue.trim() ? (
               <Button
                 variant="primary"
-                size="sm"
+                size="small"
                 onClick={handleSendMessage}
                 style={{
                   width: '28px',
@@ -410,7 +407,7 @@ const FreeSessionNoCanvas: React.FC = () => {
         }}>
           <Button
             variant="secondary"
-            size="sm"
+            size="small"
             onClick={handleEndSession}
             style={{
               color: 'var(--text-secondary)',

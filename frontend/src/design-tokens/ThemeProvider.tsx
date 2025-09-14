@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { ThemeMode } from './tokens';
+import type { ThemeMode } from './tokens';
 
 // ========================================
 // THEME CONTEXT
