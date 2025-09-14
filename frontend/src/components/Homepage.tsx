@@ -376,7 +376,7 @@ export const Homepage: React.FC = () => {
           <Button
             variant="primary"
             size="large"
-            onClick={() => console.log('Start Free Session clicked')}
+            onClick={() => window.location.href = '/session'}
             style={{
               fontSize: '18px',
               padding: 'var(--spacing-4) var(--spacing-8)',

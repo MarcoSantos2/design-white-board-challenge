@@ -19,3 +19,6 @@ export * from './Navigation';
 
 // Layout components
 export * from './Layout';
+
+// Page components
+export { FreeSession } from '../FreeSession';
