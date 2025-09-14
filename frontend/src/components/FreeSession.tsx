@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Button, Icon } from './ui';
+import { ExcalidrawWhiteboard } from './ui/Whiteboard';
 import { useTheme } from '../design-tokens/SimpleThemeProvider';
 
 /**
@@ -21,14 +22,9 @@ export const FreeSession: React.FC = () => {
   ]);
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
-  const [selectedTool, setSelectedTool] = useState('pen');
-  const [canvasHistory] = useState<string[]>([]);
-  const [currentCanvas, setCurrentCanvas] = useState(0);
   const [inputHeight, setInputHeight] = useState(20);
   
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -103,40 +99,14 @@ export const FreeSession: React.FC = () => {
     // Get the scrollHeight
     const scrollHeight = textarea.scrollHeight;
     
-    // Calculate the actual content height by subtracting padding
+    // Get computed style for line height calculation
     const computedStyle = getComputedStyle(textarea);
-    const paddingTop = parseFloat(computedStyle.paddingTop) || 0;
-    const paddingBottom = parseFloat(computedStyle.paddingBottom) || 0;
-    const actualContentHeight = scrollHeight - paddingTop - paddingBottom;
     
     // Get line height for more accurate calculation
     const lineHeight = parseFloat(computedStyle.lineHeight) || 20;
     
-    // Create a temporary element to measure text width
-    const tempDiv = document.createElement('div');
-    tempDiv.style.position = 'absolute';
-    tempDiv.style.visibility = 'hidden';
-    tempDiv.style.height = 'auto';
-    tempDiv.style.width = textarea.clientWidth + 'px';
-    tempDiv.style.fontFamily = computedStyle.fontFamily;
-    tempDiv.style.fontSize = computedStyle.fontSize;
-    tempDiv.style.fontWeight = computedStyle.fontWeight;
-    tempDiv.style.lineHeight = computedStyle.lineHeight;
-    tempDiv.style.letterSpacing = computedStyle.letterSpacing;
-    tempDiv.style.padding = '0';
-    tempDiv.style.border = 'none';
-    tempDiv.style.whiteSpace = 'pre-wrap';
-    tempDiv.style.wordWrap = 'break-word';
-    tempDiv.textContent = e.target.value;
-    
-    document.body.appendChild(tempDiv);
-    const textHeight = tempDiv.offsetHeight;
-    document.body.removeChild(tempDiv);
-    
-    
-    // Use the measured text height to determine if we need to resize
-    // This is more accurate than using scrollHeight calculations
-    if (textHeight > lineHeight) {
+    // Use scrollHeight to determine if we need to resize
+    if (scrollHeight > lineHeight) {
       const newHeight = Math.min(scrollHeight, maxHeight);
       textarea.style.height = `${newHeight}px`;
       setInputHeight(newHeight);
@@ -149,22 +119,7 @@ export const FreeSession: React.FC = () => {
     textarea.scrollTop = scrollTop;
   };
 
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      // Handle file upload logic here
-      console.log('File uploaded:', file.name);
-    }
-  };
 
-  const tools = [
-    { id: 'pen', name: 'Pen', icon: 'edit' },
-    { id: 'eraser', name: 'Eraser', icon: 'trash' },
-    { id: 'text', name: 'Text', icon: 'type' },
-    { id: 'shapes', name: 'Shapes', icon: 'grid' },
-    { id: 'arrow', name: 'Arrow', icon: 'arrow-right' },
-    { id: 'sticky', name: 'Sticky Note', icon: 'bookmark' },
-  ];
 
   return (
     <div style={{
@@ -544,100 +499,23 @@ export const FreeSession: React.FC = () => {
           display: 'flex',
           flexDirection: 'column',
           backgroundColor: 'var(--surface-primary)',
+          minHeight: '600px',
+          height: '100%',
         }}
         className="whiteboard-area"
         >
-          {/* Tool Palette */}
-          <div style={{
-            padding: 'var(--spacing-4)',
-            borderBottom: '1px solid var(--stroke-stroke)',
-            backgroundColor: 'var(--surface-secondary)',
-          }}>
-            <div style={{
-              display: 'flex',
-              gap: 'var(--spacing-2)',
-              alignItems: 'center',
-              flexWrap: 'wrap',
-            }}>
-              {tools.map((tool) => (
-                <Button
-                  key={tool.id}
-                  variant={selectedTool === tool.id ? 'primary' : 'secondary'}
-                  size="small"
-                  onClick={() => setSelectedTool(tool.id)}
-                  startIcon={<Icon name={tool.icon as any} size="sm" />}
-                >
-                  {tool.name}
-                </Button>
-              ))}
-              <div style={{ width: '1px', height: '24px', backgroundColor: 'var(--stroke-stroke)', margin: '0 var(--spacing-2)' }} />
-              <Button
-                variant="secondary"
-                size="small"
-                onClick={() => fileInputRef.current?.click()}
-                startIcon={<Icon name="upload" size="sm" />}
-              >
-                Upload
-              </Button>
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept="image/*"
-                onChange={handleFileUpload}
-                style={{ display: 'none' }}
-              />
-            </div>
-          </div>
-
-          {/* Canvas Area */}
-          <div style={{
-            flex: 1,
-            position: 'relative',
-            backgroundColor: 'var(--surface-primary)',
-            overflow: 'hidden',
-          }}>
-            <canvas
-              ref={canvasRef}
-              style={{
-                width: '100%',
-                height: '100%',
-                cursor: selectedTool === 'pen' ? 'crosshair' : 'default',
-                backgroundColor: 'var(--surface-primary)',
-              }}
-              onMouseDown={() => {
-                // Handle canvas drawing logic here
-                console.log('Canvas mouse down', selectedTool);
-              }}
-            />
-            
-            {/* Canvas Overlay for UI elements */}
-            <div style={{
-              position: 'absolute',
-              top: 'var(--spacing-4)',
-              right: 'var(--spacing-4)',
-              display: 'flex',
-              gap: 'var(--spacing-2)',
-            }}>
-              <Button
-                variant="secondary"
-                size="small"
-                onClick={() => setCurrentCanvas(Math.max(0, currentCanvas - 1))}
-                disabled={currentCanvas === 0}
-                startIcon={<Icon name="arrow-left" size="sm" />}
-              >
-                Undo
-              </Button>
-              <Button
-                variant="secondary"
-                size="small"
-                onClick={() => setCurrentCanvas(Math.min(canvasHistory.length, currentCanvas + 1))}
-                disabled={currentCanvas >= canvasHistory.length}
-                startIcon={<Icon name="arrow-right" size="sm" />}
-              >
-                Redo
-              </Button>
-            </div>
-          </div>
+          <ExcalidrawWhiteboard
+            visible={true}
+            onChange={(elements: readonly any[]) => {
+              // Handle whiteboard changes if needed
+              console.log('Whiteboard changed:', elements.length, 'elements');
+            }}
+            style={{
+              width: '100%',
+              height: '100%',
+              minHeight: '600px',
+            }}
+          />
         </div>
 
         {/* Mobile Message - Hidden on Desktop */}

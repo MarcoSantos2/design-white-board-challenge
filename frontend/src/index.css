@@ -21,8 +21,8 @@ html, body {
   font-family: 'Roboto', sans-serif;
 }
 
-/* Ensure all elements use Roboto font */
-* {
+/* Ensure all elements use Roboto font, but exclude Excalidraw */
+*:not(.excalidraw):not(.excalidraw *) {
   font-family: 'Roboto', sans-serif;
 }
 
@@ -119,4 +119,55 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+
+/* Excalidraw specific fixes */
+.excalidraw-container {
+  font-size: 14px !important;
+  transform: scale(1) !important;
+  transform-origin: top left !important;
+}
+
+.excalidraw-container .excalidraw {
+  font-size: 14px !important;
+  transform: scale(1) !important;
+  transform-origin: top left !important;
+}
+
+.excalidraw-container .excalidraw .App {
+  font-size: 14px !important;
+  transform: scale(1) !important;
+}
+
+.excalidraw-container .excalidraw .App .Island {
+  font-size: 14px !important;
+  transform: scale(1) !important;
+}
+
+.excalidraw-container .excalidraw .App .Island .ToolIcon {
+  width: 40px !important;
+  height: 40px !important;
+  min-width: 40px !important;
+  min-height: 40px !important;
+  transform: scale(1) !important;
+}
+
+.excalidraw-container .excalidraw .App .Island .ToolIcon__icon {
+  width: 20px !important;
+  height: 20px !important;
+  transform: scale(1) !important;
+}
+
+.excalidraw-container .excalidraw .App .Island .ToolIcon__icon svg {
+  width: 20px !important;
+  height: 20px !important;
+  transform: scale(1) !important;
+}
+
+.excalidraw-container .excalidraw .App .Island .ToolIcon__label {
+  font-size: 12px !important;
+}
+
+.excalidraw-container .excalidraw .App .Island .ToolIcon__keybinding {
+  font-size: 10px !important;
 }
