@@ -373,18 +373,45 @@ export const Homepage: React.FC = () => {
           alignItems: 'center',
           gap: 'var(--spacing-4)',
         }}>
-          <Button
-            variant="primary"
-            size="large"
-            onClick={() => window.location.href = '/session'}
-            style={{
-              fontSize: '18px',
-              padding: 'var(--spacing-4) var(--spacing-8)',
-              minWidth: '200px',
-            }}
-          >
-            Start Free Session
-          </Button>
+          <div style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 'var(--spacing-4)',
+            alignItems: 'center',
+            width: '100%',
+            maxWidth: '400px'
+          }}>
+            <Button
+              variant="primary"
+              size="large"
+              onClick={() => window.location.href = '/session'}
+              style={{
+                fontSize: '18px',
+                padding: 'var(--spacing-4) var(--spacing-8)',
+                minWidth: '200px',
+                width: '100%'
+              }}
+            >
+              Start Free Session (with Canvas)
+            </Button>
+            
+            <Button
+              variant="secondary"
+              size="large"
+              onClick={() => window.location.href = '/session-chat'}
+              style={{
+                fontSize: '18px',
+                padding: 'var(--spacing-4) var(--spacing-8)',
+                minWidth: '200px',
+                width: '100%',
+                borderColor: 'var(--accent-primary)',
+                color: 'var(--accent-primary)',
+                backgroundColor: 'transparent'
+              }}
+            >
+              Start Free Session (Chat Only)
+            </Button>
+          </div>
           
           <p style={{
             fontFamily: 'Roboto, sans-serif',

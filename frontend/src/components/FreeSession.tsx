@@ -678,7 +678,7 @@ export const FreeSession: React.FC = () => {
               margin: '0 0 var(--spacing-4) 0',
               color: 'var(--text-primary)',
             }}>
-              Whiteboard Not Available on Mobile
+              Canvas Not Available on Mobile
             </h3>
             
             <p style={{
