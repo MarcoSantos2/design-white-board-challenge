@@ -4,6 +4,7 @@ import { ExcalidrawWhiteboard } from './ui/Whiteboard';
 import { useTheme } from '../design-tokens/SimpleThemeProvider';
 import { chatService } from '../services/chatService';
 import type { ChatMessage } from '../services/chatService';
+import { useNavigate } from 'react-router-dom';
 
 /**
  * FreeSession Component
@@ -12,7 +13,8 @@ import type { ChatMessage } from '../services/chatService';
  * Matches the Figma design with comprehensive functionality.
  */
 export const FreeSession: React.FC = () => {
-  const { mode, toggleMode } = useTheme();
+  const { mode } = useTheme();
+  const navigate = useNavigate();
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       id: 1,
@@ -215,16 +217,7 @@ export const FreeSession: React.FC = () => {
           <Button
             variant="secondary"
             size="small"
-            onClick={toggleMode}
-            startIcon={<Icon name={mode === 'light' ? 'moon' : 'sun'} size="sm" />}
-            aria-label={`Switch to ${mode === 'light' ? 'dark' : 'light'} mode`}
-          >
-            {mode === 'light' ? 'Dark' : 'Light'}
-          </Button>
-          <Button
-            variant="secondary"
-            size="small"
-            onClick={() => window.history.back()}
+            onClick={() => navigate('/')}
             startIcon={<Icon name="arrow-left" size="sm" />}
           >
             Back
@@ -602,7 +595,7 @@ export const FreeSession: React.FC = () => {
               <Button
                 variant="primary"
                 size="medium"
-                onClick={() => window.history.back()}
+                onClick={() => navigate('/')}
                 startIcon={<Icon name="arrow-left" size="sm" />}
               >
                 Back to Homepage

@@ -4,9 +4,11 @@ import { Button } from './ui/Button/Button';
 import { useTheme } from '../design-tokens/SimpleThemeProvider';
 import { chatService } from '../services/chatService';
 import type { ChatMessage } from '../services/chatService';
+import { useNavigate } from 'react-router-dom';
 
 const FreeSessionNoCanvas: React.FC = () => {
-  const { mode, toggleMode } = useTheme();
+  const { mode } = useTheme();
+  const navigate = useNavigate();
   const [inputValue, setInputValue] = useState('');
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
@@ -225,7 +227,7 @@ const FreeSessionNoCanvas: React.FC = () => {
             <Button
               variant="secondary"
               size="small"
-              onClick={() => window.history.back()}
+              onClick={() => navigate('/')}
               style={{ padding: '8px' }}
             >
               <Icon name="arrow-left" size="sm" />
@@ -240,36 +242,24 @@ const FreeSessionNoCanvas: React.FC = () => {
             </h1>
           </div>
           
-          {/* Theme Toggle */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <Button
-              variant="secondary"
-              size="small"
-              onClick={toggleMode}
-              style={{ padding: '8px' }}
-            >
-              <Icon name={mode === 'light' ? 'moon' : 'sun'} size="sm" />
-            </Button>
-          
-            {/* Timer */}
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              padding: '8px 12px',
-              backgroundColor: 'var(--surface-tertiary)',
-              borderRadius: '8px',
-              border: '1px solid var(--border-primary)'
+          {/* Timer */}
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            padding: '8px 12px',
+            backgroundColor: 'var(--surface-tertiary)',
+            borderRadius: '8px',
+            border: '1px solid var(--border-primary)'
+          }}>
+            <Icon name="clock" size="sm" />
+            <span style={{
+              fontSize: '14px',
+              fontWeight: '500',
+              color: 'var(--text-secondary)'
             }}>
-              <Icon name="clock" size="sm" />
-              <span style={{
-                fontSize: '14px',
-                fontWeight: '500',
-                color: 'var(--text-secondary)'
-              }}>
-                {formatTime(sessionTime)}
-              </span>
-            </div>
+              {formatTime(sessionTime)}
+            </span>
           </div>
         </div>
 
