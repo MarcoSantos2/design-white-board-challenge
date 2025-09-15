@@ -2,6 +2,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Button, Icon } from './ui';
 import { ExcalidrawWhiteboard } from './ui/Whiteboard';
 import { useTheme } from '../design-tokens/SimpleThemeProvider';
+import { chatService } from '../services/chatService';
+import type { ChatMessage } from '../services/chatService';
 
 /**
  * FreeSession Component
@@ -11,7 +13,7 @@ import { useTheme } from '../design-tokens/SimpleThemeProvider';
  */
 export const FreeSession: React.FC = () => {
   const { mode, toggleMode } = useTheme();
-  const [messages, setMessages] = useState([
+  const [messages, setMessages] = useState<ChatMessage[]>([
     {
       id: 1,
       type: 'assistant',
@@ -42,9 +44,9 @@ export const FreeSession: React.FC = () => {
   const handleSendMessage = async () => {
     if (!inputValue.trim()) return;
 
-    const userMessage = {
+    const userMessage: ChatMessage = {
       id: Date.now(),
-      type: 'user' as const,
+      type: 'user',
       content: inputValue,
       timestamp: new Date(),
       isTyping: false,
@@ -54,18 +56,37 @@ export const FreeSession: React.FC = () => {
     setInputValue('');
     setIsTyping(true);
 
-    // Simulate assistant response
-    setTimeout(() => {
-      const assistantMessage = {
+    try {
+      // Send message to backend API
+      const response = await chatService.sendMessage(inputValue);
+      
+      if (response.success) {
+        const assistantMessage: ChatMessage = {
+          id: Date.now() + 1,
+          type: 'assistant',
+          content: response.data.message,
+          timestamp: new Date(response.data.timestamp),
+          isTyping: false,
+        };
+        setMessages(prev => [...prev, assistantMessage]);
+      } else {
+        throw new Error('Failed to get response from server');
+      }
+    } catch (error) {
+      console.error('Error sending message:', error);
+      
+      // Show error message to user
+      const errorMessage: ChatMessage = {
         id: Date.now() + 1,
-        type: 'assistant' as const,
-        content: "That's a great approach! I can see you're thinking about the user journey. Let's dive deeper into the key features. What would be the most important functionality for a coffee shop app?",
+        type: 'assistant',
+        content: "I'm sorry, I'm having trouble connecting to the server. Please check your connection and try again.",
         timestamp: new Date(),
         isTyping: false,
       };
-      setMessages(prev => [...prev, assistantMessage]);
+      setMessages(prev => [...prev, errorMessage]);
+    } finally {
       setIsTyping(false);
-    }, 2000);
+    }
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {

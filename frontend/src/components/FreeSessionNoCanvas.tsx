@@ -2,16 +2,19 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Icon } from './ui/Icon/Icon';
 import { Button } from './ui/Button/Button';
 import { useTheme } from '../design-tokens/SimpleThemeProvider';
+import { chatService } from '../services/chatService';
+import type { ChatMessage } from '../services/chatService';
 
 const FreeSessionNoCanvas: React.FC = () => {
   const { mode, toggleMode } = useTheme();
   const [inputValue, setInputValue] = useState('');
-  const [messages, setMessages] = useState([
+  const [messages, setMessages] = useState<ChatMessage[]>([
     {
       id: 1,
-      type: 'bot',
+      type: 'assistant',
       content: 'Hello! I\'m here to help you with your UX design questions. What would you like to work on today?',
-      timestamp: new Date()
+      timestamp: new Date(),
+      isTyping: false,
     }
   ]);
   const [sessionTime, setSessionTime] = useState(600); // 10 minutes in seconds
@@ -111,29 +114,49 @@ const FreeSessionNoCanvas: React.FC = () => {
     textarea.scrollTop = scrollTop;
   };
 
-  const handleSendMessage = () => {
+  const handleSendMessage = async () => {
     if (!inputValue.trim()) return;
 
-    const newMessage = {
-      id: messages.length + 1,
+    const userMessage: ChatMessage = {
+      id: Date.now(),
       type: 'user',
       content: inputValue.trim(),
-      timestamp: new Date()
+      timestamp: new Date(),
+      isTyping: false,
     };
 
-    setMessages(prev => [...prev, newMessage]);
+    setMessages(prev => [...prev, userMessage]);
     setInputValue('');
 
-    // Simulate bot response
-    setTimeout(() => {
-      const botResponse = {
-        id: messages.length + 2,
-        type: 'bot',
-        content: 'Thanks for your message! I\'m here to help you with your UX design questions. How can I assist you further?',
-        timestamp: new Date()
+    try {
+      // Send message to backend API
+      const response = await chatService.sendMessage(inputValue);
+      
+      if (response.success) {
+        const assistantMessage: ChatMessage = {
+          id: Date.now() + 1,
+          type: 'assistant',
+          content: response.data.message,
+          timestamp: new Date(response.data.timestamp),
+          isTyping: false,
+        };
+        setMessages(prev => [...prev, assistantMessage]);
+      } else {
+        throw new Error('Failed to get response from server');
+      }
+    } catch (error) {
+      console.error('Error sending message:', error);
+      
+      // Show error message to user
+      const errorMessage: ChatMessage = {
+        id: Date.now() + 1,
+        type: 'assistant',
+        content: "I'm sorry, I'm having trouble connecting to the server. Please check your connection and try again.",
+        timestamp: new Date(),
+        isTyping: false,
       };
-      setMessages(prev => [...prev, botResponse]);
-    }, 1000);
+      setMessages(prev => [...prev, errorMessage]);
+    }
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {

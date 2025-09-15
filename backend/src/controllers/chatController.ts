@@ -9,7 +9,16 @@ export class ChatController {
     try {
       const { message, sessionId } = req.body;
 
+      // Log incoming request
+      console.log('📨 Incoming Chat Request:', {
+        sessionId: sessionId || 'new',
+        messageLength: message?.length || 0,
+        timestamp: new Date().toISOString(),
+        userAgent: req.get('User-Agent')?.substring(0, 50) || 'unknown'
+      });
+
       if (!message || typeof message !== 'string') {
+        console.log('❌ Invalid request: Missing or invalid message');
         res.status(400).json({
           error: 'Message is required and must be a string',
         });
@@ -22,6 +31,13 @@ export class ChatController {
       };
 
       const response = await chatService.sendMessage(chatRequest);
+
+      // Log successful response
+      console.log('✅ Chat Response Sent:', {
+        conversationId: response.conversationId,
+        responseLength: response.message.length,
+        timestamp: new Date().toISOString()
+      });
 
       res.json({
         success: true,
