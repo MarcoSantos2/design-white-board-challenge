@@ -62,6 +62,14 @@ export class ChatService {
       });
       await this.messageRepository.save(userMessage);
 
+      // Log incoming message
+      console.log('💬 New Chat Message:', {
+        conversationId: conversation.id,
+        messageLength: request.message.length,
+        isNewConversation: !request.sessionId,
+        timestamp: new Date().toISOString()
+      });
+
       // Prepare messages for OpenAI API (reload conversation to get latest messages)
       const updatedConversation = await this.conversationRepository.findOne({
         where: { id: conversation.id },
@@ -89,10 +97,32 @@ export class ChatService {
         temperature: CHAT_CONFIG.temperature,
       });
 
+      // Log token usage for monitoring
+      const usage = completion.usage;
+      if (usage) {
+        console.log('🔍 OpenAI API Usage:', {
+          conversationId: conversation.id,
+          model: CHAT_CONFIG.model,
+          promptTokens: usage.prompt_tokens,
+          completionTokens: usage.completion_tokens,
+          totalTokens: usage.total_tokens,
+          estimatedCost: `$${((usage.total_tokens * 0.00003).toFixed(6))}`, // Rough estimate for GPT-4o
+          timestamp: new Date().toISOString()
+        });
+      }
+
       const assistantMessage = completion.choices[0]?.message?.content || '';
       if (!assistantMessage) {
         throw new Error('No response from OpenAI API');
       }
+
+      // Log response details
+      console.log('🤖 Assistant Response:', {
+        conversationId: conversation.id,
+        responseLength: assistantMessage.length,
+        responsePreview: assistantMessage.substring(0, 100) + (assistantMessage.length > 100 ? '...' : ''),
+        timestamp: new Date().toISOString()
+      });
 
       // Save assistant message to database
       const assistantMessageEntity = this.messageRepository.create({
@@ -106,6 +136,15 @@ export class ChatService {
       // Update conversation lastUpdated
       conversation.lastUpdated = new Date();
       await this.conversationRepository.save(conversation);
+
+      // Log request completion summary
+      console.log('✅ Chat Request Complete:', {
+        conversationId: conversation.id,
+        totalMessages: updatedConversation.messages.length + 1, // +1 for the assistant message we just added
+        totalTokens: usage?.total_tokens || 'N/A',
+        estimatedCost: usage ? `$${((usage.total_tokens * 0.00003).toFixed(6))}` : 'N/A',
+        processingTime: new Date().toISOString()
+      });
 
       return {
         message: assistantMessage,
