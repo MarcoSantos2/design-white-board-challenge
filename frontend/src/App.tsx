@@ -2,20 +2,20 @@ import { ThemeProvider } from './design-tokens/SimpleThemeProvider'
 import { Homepage } from './components/Homepage'
 import { FreeSession } from './components/FreeSession'
 import FreeSessionNoCanvas from './components/FreeSessionNoCanvas'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 function AppContent() {
-  // Simple routing based on URL path
-  const path = window.location.pathname;
-  
-  if (path === '/session' || path === '/free-session') {
-    return <FreeSession />
-  }
-  
-  if (path === '/session-chat' || path === '/free-session-chat') {
-    return <FreeSessionNoCanvas />
-  }
-  
-  return <Homepage />
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Homepage />} />
+        <Route path="/session" element={<FreeSession />} />
+        <Route path="/free-session" element={<FreeSession />} />
+        <Route path="/session-chat" element={<FreeSessionNoCanvas />} />
+        <Route path="/free-session-chat" element={<FreeSessionNoCanvas />} />
+      </Routes>
+    </BrowserRouter>
+  )
 }
 
 function App() {

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Icon } from './ui';
 import { useTheme } from '../design-tokens/SimpleThemeProvider';
+import { useNavigate } from 'react-router-dom';
 
 /**
  * Homepage Component
@@ -11,6 +12,7 @@ import { useTheme } from '../design-tokens/SimpleThemeProvider';
 export const Homepage: React.FC = () => {
   const { mode, toggleMode } = useTheme();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <>
@@ -384,7 +386,7 @@ export const Homepage: React.FC = () => {
             <Button
               variant="primary"
               size="large"
-              onClick={() => window.location.href = '/session'}
+              onClick={() => navigate('/session')}
               style={{
                 fontSize: '18px',
                 padding: 'var(--spacing-4) var(--spacing-8)',
@@ -398,7 +400,7 @@ export const Homepage: React.FC = () => {
             <Button
               variant="secondary"
               size="large"
-              onClick={() => window.location.href = '/session-chat'}
+              onClick={() => navigate('/session-chat')}
               style={{
                 fontSize: '18px',
                 padding: 'var(--spacing-4) var(--spacing-8)',
