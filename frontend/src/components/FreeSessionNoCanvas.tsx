@@ -1,13 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Icon } from './ui/Icon/Icon';
 import { Button } from './ui/Button/Button';
-import { useTheme } from '../design-tokens/SimpleThemeProvider';
 import { chatService } from '../services/chatService';
 import type { ChatMessage } from '../services/chatService';
 import { useNavigate } from 'react-router-dom';
 
 const FreeSessionNoCanvas: React.FC = () => {
-  const { mode } = useTheme();
   const navigate = useNavigate();
   const [inputValue, setInputValue] = useState('');
   const [messages, setMessages] = useState<ChatMessage[]>([
@@ -211,7 +209,7 @@ const FreeSessionNoCanvas: React.FC = () => {
         display: 'flex',
         flexDirection: 'column',
         height: '100vh',
-        backgroundColor: mode === 'light' ? 'white' : 'black',
+        backgroundColor: 'var(--surface-primary)',
         color: 'var(--text-primary)'
       }}>
         {/* Header */}
@@ -220,8 +218,8 @@ const FreeSessionNoCanvas: React.FC = () => {
           justifyContent: 'space-between',
           alignItems: 'center',
           padding: '16px 24px',
-          borderBottom: '1px solid var(--border-primary)',
-          backgroundColor: mode === 'light' ? 'white' : 'black'
+          borderBottom: '1px solid var(--stroke-stroke)',
+          backgroundColor: 'var(--surface-primary)'
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
             <Button
@@ -326,8 +324,7 @@ const FreeSessionNoCanvas: React.FC = () => {
         {/* Chat Input */}
         <div style={{
           padding: '16px 24px',
-          borderTop: '1px solid var(--border-primary)',
-          backgroundColor: mode === 'light' ? 'white' : 'black',
+          backgroundColor: 'var(--surface-primary)',
           display: 'flex',
           justifyContent: 'center'
         }}>
@@ -337,7 +334,7 @@ const FreeSessionNoCanvas: React.FC = () => {
             display: 'flex',
             alignItems: 'center',
             backgroundColor: 'var(--surface-secondary, #F2F2F2)',
-            border: '1px solid var(--border-primary)',
+            border: '1px solid var(--stroke-stroke)',
             borderRadius: '50px',
             padding: '8px 16px',
             gap: '12px',
@@ -373,7 +370,11 @@ const FreeSessionNoCanvas: React.FC = () => {
                 resize: 'none',
                 minHeight: '20px',
                 maxHeight: '100px',
-                fontFamily: 'inherit'
+                fontFamily: 'inherit',
+                padding: '12px 0',
+                display: 'flex',
+                alignItems: 'center',
+                verticalAlign: 'middle'
               }}
             />
 
@@ -413,8 +414,7 @@ const FreeSessionNoCanvas: React.FC = () => {
         {/* Session Controls */}
         <div style={{
           padding: '16px 24px',
-          borderTop: '1px solid var(--border-primary)',
-          backgroundColor: mode === 'light' ? 'white' : 'black',
+          backgroundColor: 'var(--surface-primary)',
           display: 'flex',
           justifyContent: 'center'
         }}>
