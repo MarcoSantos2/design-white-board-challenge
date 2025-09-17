@@ -3,16 +3,35 @@
   font-size: 14px !important;
   transform: scale(1) !important;
   transform-origin: top left !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 100vh !important;
 }
 
 .excalidraw-container .excalidraw .App {
   font-size: 14px !important;
   transform: scale(1) !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 100vh !important;
 }
 
 .excalidraw-container .excalidraw .App .Island {
   font-size: 14px !important;
   transform: scale(1) !important;
+}
+
+/* Ensure the canvas area takes full space */
+.excalidraw-container .excalidraw .App .canvas-container {
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 100vh !important;
+}
+
+.excalidraw-container .excalidraw .App .canvas {
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 100vh !important;
 }
 
 .excalidraw-container .excalidraw .App .Island .ToolIcon {

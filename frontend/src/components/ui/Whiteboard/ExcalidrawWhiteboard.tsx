@@ -1,6 +1,8 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Excalidraw } from '@excalidraw/excalidraw';
+import { loadLibraryFromBlob } from '@excalidraw/excalidraw';
 import './excalidraw-overrides.css';
+// Library will be loaded dynamically
 
 export interface ExcalidrawWhiteboardProps {
   /** Whether the whiteboard is visible */
@@ -29,12 +31,41 @@ export const ExcalidrawWhiteboard: React.FC<ExcalidrawWhiteboardProps> = ({
   style,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [libraryItems, setLibraryItems] = useState<any[]>([]);
+  const [isLibraryLoaded, setIsLibraryLoaded] = useState(false);
 
   const handleChange = (elements: readonly any[], appState: any, files: any) => {
     if (onChange) {
       onChange(elements, appState, files);
     }
   };
+
+  // Load UX wireframing library on component mount
+  useEffect(() => {
+    const loadUXLibrary = async () => {
+      try {
+        // Dynamically import the library data
+        const response = await fetch('/src/assets/basic-ux-wireframing-elements.excalidrawlib.json');
+        const uxLibraryData = await response.json();
+        
+        // Convert the JSON data to a Blob
+        const libraryBlob = new Blob([JSON.stringify(uxLibraryData)], {
+          type: 'application/json'
+        });
+        
+        // Load the library using Excalidraw's utility
+        const loadedLibraryItems = await loadLibraryFromBlob(libraryBlob);
+        setLibraryItems(loadedLibraryItems);
+        setIsLibraryLoaded(true);
+      } catch (error) {
+        console.error('Failed to load UX wireframing library:', error);
+        setIsLibraryLoaded(true); // Set to true anyway to prevent infinite loading
+      }
+    };
+
+    loadUXLibrary();
+  }, []);
+
 
   // Fix scaling issues by ensuring proper CSS isolation
   useEffect(() => {
@@ -211,6 +242,37 @@ export const ExcalidrawWhiteboard: React.FC<ExcalidrawWhiteboardProps> = ({
     return null;
   }
 
+  // Show loading state while library is being loaded
+  if (!isLibraryLoaded) {
+    return (
+      <div
+        ref={containerRef}
+        className={`excalidraw-container ${className || ''}`}
+        style={{
+          width: '100%',
+          height: '100%',
+          position: 'relative',
+          backgroundColor: 'var(--surface-primary)',
+          overflow: 'hidden',
+          isolation: 'isolate',
+          contain: 'layout style paint',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          ...style,
+        }}
+      >
+        <div style={{
+          textAlign: 'center',
+          color: 'var(--text-primary)',
+          fontSize: '14px'
+        }}>
+          Loading UX wireframing library...
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div
       ref={containerRef}
@@ -229,22 +291,22 @@ export const ExcalidrawWhiteboard: React.FC<ExcalidrawWhiteboardProps> = ({
       {/* Excalidraw Component */}
       <div 
         style={{ 
-          width: '800px',
-          height: '600px',
+          width: '100%',
+          height: '100%',
           position: 'relative',
           transform: 'scale(1)',
           transformOrigin: 'top left',
-          margin: '0 auto',
           fontSize: '14px',
         }}
       >
         <Excalidraw
           initialData={{
             ...initialData,
+            libraryItems: libraryItems,
             appState: {
               ...initialData?.appState,
               zoom: {
-                value: 0.4, // Set zoom to 40% to fix scaling issues
+                value: 1.0, // Set zoom to 100% for better visibility on larger canvas
               },
             },
           }}
