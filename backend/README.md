@@ -112,7 +112,7 @@ curl -X POST http://localhost:3001/api/chat/message \
 Since you have a custom GPT at the link you provided, you have two options:
 
 1. **Use this backend as a standalone chatbot** - The system prompt is already configured to act as a UX facilitator
-2. **Integrate with your custom GPT** - You can modify the system prompt or use OpenAI's Assistants API to connect directly to your custom GPT
+2. **Integrate with your custom GPT** - You can modify the system prompt to match your custom GPT's behavior
 
 ### Production Considerations
 
