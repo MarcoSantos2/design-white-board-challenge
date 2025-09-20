@@ -24,6 +24,69 @@ export class ChatService {
   private conversationRepository = AppDataSource.getRepository(Conversation);
   private messageRepository = AppDataSource.getRepository(Message);
 
+  /**
+   * Prepare conversation state and build Responses API input array.
+   * Saves the user message and returns conversation and formatted input.
+   */
+  async prepareForStreaming(request: ChatRequest): Promise<{ conversation: Conversation; responsesInput: any[] }> {
+    let conversation: Conversation;
+
+    if (request.sessionId) {
+      const existingConversation = await this.conversationRepository.findOne({
+        where: { id: request.sessionId },
+        relations: ['messages']
+      });
+      if (existingConversation) {
+        conversation = existingConversation;
+      } else {
+        conversation = this.conversationRepository.create({ id: request.sessionId, messages: [] });
+        conversation = await this.conversationRepository.save(conversation);
+      }
+    } else {
+      conversation = this.conversationRepository.create({ messages: [] });
+      conversation = await this.conversationRepository.save(conversation);
+    }
+
+    const userMessage = this.messageRepository.create({
+      conversationId: conversation.id,
+      role: MessageRole.USER,
+      content: request.message,
+      timestamp: new Date()
+    });
+    await this.messageRepository.save(userMessage);
+
+    const updatedConversation = await this.conversationRepository.findOne({
+      where: { id: conversation.id },
+      relations: ['messages'],
+      order: { messages: { timestamp: 'ASC' } }
+    });
+    if (!updatedConversation) {
+      throw new Error('Failed to retrieve updated conversation');
+    }
+
+    const responsesInput = [
+      { role: 'system' as const, content: [{ type: 'input_text', text: SYSTEM_PROMPT }] },
+      ...updatedConversation.messages.map(msg => ({
+        role: (msg.role as 'system' | 'user' | 'assistant'),
+        content: [{ type: 'input_text' as const, text: msg.content }]
+      }))
+    ];
+
+    return { conversation: updatedConversation, responsesInput };
+  }
+
+  /** Save assistant message and update conversation timestamp */
+  async saveAssistantMessage(conversationId: string, content: string): Promise<void> {
+    const assistantMessageEntity = this.messageRepository.create({
+      conversationId,
+      role: MessageRole.ASSISTANT,
+      content,
+      timestamp: new Date()
+    });
+    await this.messageRepository.save(assistantMessageEntity);
+    await this.conversationRepository.update(conversationId, { lastUpdated: new Date() });
+  }
+
   async sendMessage(request: ChatRequest): Promise<ChatResponse> {
     try {
       let conversation: Conversation;
@@ -81,37 +144,44 @@ export class ChatService {
         throw new Error('Failed to retrieve updated conversation');
       }
 
-      const messages: any[] = [
-        { role: 'system', content: SYSTEM_PROMPT },
+      // Format input for Responses API
+      const responsesInput = [
+        { role: 'system' as const, content: [{ type: 'input_text', text: SYSTEM_PROMPT }] },
         ...updatedConversation.messages.map(msg => ({
-          role: msg.role,
-          content: msg.content,
-        })),
+          role: (msg.role as 'system' | 'user' | 'assistant'),
+          content: [{ type: 'input_text' as const, text: msg.content }]
+        }))
       ];
 
-      // Call OpenAI API
-      const completion = await openai.chat.completions.create({
+      // Call OpenAI Responses API (non-streaming)
+      const response: any = await (openai as any).responses.create({
         model: CHAT_CONFIG.model,
-        messages: messages,
-        max_tokens: CHAT_CONFIG.maxTokens,
+        input: responsesInput,
         temperature: CHAT_CONFIG.temperature,
+        max_output_tokens: CHAT_CONFIG.maxTokens,
       });
 
-      // Log token usage for monitoring
-      const usage = completion.usage;
+      // Extract text
+      const assistantMessage = (response as any).output_text
+        ?? ((response as any).output?.map((p: any) => p.content?.map((c: any) => c.text?.value).join(' ')).join('\n'))
+        ?? '';
+
+      // Log token usage for monitoring (field names may vary)
+      const usage = (response as any).usage || (response as any).response?.usage || undefined;
       if (usage) {
+        const promptTokens = usage.input_tokens ?? usage.prompt_tokens;
+        const completionTokens = usage.output_tokens ?? usage.completion_tokens;
+        const totalTokens = usage.total_tokens ?? ((promptTokens && completionTokens) ? (promptTokens + completionTokens) : undefined);
         console.log('🔍 OpenAI API Usage:', {
           conversationId: conversation.id,
           model: CHAT_CONFIG.model,
-          promptTokens: usage.prompt_tokens,
-          completionTokens: usage.completion_tokens,
-          totalTokens: usage.total_tokens,
-          estimatedCost: `$${((usage.total_tokens * 0.00003).toFixed(6))}`, // Rough estimate for GPT-4o
+          promptTokens,
+          completionTokens,
+          totalTokens,
+          estimatedCost: totalTokens ? `$${((totalTokens * 0.00003).toFixed(6))}` : 'N/A',
           timestamp: new Date().toISOString()
         });
       }
-
-      const assistantMessage = completion.choices[0]?.message?.content || '';
       if (!assistantMessage) {
         throw new Error('No response from OpenAI API');
       }

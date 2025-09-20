@@ -107,6 +107,25 @@ curl -X POST http://localhost:3001/api/chat/message \
   }'
 ```
 
+### Streaming with Responses API
+
+The backend exposes a streaming endpoint using Server-Sent Events (SSE):
+
+- POST `/api/chat/message/stream`
+
+Request body:
+```json
+{ "message": "Hello", "sessionId": "optional" }
+```
+
+Response is an SSE stream. Each chunk is sent as:
+```
+data: {"text":"partial token(s) here"}
+
+```
+
+When the stream completes, a `done` event is sent and the full assistant message is saved to the conversation.
+
 ### Connecting Your Custom GPT
 
 Since you have a custom GPT at the link you provided, you have two options:
