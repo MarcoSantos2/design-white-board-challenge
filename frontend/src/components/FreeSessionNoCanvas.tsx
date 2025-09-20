@@ -129,21 +129,15 @@ const FreeSessionNoCanvas: React.FC = () => {
     setInputValue('');
 
     try {
-      // Send message to backend API
-      const response = await chatService.sendMessage(inputValue);
-      
-      if (response.success) {
-        const assistantMessage: ChatMessage = {
-          id: Date.now() + 1,
-          type: 'assistant',
-          content: response.data.message,
-          timestamp: new Date(response.data.timestamp),
-          isTyping: false,
-        };
-        setMessages(prev => [...prev, assistantMessage]);
-      } else {
-        throw new Error('Failed to get response from server');
-      }
+      // Stream response
+      const placeholderId = Date.now() + 1;
+      setMessages(prev => [...prev, { id: placeholderId, type: 'assistant', content: '', timestamp: new Date(), isTyping: true }]);
+
+      await chatService.sendMessageStream(inputValue, (chunk) => {
+        setMessages(prev => prev.map(m => m.id === placeholderId ? { ...m, content: m.content + chunk } : m));
+      });
+
+      setMessages(prev => prev.map(m => m.id === placeholderId ? { ...m, isTyping: false, timestamp: new Date() } : m));
     } catch (error) {
       console.error('Error sending message:', error);
       

@@ -82,6 +82,55 @@ class ChatService {
   }
 
   /**
+   * Stream a message to the chat API using SSE
+   */
+  async sendMessageStream(message: string, onChunk: (text: string) => void): Promise<{ conversationId: string | null }> {
+    const url = `${this.baseUrl}/api/chat/message/stream`;
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: message.trim(), sessionId: this.currentSessionId })
+    });
+
+    if (!res.ok || !res.body) {
+      throw new Error(`HTTP error! status: ${res.status}`);
+    }
+
+    const reader = res.body.getReader();
+    const decoder = new TextDecoder('utf-8');
+    let done = false;
+    let acc = '';
+    while (!done) {
+      const { value, done: readerDone } = await reader.read();
+      done = readerDone;
+      if (value) {
+        acc += decoder.decode(value, { stream: true });
+        // Parse SSE lines
+        const lines = acc.split(/\n\n/);
+        acc = lines.pop() || '';
+        for (const block of lines) {
+          const isSession = block.split('\n').some(l => l.trim() === 'event: session');
+          const dataLine = block.split('\n').find(l => l.startsWith('data: '));
+          if (!dataLine) continue;
+          try {
+            const payload = JSON.parse(dataLine.replace('data: ', ''));
+            if (isSession && payload.conversationId) {
+              this.currentSessionId = payload.conversationId;
+              continue;
+            }
+            if (payload.text) onChunk(payload.text);
+          } catch {
+            // ignore malformed chunk
+          }
+        }
+      }
+    }
+
+    // return current session
+    return { conversationId: this.currentSessionId };
+  }
+
+  /**
    * Get a specific conversation
    */
   async getConversation(conversationId: string): Promise<ConversationSession | null> {
