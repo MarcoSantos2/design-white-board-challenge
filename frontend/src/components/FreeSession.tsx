@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Button, Icon } from './ui';
 import { ExcalidrawWhiteboard } from './ui/Whiteboard';
-import { useTheme } from '../design-tokens/SimpleThemeProvider';
 import { chatService } from '../services/chatService';
 import type { ChatMessage } from '../services/chatService';
 import { useNavigate } from 'react-router-dom';
@@ -13,7 +12,6 @@ import { useNavigate } from 'react-router-dom';
  * Matches the Figma design with comprehensive functionality.
  */
 export const FreeSession: React.FC = () => {
-  const { mode } = useTheme();
   const navigate = useNavigate();
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
@@ -140,12 +138,13 @@ export const FreeSession: React.FC = () => {
 
   return (
     <div style={{
-      minHeight: '100vh',
+      height: '100vh',
       background: 'var(--surface-primary)',
       color: 'var(--text-primary)',
       fontFamily: 'var(--font-family-roboto)',
       display: 'flex',
       flexDirection: 'column',
+      overflow: 'hidden',
     }}>
       {/* Header */}
       <header style={{
@@ -223,8 +222,8 @@ export const FreeSession: React.FC = () => {
       <div style={{
         flex: 1,
         display: 'flex',
-        height: 'calc(100vh - 80px)',
         flexDirection: 'column',
+        overflow: 'hidden',
       }}
       className="main-content"
       >
@@ -235,6 +234,7 @@ export const FreeSession: React.FC = () => {
           backgroundColor: 'var(--surface-secondary)',
           display: 'flex',
           flexDirection: 'column',
+          height: '100%',
         }}
         className="chat-panel"
         >
@@ -507,8 +507,9 @@ export const FreeSession: React.FC = () => {
           display: 'flex',
           flexDirection: 'column',
           backgroundColor: 'var(--surface-primary)',
-          minHeight: '600px',
           height: '100%',
+          minHeight: 0,
+          overflow: 'hidden',
         }}
         className="whiteboard-area"
         >
@@ -521,7 +522,7 @@ export const FreeSession: React.FC = () => {
             style={{
               width: '100%',
               height: '100%',
-              minHeight: '600px',
+              minHeight: 0,
             }}
           />
         </div>
