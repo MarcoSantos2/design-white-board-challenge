@@ -114,14 +114,15 @@ export const FreeSession: React.FC = () => {
     // Get the scrollHeight
     const scrollHeight = textarea.scrollHeight;
     
-    // Get computed style for line height calculation
+    // Get computed style for accurate single-line height (includes vertical padding)
     const computedStyle = getComputedStyle(textarea);
-    
-    // Get line height for more accurate calculation
     const lineHeight = parseFloat(computedStyle.lineHeight) || 20;
-    
-    // Use scrollHeight to determine if we need to resize
-    if (scrollHeight > lineHeight) {
+    const paddingTop = parseFloat(computedStyle.paddingTop) || 0;
+    const paddingBottom = parseFloat(computedStyle.paddingBottom) || 0;
+    const singleLineTotalHeight = lineHeight + paddingTop + paddingBottom;
+
+    // Only grow when content exceeds one full line including padding
+    if (scrollHeight > singleLineTotalHeight + 1) {
       const newHeight = Math.min(scrollHeight, maxHeight);
       textarea.style.height = `${newHeight}px`;
       setInputHeight(newHeight);
@@ -407,7 +408,7 @@ export const FreeSession: React.FC = () => {
               borderRadius: '50px', // Pill shape
               padding: 'var(--spacing-2) var(--spacing-4)',
               gap: 'var(--spacing-3)',
-              minHeight: '44px', // Minimum height for proper touch targets
+              minHeight: '48px', // Slightly larger to avoid height shift when button appears
             }}>
               {/* Plus Icon */}
               <div style={{
@@ -476,10 +477,11 @@ export const FreeSession: React.FC = () => {
                     onClick={handleSendMessage}
                     style={{
                       minWidth: 'auto',
-                      padding: 'var(--spacing-1)',
+                      padding: 0,
                       borderRadius: '50%',
                       width: '28px',
                       height: '28px',
+                      minHeight: '28px',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
