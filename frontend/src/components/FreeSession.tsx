@@ -25,6 +25,8 @@ export const FreeSession: React.FC = () => {
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [inputHeight, setInputHeight] = useState(20);
+  const [sessionTime, setSessionTime] = useState(600); // 10 minutes in seconds
+  const [isSessionActive, setIsSessionActive] = useState(true);
   
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -35,6 +37,29 @@ export const FreeSession: React.FC = () => {
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
+
+  // Timer functionality
+  useEffect(() => {
+    let interval: number;
+    if (isSessionActive) {
+      interval = setInterval(() => {
+        setSessionTime(prev => {
+          if (prev <= 1) {
+            setIsSessionActive(false);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+    }
+    return () => clearInterval(interval);
+  }, [isSessionActive]);
+
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+  };
 
   // Initialize input height on component mount
   useEffect(() => {
@@ -150,72 +175,52 @@ export const FreeSession: React.FC = () => {
       {/* Header */}
       <header style={{
         display: 'flex',
-        alignItems: 'center',
         justifyContent: 'space-between',
-        padding: 'var(--spacing-4) var(--spacing-6)',
+        alignItems: 'center',
+        padding: '16px 24px',
         borderBottom: '1px solid var(--stroke-stroke)',
         backgroundColor: 'var(--surface-primary)',
         position: 'sticky',
         top: 0,
         zIndex: 100,
       }}>
-        {/* Logo and Session Info */}
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: 'var(--spacing-3)',
-        }}>
-          <div style={{
-            width: '32px',
-            height: '32px',
-            backgroundColor: 'var(--button-primary)',
-            borderRadius: 'var(--radius-1)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
-            <Icon name="monitor" size="md" color="var(--button-on-primary)" />
-          </div>
-          <div>
-            <h1 style={{
-              fontFamily: 'Roboto, sans-serif',
-              fontSize: 'var(--Static-Title-Medium-Size)',
-              fontWeight: 'var(--Static-Title-Medium-Weight)',
-              lineHeight: 'var(--Static-Title-Medium-Line-Height)',
-              letterSpacing: 'var(--Static-Title-Medium-Tracking)',
-              margin: 0,
-              color: 'var(--text-primary)',
-            }}>
-              UX Whiteboard Session
-            </h1>
-            <p style={{
-              fontFamily: 'Roboto, sans-serif',
-              fontSize: 'var(--Static-Body-Small-Size)',
-              fontWeight: 'var(--Static-Body-Small-Weight)',
-              lineHeight: 'var(--Static-Body-Small-Line-Height)',
-              letterSpacing: 'var(--Static-Body-Small-Tracking)',
-              margin: 0,
-              color: 'var(--text-secondary)',
-            }}>
-              Coffee Shop App Design Challenge
-            </p>
-          </div>
-        </div>
-
-        {/* Header Actions */}
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: 'var(--spacing-3)',
-        }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           <Button
             variant="secondary"
             size="small"
             onClick={() => navigate('/')}
-            startIcon={<Icon name="arrow-left" size="sm" />}
+            style={{ padding: '8px' }}
           >
-            Back
+            <Icon name="arrow-left" size="sm" />
           </Button>
+          <h1 style={{
+            fontSize: '18px',
+            fontWeight: '600',
+            margin: 0,
+            color: 'var(--text-primary)'
+          }}>
+            UX Whiteboard Agent
+          </h1>
+        </div>
+        
+        {/* Timer */}
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px',
+          padding: '8px 12px',
+          backgroundColor: 'var(--surface-tertiary)',
+          borderRadius: '8px',
+          border: '1px solid var(--border-primary)'
+        }}>
+          <Icon name="clock" size="sm" />
+          <span style={{
+            fontSize: '14px',
+            fontWeight: '500',
+            color: 'var(--text-secondary)'
+          }}>
+            {formatTime(sessionTime)}
+          </span>
         </div>
       </header>
 
