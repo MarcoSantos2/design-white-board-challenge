@@ -1,0 +1,138 @@
+/* Excalidraw Scaling Fixes */
+.excalidraw-container .excalidraw {
+  font-size: 14px !important;
+  transform: scale(1) !important;
+  transform-origin: top left !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 100vh !important;
+}
+
+.excalidraw-container .excalidraw .App {
+  font-size: 14px !important;
+  transform: scale(1) !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 100vh !important;
+}
+
+.excalidraw-container .excalidraw .App .Island {
+  font-size: 14px !important;
+  transform: scale(1) !important;
+}
+
+/* Ensure the canvas area takes full space */
+.excalidraw-container .excalidraw .App .canvas-container {
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 100vh !important;
+}
+
+.excalidraw-container .excalidraw .App .canvas {
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 100vh !important;
+}
+
+.excalidraw-container .excalidraw .App .Island .ToolIcon {
+  width: 40px !important;
+  height: 40px !important;
+  min-width: 40px !important;
+  min-height: 40px !important;
+  max-width: 40px !important;
+  max-height: 40px !important;
+  transform: scale(1) !important;
+  font-size: 14px !important;
+}
+
+.excalidraw-container .excalidraw .App .Island .ToolIcon__icon {
+  width: 20px !important;
+  height: 20px !important;
+  min-width: 20px !important;
+  min-height: 20px !important;
+  max-width: 20px !important;
+  max-height: 20px !important;
+  transform: scale(1) !important;
+}
+
+.excalidraw-container .excalidraw .App .Island .ToolIcon__label {
+  font-size: 12px !important;
+  line-height: 1.2 !important;
+}
+
+.excalidraw-container .excalidraw .App .Island .ToolIcon__keybinding {
+  font-size: 10px !important;
+}
+
+.excalidraw-container .excalidraw .App .Island .ToolIcon__icon svg {
+  width: 20px !important;
+  height: 20px !important;
+  min-width: 20px !important;
+  min-height: 20px !important;
+  max-width: 20px !important;
+  max-height: 20px !important;
+  transform: scale(1) !important;
+}
+
+.excalidraw-container .excalidraw .App .Island .ToolIcon__icon svg path,
+.excalidraw-container .excalidraw .App .Island .ToolIcon__icon svg circle,
+.excalidraw-container .excalidraw .App .Island .ToolIcon__icon svg rect,
+.excalidraw-container .excalidraw .App .Island .ToolIcon__icon svg g {
+  transform: scale(1) !important;
+}
+
+/* Target specific Excalidraw classes with higher specificity */
+.excalidraw-container [class*="ToolIcon"] {
+  width: 40px !important;
+  height: 40px !important;
+  min-width: 40px !important;
+  min-height: 40px !important;
+  max-width: 40px !important;
+  max-height: 40px !important;
+  transform: scale(1) !important;
+}
+
+.excalidraw-container [class*="ToolIcon"] [class*="icon"] {
+  width: 20px !important;
+  height: 20px !important;
+  min-width: 20px !important;
+  min-height: 20px !important;
+  max-width: 20px !important;
+  max-height: 20px !important;
+  transform: scale(1) !important;
+}
+
+.excalidraw-container [class*="ToolIcon"] svg {
+  width: 20px !important;
+  height: 20px !important;
+  min-width: 20px !important;
+  min-height: 20px !important;
+  max-width: 20px !important;
+  max-height: 20px !important;
+  transform: scale(1) !important;
+}
+
+/* Additional overrides for specific elements seen in the image */
+.excalidraw-container .excalidraw .App .Island .ToolIcon[title*="Export"] {
+  width: 40px !important;
+  height: 40px !important;
+  transform: scale(1) !important;
+}
+
+.excalidraw-container .excalidraw .App .Island .ToolIcon[title*="Find"] {
+  width: 40px !important;
+  height: 40px !important;
+  transform: scale(1) !important;
+}
+
+.excalidraw-container .excalidraw .App .Island .ToolIcon[title*="Help"] {
+  width: 40px !important;
+  height: 40px !important;
+  transform: scale(1) !important;
+}
+
+.excalidraw-container .excalidraw .App .Island .ToolIcon[title*="Reset"] {
+  width: 40px !important;
+  height: 40px !important;
+  transform: scale(1) !important;
+}

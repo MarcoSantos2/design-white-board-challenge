@@ -49,7 +49,13 @@ export type IconName =
   
   // Technology & Tools
   | 'code' | 'terminal' | 'database' | 'server' | 'api'
-  | 'monitor' | 'smartphone' | 'tablet' | 'desktop';
+  | 'monitor' | 'smartphone' | 'tablet' | 'desktop'
+  
+  // Additional Navigation Icons
+  | 'home' | 'shield' | 'trending-up'
+  
+  // Theme & Display Icons
+  | 'sun' | 'moon';
 
 export interface IconProps {
   /** Icon name from the comprehensive library */
@@ -218,6 +224,15 @@ const iconPaths: Record<IconName, string | { outline: string; filled?: string; d
   'smartphone': 'M17 2H7a2 2 0 00-2 2v16a2 2 0 002 2h10a2 2 0 002-2V4a2 2 0 00-2-2zM12 18h.01',
   'tablet': 'M18 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V4a2 2 0 00-2-2zM12 18h.01',
   'desktop': 'M21 2H3a1 1 0 00-1 1v11a1 1 0 001 1h18a1 1 0 001-1V3a1 1 0 00-1-1zM7 22h10',
+  
+  // Additional Navigation Icons
+  'home': 'M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z M9 22V12h6v10',
+  'shield': 'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z',
+  'trending-up': 'M23 6l-9.5 9.5-5-5L1 18',
+  
+  // Theme & Display Icons
+  'sun': 'M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42M12 17a5 5 0 100-10 5 5 0 000 10z',
+  'moon': 'M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z',
 };
 
 // ========================================

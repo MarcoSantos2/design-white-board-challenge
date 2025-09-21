@@ -19,6 +19,20 @@ design-white-board-challenge/
 ├── docs/              # Documentation
 └── scripts/           # Build and deployment scripts
 ```
+# AI Integration
+This project uses the OpenAI API to provide a UX Whiteboard Challenge Facilitator chatbot that helps candidates practice design interviews.
+The backend integrates with OpenAI's ChatGPT API to provide a UX Whiteboard Challenge Facilitator chatbot that helps candidates practice design interviews.
+
+## RAG Integration
+
+### Document Processing Pipeline
+
+PDFs/Word Docs → Text Extraction → Chunking → Vector Embeddings → Vector Database
+
+### Query Flow 
+
+User Question → Vector Search → Retrieve Relevant Chunks → Send to GPT with Context → Response
+
 
 ## 🛠️ Setup Instructions
 
@@ -30,7 +44,7 @@ design-white-board-challenge/
 
 1. **Clone the repository**
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/MarcoSantos2/design-white-board-challenge
    cd design-white-board-challenge
    ```
 
@@ -91,22 +105,3 @@ npm run build:backend
 - `npm run build` - Build both frontend and backend for production
 - `npm run install:all` - Install dependencies for all packages
 - `npm start` - Start the production backend server
-
-## 📝 Next Steps
-
-1. Set up React Router for multi-page navigation
-2. Create whiteboard canvas components
-3. Implement MCP integration for AI feedback
-4. Add user authentication
-5. Create challenge management system
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Submit a pull request
-
-## 📄 License
-
-ISC

@@ -10,3 +10,15 @@ export * from './Icon';
 
 // Input/Form components
 export * from './Input';
+
+// Card/Container components
+export * from './Card';
+
+// Navigation components
+export * from './Navigation';
+
+// Layout components
+export * from './Layout';
+
+// Page components
+export { FreeSession } from '../FreeSession';
