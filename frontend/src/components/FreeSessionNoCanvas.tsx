@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 const FreeSessionNoCanvas: React.FC = () => {
   const navigate = useNavigate();
   const [inputValue, setInputValue] = useState('');
+  const [inputHeight, setInputHeight] = useState(20);
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       id: 1,
@@ -52,17 +53,23 @@ const FreeSessionNoCanvas: React.FC = () => {
     scrollToBottom();
   }, [messages]);
 
+  // Initialize input height on component mount
+  useEffect(() => {
+    setInputHeight(20);
+  }, []);
+
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInputValue(e.target.value);
 
-    // Auto-resize functionality - only resize when text wraps to new line
+    // Auto-resize (match FreeSession.tsx): only grow when text wraps to new line
     const textarea = e.target;
-    const minHeight = 102;
-    const maxHeight = 200;
+    const minHeight = 20;
+    const maxHeight = 100;
 
     // If input is empty, reset to minimum height
     if (!e.target.value.trim()) {
       textarea.style.height = `${minHeight}px`;
+      setInputHeight(minHeight);
       return;
     }
 
@@ -75,39 +82,21 @@ const FreeSessionNoCanvas: React.FC = () => {
     // Get the scrollHeight
     const scrollHeight = textarea.scrollHeight;
 
-    // Get computed style for line height calculation
+    // Get computed style for accurate single-line height (includes vertical padding)
     const computedStyle = getComputedStyle(textarea);
-
-    // Get line height for more accurate calculation
     const lineHeight = parseFloat(computedStyle.lineHeight) || 20;
+    const paddingTop = parseFloat(computedStyle.paddingTop) || 0;
+    const paddingBottom = parseFloat(computedStyle.paddingBottom) || 0;
+    const singleLineTotalHeight = lineHeight + paddingTop + paddingBottom;
 
-    // Create a temporary element to measure text width
-    const tempDiv = document.createElement('div');
-    tempDiv.style.position = 'absolute';
-    tempDiv.style.visibility = 'hidden';
-    tempDiv.style.height = 'auto';
-    tempDiv.style.width = textarea.clientWidth + 'px';
-    tempDiv.style.fontFamily = computedStyle.fontFamily;
-    tempDiv.style.fontSize = computedStyle.fontSize;
-    tempDiv.style.fontWeight = computedStyle.fontWeight;
-    tempDiv.style.lineHeight = computedStyle.lineHeight;
-    tempDiv.style.letterSpacing = computedStyle.letterSpacing;
-    tempDiv.style.padding = '0';
-    tempDiv.style.border = 'none';
-    tempDiv.style.whiteSpace = 'pre-wrap';
-    tempDiv.style.wordWrap = 'break-word';
-    tempDiv.textContent = e.target.value;
-
-    document.body.appendChild(tempDiv);
-    const textHeight = tempDiv.offsetHeight;
-    document.body.removeChild(tempDiv);
-
-    // Use the measured text height to determine if we need to resize
-    if (textHeight > lineHeight) {
+    // Only grow when content exceeds one full line including padding
+    if (scrollHeight > singleLineTotalHeight + 1) {
       const newHeight = Math.min(scrollHeight, maxHeight);
       textarea.style.height = `${newHeight}px`;
+      setInputHeight(newHeight);
     } else {
       textarea.style.height = `${minHeight}px`;
+      setInputHeight(minHeight);
     }
 
     // Restore scroll position
@@ -330,9 +319,9 @@ const FreeSessionNoCanvas: React.FC = () => {
             backgroundColor: 'var(--surface-secondary, #F2F2F2)',
             border: '1px solid var(--stroke-stroke)',
             borderRadius: '50px',
-            padding: '8px 16px',
+            padding: 'var(--spacing-2) var(--spacing-4)',
             gap: '12px',
-            minHeight: '102px'
+            minHeight: '44px'
           }}>
             {/* Plus Icon */}
             <div style={{
@@ -355,20 +344,21 @@ const FreeSessionNoCanvas: React.FC = () => {
               className="chat-input-textarea"
               style={{
                 flex: 1,
-                border: 'none',
-                outline: 'none',
-                backgroundColor: 'transparent',
-                color: 'var(--text-primary)',
-                fontSize: '14px',
-                lineHeight: '20px',
-                resize: 'none',
+                height: `${inputHeight}px`,
                 minHeight: '20px',
                 maxHeight: '100px',
-                fontFamily: 'inherit',
-                padding: '12px 0',
-                display: 'flex',
-                alignItems: 'center',
-                verticalAlign: 'middle'
+                padding: 'var(--spacing-1) 0',
+                border: 'none',
+                backgroundColor: 'transparent',
+                color: 'var(--text-primary)',
+                fontFamily: 'Roboto, sans-serif',
+                fontSize: 'var(--Static-Body-Medium-Size)',
+                fontWeight: 'var(--Static-Body-Medium-Weight)',
+                lineHeight: 'var(--Static-Body-Medium-Line-Height)',
+                letterSpacing: 'var(--Static-Body-Medium-Tracking)',
+                resize: 'none',
+                outline: 'none',
+                overflow: inputHeight >= 100 ? 'auto' : 'hidden',
               }}
             />
 
