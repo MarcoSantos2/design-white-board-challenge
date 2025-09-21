@@ -163,12 +163,16 @@ export const Homepage: React.FC = () => {
             startIcon={<Icon name={mode === 'light' ? 'moon' : 'sun'} size="xs" />}
             style={{
               minWidth: 'auto',
-              padding: 'var(--spacing-2)',
+              padding: 0,
+              width: '32px',
+              height: '32px',
+              borderRadius: '50%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
             }}
             aria-label={`Switch to ${mode === 'light' ? 'dark' : 'light'} mode`}
-          >
-            <span style={{ display: 'none' }}>{mode === 'light' ? 'Dark' : 'Light'}</span>
-          </Button>
+          />
 
           {/* Desktop Action Buttons */}
           <div style={{
