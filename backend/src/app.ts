@@ -4,6 +4,10 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import { AppDataSource } from './config/database';
 import chatRoutes from './routes/chatRoutes';
+import ragRoutes from './routes/ragRoutes';
+import testRAGRoutes from './routes/testRAGRoutes';
+// Import all models to ensure they're registered with TypeORM
+import './models';
 
 // Load environment variables
 dotenv.config();
@@ -27,6 +31,8 @@ app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.use('/api/chat', chatRoutes);
+app.use('/api/rag', ragRoutes);
+app.use('/api/test-rag', testRAGRoutes);
 
 // Basic route
 app.get('/', (req, res) => {
