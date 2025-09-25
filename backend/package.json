@@ -14,7 +14,11 @@
     "migration:revert": "typeorm-ts-node-commonjs migration:revert -d src/config/datasource.ts",
     "migration:show": "typeorm-ts-node-commonjs migration:show -d src/config/datasource.ts",
     "db:create": "ts-node src/scripts/createDatabase.ts",
-    "db:setup": "npm run db:create && npm run migration:run"
+    "db:setup": "npm run db:create && npm run migration:run",
+    "process-documents": "ts-node src/scripts/processSourceDocuments.ts",
+    "test-document-crud": "ts-node src/scripts/testDocumentCRUD.ts",
+      "test-rag-direct": "ts-node src/scripts/testRAGDirect.ts",
+      "test-rag-endpoints": "ts-node src/scripts/testRAGEndpoints.ts"
   },
   "keywords": [],
   "author": "",
@@ -24,8 +28,12 @@
     "cors": "^2.8.5",
     "dotenv": "^17.2.0",
     "express": "^5.1.0",
+    "mammoth": "^1.11.0",
+    "multer": "^2.0.2",
     "openai": "^5.9.2",
+    "pdf-parse": "^1.1.1",
     "pg": "^8.16.3",
+    "pgvector": "^0.2.1",
     "reflect-metadata": "^0.2.2",
     "typeorm": "^0.3.25",
     "uuid": "^11.1.0"
@@ -33,7 +41,9 @@
   "devDependencies": {
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",
+    "@types/multer": "^2.0.0",
     "@types/node": "^24.0.13",
+    "@types/pdf-parse": "^1.1.5",
     "@types/pg": "^8.15.4",
     "@types/uuid": "^10.0.0",
     "nodemon": "^3.1.10",
