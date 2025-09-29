@@ -193,6 +193,14 @@ export const FreeSession: React.FC = () => {
           >
             <Icon name="arrow-left" size="sm" />
           </Button>
+          <img 
+            src="/logo/logo1.png" 
+            alt="UX Whiteboard Logo" 
+            style={{
+              width: '24px',
+              height: '24px',
+            }}
+          />
           <h1 style={{
             fontSize: '18px',
             fontWeight: '600',

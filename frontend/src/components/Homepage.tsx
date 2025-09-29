@@ -70,18 +70,15 @@ export const Homepage: React.FC = () => {
           flex: '1',
           minWidth: '200px',
         }}>
-          <div style={{
-            width: '28px',
-            height: '28px',
-            backgroundColor: 'var(--button-primary)',
-            borderRadius: 'var(--radius-1)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            flexShrink: 0,
-          }}>
-            <Icon name="monitor" size="sm" color="var(--button-on-primary)" />
-          </div>
+          <img 
+            src="/logo/logo1.png" 
+            alt="UX Whiteboard Logo" 
+            style={{
+              width: '32px',
+              height: '32px',
+              flexShrink: 0,
+            }}
+          />
           <h1 style={{
             fontFamily: 'Roboto, sans-serif',
             fontSize: 'clamp(18px, 4vw, 24px)',
