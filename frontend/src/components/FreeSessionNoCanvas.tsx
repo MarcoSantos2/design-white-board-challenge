@@ -9,6 +9,7 @@ const FreeSessionNoCanvas: React.FC = () => {
   const navigate = useNavigate();
   const [inputValue, setInputValue] = useState('');
   const [inputHeight, setInputHeight] = useState(20);
+  // Note: no ref needed for current implementation
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       id: 1,
@@ -76,10 +77,10 @@ const FreeSessionNoCanvas: React.FC = () => {
     // Store the current scroll position
     const scrollTop = textarea.scrollTop;
 
-    // Reset height to get accurate scrollHeight
-    textarea.style.height = 'auto';
+    // Reset height to single-line baseline to avoid UA default multi-row height on 'auto'
+    textarea.style.height = `${minHeight}px`;
 
-    // Get the scrollHeight
+    // Measure required height
     const scrollHeight = textarea.scrollHeight;
 
     // Get computed style for accurate single-line height (includes vertical padding)
@@ -101,6 +102,7 @@ const FreeSessionNoCanvas: React.FC = () => {
 
     // Restore scroll position
     textarea.scrollTop = scrollTop;
+
   };
 
   const handleSendMessage = async () => {
