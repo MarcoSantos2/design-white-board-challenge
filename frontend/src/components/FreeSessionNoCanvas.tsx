@@ -116,13 +116,16 @@ const FreeSessionNoCanvas: React.FC = () => {
       isTyping: false,
     };
 
-    setMessages(prev => [...prev, userMessage]);
     setInputValue('');
 
+    const placeholderId = Date.now() + 1;
     try {
-      // Stream response
-      const placeholderId = Date.now() + 1;
-      setMessages(prev => [...prev, { id: placeholderId, type: 'assistant', content: '', timestamp: new Date(), isTyping: true }]);
+      // Stream response: append user message and placeholder together to preserve order
+      setMessages(prev => [
+        ...prev,
+        userMessage,
+        { id: placeholderId, type: 'assistant', content: '', timestamp: new Date(), isTyping: true }
+      ]);
 
       await chatService.sendMessageStream(inputValue, (chunk) => {
         setMessages(prev => prev.map(m => m.id === placeholderId ? { ...m, content: m.content + chunk } : m));
@@ -131,12 +134,16 @@ const FreeSessionNoCanvas: React.FC = () => {
       setMessages(prev => prev.map(m => m.id === placeholderId ? { ...m, isTyping: false, timestamp: new Date() } : m));
     } catch (error) {
       console.error('Error sending message:', error);
-      
-      // Show error message to user
+
+      // Remove typing placeholder on failure
+      setMessages(prev => prev.filter(m => m.id !== placeholderId));
+
+      // Show concise error message
+      const reason = (error as Error)?.message || 'Unknown error';
       const errorMessage: ChatMessage = {
         id: Date.now() + 1,
         type: 'assistant',
-        content: "I'm sorry, I'm having trouble connecting to the server. Please check your connection and try again.",
+        content: `Sorry, something went wrong: ${reason}`,
         timestamp: new Date(),
         isTyping: false,
       };
@@ -284,8 +291,9 @@ const FreeSessionNoCanvas: React.FC = () => {
                   className={message.type === 'user' ? 'user-message' : ''}
                   style={{
                     display: 'flex',
-                    minHeight: message.type === 'user' ? '102px' : 'auto',
-                    height: message.type === 'user' ? '102px' : 'auto',
+                    // Let message containers auto-grow with content
+                    minHeight: 'auto',
+                    height: 'auto',
                     padding: 'var(--spacing-7, 24px)',
                     alignItems: 'flex-start',
                     alignSelf: 'stretch',
@@ -302,6 +310,9 @@ const FreeSessionNoCanvas: React.FC = () => {
                     boxShadow: 'none',
                     fontSize: '14px',
                     lineHeight: '1.5',
+                    whiteSpace: 'pre-wrap',
+                    wordBreak: 'break-word',
+                    overflowWrap: 'anywhere',
                     maxWidth: message.type === 'user' ? '814px' : '70%',
                     width: message.type === 'user' ? '814px' : 'auto'
                   }}
