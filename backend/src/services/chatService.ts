@@ -65,11 +65,21 @@ export class ChatService {
     }
 
     const responsesInput = [
-      { role: 'system' as const, content: [{ type: 'input_text', text: SYSTEM_PROMPT }] },
-      ...updatedConversation.messages.map(msg => ({
-        role: (msg.role as 'system' | 'user' | 'assistant'),
-        content: [{ type: 'input_text' as const, text: msg.content }]
-      }))
+      { role: 'system' as const, content: [{ type: 'input_text' as const, text: SYSTEM_PROMPT }] },
+      ...updatedConversation.messages.map(msg => {
+        const role = (msg.role as 'system' | 'user' | 'assistant');
+        const isAssistant = role === 'assistant';
+        return {
+          role,
+          content: [
+            {
+              // Responses API requires assistant content to use 'output_text'
+              type: (isAssistant ? 'output_text' : 'input_text') as 'output_text' | 'input_text',
+              text: msg.content,
+            },
+          ],
+        };
+      })
     ];
 
     return { conversation: updatedConversation, responsesInput };
@@ -146,11 +156,20 @@ export class ChatService {
 
       // Format input for Responses API
       const responsesInput = [
-        { role: 'system' as const, content: [{ type: 'input_text', text: SYSTEM_PROMPT }] },
-        ...updatedConversation.messages.map(msg => ({
-          role: (msg.role as 'system' | 'user' | 'assistant'),
-          content: [{ type: 'input_text' as const, text: msg.content }]
-        }))
+        { role: 'system' as const, content: [{ type: 'input_text' as const, text: SYSTEM_PROMPT }] },
+        ...updatedConversation.messages.map(msg => {
+          const role = (msg.role as 'system' | 'user' | 'assistant');
+          const isAssistant = role === 'assistant';
+          return {
+            role,
+            content: [
+              {
+                type: (isAssistant ? 'output_text' : 'input_text') as 'output_text' | 'input_text',
+                text: msg.content,
+              },
+            ],
+          };
+        })
       ];
 
       // Call OpenAI Responses API (non-streaming)
