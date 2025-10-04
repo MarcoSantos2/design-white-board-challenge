@@ -10,6 +10,13 @@
 - [x] Chat service with conversation management
 - [x] Database models for conversations and messages
 - [x] CORS configuration for frontend communication
+// Authentication
+- [x] Firebase Admin SDK initialization (env-based service account)
+- [x] Auth middleware (`optionalAuth`, `requireAuth`) for route protection
+- [x] `POST /api/auth/sync` endpoint to upsert user on sign-in
+- [x] Chat routes use optional auth; pass userId through controller/service
+- [x] 10-minute anonymous chat session limit enforced (sign-in required after)
+- [x] `User` model extended (`firebaseUid`, `photoUrl`, `providerId`, `emailVerified`, `lastLoginAt`); migration added
 
 ## 🚀 **DEVELOPMENT PHASES**
 
@@ -205,6 +212,9 @@
 - `GET /` - API status
 - `GET /health` - Health check with database status
 
+### **Auth Endpoints**
+- `POST /api/auth/sync` - Upsert/sync user after sign-in (requires Bearer token)
+
 ## 🛠 **TECHNICAL STACK**
 
 - **Runtime**: Node.js with TypeScript
@@ -213,7 +223,7 @@
 - **AI Integration**: OpenAI GPT-4o + Embeddings API
 - **Document Processing**: pdf-parse, mammoth
 - **Vector Search**: pgvector extension
-- **Authentication**: (To be implemented)
+- **Authentication**: Firebase Admin (server), Firebase Authentication (client)
 - **Logging**: (To be implemented)
 - **Monitoring**: (To be implemented)
 

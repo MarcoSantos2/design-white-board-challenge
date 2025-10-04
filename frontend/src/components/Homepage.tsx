@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { Button, Icon } from './ui';
+import { useAuth } from '../context/AuthContext';
+import { Link } from 'react-router-dom';
 import { useTheme } from '../design-tokens/SimpleThemeProvider';
 import { useNavigate } from 'react-router-dom';
+import { signOutUser } from '../services/auth';
 
 /**
  * Homepage Component
@@ -11,6 +14,7 @@ import { useNavigate } from 'react-router-dom';
  */
 export const Homepage: React.FC = () => {
   const { mode, toggleMode } = useTheme();
+  const { user } = useAuth();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -171,7 +175,7 @@ export const Homepage: React.FC = () => {
             aria-label={`Switch to ${mode === 'light' ? 'dark' : 'light'} mode`}
           />
 
-          {/* Desktop Action Buttons */}
+        {/* Desktop Action Buttons */}
           <div style={{
             display: 'none',
             alignItems: 'center',
@@ -179,20 +183,22 @@ export const Homepage: React.FC = () => {
           }}
           className="desktop-actions"
           >
-            <Button
-              variant="primary"
-              size="small"
-              onClick={() => console.log('Login clicked')}
-            >
-              Log In
-            </Button>
-            <Button
-              variant="secondary"
-              size="small"
-              onClick={() => console.log('Sign Up clicked')}
-            >
-              Sign Up
-            </Button>
+            {user ? (
+              <>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--text-secondary)' }}>
+                  <div style={{ width: 28, height: 28, borderRadius: '50%', backgroundColor: 'var(--surface-secondary)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <Icon name="user" size="sm" />
+                  </div>
+                  <span style={{ fontSize: 12 }}>{user.email || user.displayName || 'Account'}</span>
+                </div>
+                <Button variant="secondary" size="small" onClick={() => signOutUser()}>Sign out</Button>
+              </>
+            ) : (
+              <>
+                <Button variant="primary" size="small" onClick={() => navigate('/signin')}>Log In</Button>
+                <Button variant="secondary" size="small" onClick={() => navigate('/signup')}>Sign Up</Button>
+              </>
+            )}
           </div>
 
           {/* Mobile Menu Toggle */}
@@ -384,36 +390,37 @@ export const Homepage: React.FC = () => {
             width: '100%',
             maxWidth: '400px'
           }}>
-            <Button
-              variant="primary"
-              size="large"
-              onClick={() => navigate('/session')}
-              style={{
-                fontSize: '18px',
-                padding: 'var(--spacing-4) var(--spacing-8)',
-                minWidth: '200px',
-                width: '100%'
-              }}
-            >
-              Start Free Session (with Canvas)
-            </Button>
-            
-            <Button
-              variant="secondary"
-              size="large"
-              onClick={() => navigate('/session-chat')}
-              style={{
-                fontSize: '18px',
-                padding: 'var(--spacing-4) var(--spacing-8)',
-                minWidth: '200px',
-                width: '100%',
-                borderColor: 'var(--accent-primary)',
-                color: 'var(--accent-primary)',
-                backgroundColor: 'transparent'
-              }}
-            >
-              Start Free Session (Chat Only)
-            </Button>
+            <Link to={user ? '/session' : '/signin'} style={{ width: '100%', textDecoration: 'none' }}>
+              <Button
+                variant="primary"
+                size="large"
+                style={{
+                  fontSize: '18px',
+                  padding: 'var(--spacing-4) var(--spacing-8)',
+                  minWidth: '200px',
+                  width: '100%'
+                }}
+              >
+                Start Free Session (with Canvas)
+              </Button>
+            </Link>
+            <Link to={'/session-chat'} style={{ width: '100%', textDecoration: 'none' }}>
+              <Button
+                variant="secondary"
+                size="large"
+                style={{
+                  fontSize: '18px',
+                  padding: 'var(--spacing-4) var(--spacing-8)',
+                  minWidth: '200px',
+                  width: '100%',
+                  borderColor: 'var(--accent-primary)',
+                  color: 'var(--accent-primary)',
+                  backgroundColor: 'transparent'
+                }}
+              >
+                Start Free Session (Chat Only)
+              </Button>
+            </Link>
           </div>
           
           <p style={{

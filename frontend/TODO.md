@@ -88,6 +88,12 @@
   - [x] Complete Homepage component matching Figma design
 
 - [x] **Step 6b: Mobile Homepage Optimization** ✅ *COMPLETED*
+- [x] **Authentication Integration (Initial)** ✅ *COMPLETED*
+  - [x] Firebase Web SDK init with session persistence
+  - [x] `AuthProvider` context with `idToken` and user state
+  - [x] Sign In / Sign Up pages (Google, Apple, Facebook, X)
+  - [x] `ProtectedRoute` and routing updates
+  - [x] Chat service attaches ID token to requests
   - [x] Fix navigation bar mobile layout issues
   - [x] Implement responsive button spacing and layout
   - [x] Add mobile menu toggle for navigation links
@@ -135,6 +141,11 @@
 - Tooltip system
 - Notification/toast system
 - Advanced layout components
+
+### 🔜 Authentication Follow-ups
+- [ ] Call `POST /api/auth/sync` on auth state change to upsert user immediately
+- [ ] Configure providers in Firebase Console (OAuth IDs, redirect URIs)
+- [ ] Polish Sign In/Up UI for dark/light parity and brand consistency
 
 ## 📝 NOTES
 - ✅ Mobile-first approach consistently applied across all components
