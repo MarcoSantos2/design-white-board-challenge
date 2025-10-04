@@ -39,12 +39,26 @@ export class ChatService {
       if (existingConversation) {
         conversation = existingConversation;
       } else {
-        conversation = this.conversationRepository.create({ id: request.sessionId, messages: [] });
+        conversation = this.conversationRepository.create({ id: request.sessionId, messages: [], userId: request.userId });
         conversation = await this.conversationRepository.save(conversation);
       }
     } else {
-      conversation = this.conversationRepository.create({ messages: [] });
+      conversation = this.conversationRepository.create({ messages: [], userId: request.userId });
       conversation = await this.conversationRepository.save(conversation);
+    }
+
+    // Enforce anonymous time limit (10 minutes) for existing anonymous conversations
+    if (!request.userId) {
+      const tenMinutesAgo = new Date(Date.now() - 10 * 60 * 1000);
+      if (conversation.createdAt < tenMinutesAgo && !conversation.userId) {
+        throw new Error('Anonymous session expired. Please sign in to continue.');
+      }
+    }
+
+    // If user just authenticated mid-session, attach userId to the conversation
+    if (request.userId && conversation.userId !== request.userId) {
+      conversation.userId = request.userId;
+      await this.conversationRepository.save(conversation);
     }
 
     const userMessage = this.messageRepository.create({
@@ -124,6 +138,15 @@ export class ChatService {
           messages: []
         });
         conversation = await this.conversationRepository.save(conversation);
+      }
+
+      // Enforce anonymous time limit if not authenticated
+      if (!request.userId) {
+        const tenMinutesAgo = new Date(Date.now() - 10 * 60 * 1000);
+        const existing = await this.conversationRepository.findOne({ where: { id: request.sessionId || '' } });
+        if (existing && existing.createdAt < tenMinutesAgo) {
+          throw new Error('Anonymous session expired. Please sign in to continue.');
+        }
       }
 
       // Add user message to conversation
@@ -222,6 +245,10 @@ export class ChatService {
       });
       await this.messageRepository.save(assistantMessageEntity);
 
+      // Attach userId to conversation if authenticated
+      if (request.userId && conversation.userId !== request.userId) {
+        conversation.userId = request.userId;
+      }
       // Update conversation lastUpdated
       conversation.lastUpdated = new Date();
       await this.conversationRepository.save(conversation);

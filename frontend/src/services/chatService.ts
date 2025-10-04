@@ -52,10 +52,12 @@ class ChatService {
    */
   async sendMessage(message: string): Promise<ChatResponse> {
     try {
+      const token = await import('./auth').then(m => m.getIdToken()).catch(() => null);
       const response = await fetch(`${this.baseUrl}/api/chat/message`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
         },
         body: JSON.stringify({
           message: message.trim(),
@@ -86,9 +88,10 @@ class ChatService {
    */
   async sendMessageStream(message: string, onChunk: (text: string) => void): Promise<{ conversationId: string | null }> {
     const url = `${this.baseUrl}/api/chat/message/stream`;
+    const token = await import('./auth').then(m => m.getIdToken()).catch(() => null);
     const res = await fetch(url, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', ...(token ? { 'Authorization': `Bearer ${token}` } : {}) },
       body: JSON.stringify({ message: message.trim(), sessionId: this.currentSessionId })
     });
 

@@ -40,3 +40,10 @@ vite.config.ts.timestamp-*
 .env
 .env.local
 .env.*.local
+
+# Firebase service account keys (never commit)
+firebase-admin*.json
+*firebase-adminsdk*.json
+*service-account*.json
+src/*firebase-adminsdk*.json
+src/*service-account*.json
