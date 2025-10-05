@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Icon } from './ui';
+import Logo from './Logo';
 import { useAuth } from '../context/AuthContext';
 import { Link } from 'react-router-dom';
 import { useTheme } from '../design-tokens/SimpleThemeProvider';
@@ -74,27 +75,8 @@ export const Homepage: React.FC = () => {
           flex: '1',
           minWidth: '200px',
         }}>
-          <img 
-            src="/logo/logo1.png" 
-            alt="UX Whiteboard Logo" 
-            style={{
-              width: '32px',
-              height: '32px',
-              flexShrink: 0,
-            }}
-          />
-          <h1 style={{
-            fontFamily: 'Roboto, sans-serif',
-            fontSize: 'clamp(18px, 4vw, 24px)',
-            fontWeight: 'var(--Static-Title-Large-Weight)',
-            lineHeight: 'var(--Static-Title-Large-Line-Height)',
-            letterSpacing: 'var(--Static-Title-Large-Tracking)',
-            margin: 0,
-            color: 'var(--text-primary)',
-            whiteSpace: 'nowrap',
-          }}>
-            UX Whiteboard
-          </h1>
+          <Logo size={101} />
+          {/* Title removed per request; logo only */}
         </div>
 
         {/* Desktop Navigation Links - Center Position */}
@@ -185,12 +167,23 @@ export const Homepage: React.FC = () => {
           >
             {user ? (
               <>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--text-secondary)' }}>
-                  <div style={{ width: 28, height: 28, borderRadius: '50%', backgroundColor: 'var(--surface-secondary)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <Icon name="user" size="sm" />
-                  </div>
-                  <span style={{ fontSize: 12 }}>{user.email || user.displayName || 'Account'}</span>
-                </div>
+                <Button
+                  variant="secondary"
+                  size="small"
+                  style={{
+                    minWidth: 'auto',
+                    padding: 0,
+                    width: '32px',
+                    height: '32px',
+                    borderRadius: '50%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                  aria-label="Profile"
+                >
+                  <Icon name="user" size="xs" />
+                </Button>
                 <Button variant="secondary" size="small" onClick={() => signOutUser()}>Sign out</Button>
               </>
             ) : (

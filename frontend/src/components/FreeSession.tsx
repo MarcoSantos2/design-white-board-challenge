@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Button, Icon } from './ui';
+import Logo from './Logo';
 import { ExcalidrawWhiteboard } from './ui/Whiteboard';
 import { chatService } from '../services/chatService';
 import type { ChatMessage } from '../services/chatService';
@@ -42,7 +43,7 @@ export const FreeSession: React.FC = () => {
   useEffect(() => {
     let interval: number;
     if (isSessionActive) {
-      interval = setInterval(() => {
+      interval = window.setInterval(() => {
         setSessionTime(prev => {
           if (prev <= 1) {
             setIsSessionActive(false);
@@ -52,7 +53,7 @@ export const FreeSession: React.FC = () => {
         });
       }, 1000);
     }
-    return () => clearInterval(interval);
+    return () => window.clearInterval(interval);
   }, [isSessionActive]);
 
   const formatTime = (seconds: number) => {
@@ -194,22 +195,8 @@ export const FreeSession: React.FC = () => {
           >
             <Icon name="arrow-left" size="sm" />
           </Button>
-          <img 
-            src="/logo/logo1.png" 
-            alt="UX Whiteboard Logo" 
-            style={{
-              width: '24px',
-              height: '24px',
-            }}
-          />
-          <h1 style={{
-            fontSize: '18px',
-            fontWeight: '600',
-            margin: 0,
-            color: 'var(--text-primary)'
-          }}>
-            UX Whiteboard Agent
-          </h1>
+          <Logo size={101} />
+          {/* Title removed per request; logo only */}
         </div>
         
         {/* Timer */}
