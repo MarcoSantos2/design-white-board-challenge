@@ -39,12 +39,26 @@ export class ChatService {
       if (existingConversation) {
         conversation = existingConversation;
       } else {
-        conversation = this.conversationRepository.create({ id: request.sessionId, messages: [] });
+        conversation = this.conversationRepository.create({ id: request.sessionId, messages: [], userId: request.userId });
         conversation = await this.conversationRepository.save(conversation);
       }
     } else {
-      conversation = this.conversationRepository.create({ messages: [] });
+      conversation = this.conversationRepository.create({ messages: [], userId: request.userId });
       conversation = await this.conversationRepository.save(conversation);
+    }
+
+    // Enforce anonymous time limit (10 minutes) for existing anonymous conversations
+    if (!request.userId) {
+      const tenMinutesAgo = new Date(Date.now() - 10 * 60 * 1000);
+      if (conversation.createdAt < tenMinutesAgo && !conversation.userId) {
+        throw new Error('Anonymous session expired. Please sign in to continue.');
+      }
+    }
+
+    // If user just authenticated mid-session, attach userId to the conversation
+    if (request.userId && conversation.userId !== request.userId) {
+      conversation.userId = request.userId;
+      await this.conversationRepository.save(conversation);
     }
 
     const userMessage = this.messageRepository.create({
@@ -65,11 +79,21 @@ export class ChatService {
     }
 
     const responsesInput = [
-      { role: 'system' as const, content: [{ type: 'input_text', text: SYSTEM_PROMPT }] },
-      ...updatedConversation.messages.map(msg => ({
-        role: (msg.role as 'system' | 'user' | 'assistant'),
-        content: [{ type: 'input_text' as const, text: msg.content }]
-      }))
+      { role: 'system' as const, content: [{ type: 'input_text' as const, text: SYSTEM_PROMPT }] },
+      ...updatedConversation.messages.map(msg => {
+        const role = (msg.role as 'system' | 'user' | 'assistant');
+        const isAssistant = role === 'assistant';
+        return {
+          role,
+          content: [
+            {
+              // Responses API requires assistant content to use 'output_text'
+              type: (isAssistant ? 'output_text' : 'input_text') as 'output_text' | 'input_text',
+              text: msg.content,
+            },
+          ],
+        };
+      })
     ];
 
     return { conversation: updatedConversation, responsesInput };
@@ -116,6 +140,15 @@ export class ChatService {
         conversation = await this.conversationRepository.save(conversation);
       }
 
+      // Enforce anonymous time limit if not authenticated
+      if (!request.userId) {
+        const tenMinutesAgo = new Date(Date.now() - 10 * 60 * 1000);
+        const existing = await this.conversationRepository.findOne({ where: { id: request.sessionId || '' } });
+        if (existing && existing.createdAt < tenMinutesAgo) {
+          throw new Error('Anonymous session expired. Please sign in to continue.');
+        }
+      }
+
       // Add user message to conversation
       const userMessage = this.messageRepository.create({
         conversationId: conversation.id,
@@ -146,11 +179,20 @@ export class ChatService {
 
       // Format input for Responses API
       const responsesInput = [
-        { role: 'system' as const, content: [{ type: 'input_text', text: SYSTEM_PROMPT }] },
-        ...updatedConversation.messages.map(msg => ({
-          role: (msg.role as 'system' | 'user' | 'assistant'),
-          content: [{ type: 'input_text' as const, text: msg.content }]
-        }))
+        { role: 'system' as const, content: [{ type: 'input_text' as const, text: SYSTEM_PROMPT }] },
+        ...updatedConversation.messages.map(msg => {
+          const role = (msg.role as 'system' | 'user' | 'assistant');
+          const isAssistant = role === 'assistant';
+          return {
+            role,
+            content: [
+              {
+                type: (isAssistant ? 'output_text' : 'input_text') as 'output_text' | 'input_text',
+                text: msg.content,
+              },
+            ],
+          };
+        })
       ];
 
       // Call OpenAI Responses API (non-streaming)
@@ -203,6 +245,10 @@ export class ChatService {
       });
       await this.messageRepository.save(assistantMessageEntity);
 
+      // Attach userId to conversation if authenticated
+      if (request.userId && conversation.userId !== request.userId) {
+        conversation.userId = request.userId;
+      }
       // Update conversation lastUpdated
       conversation.lastUpdated = new Date();
       await this.conversationRepository.save(conversation);

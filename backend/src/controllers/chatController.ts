@@ -20,7 +20,7 @@ export class ChatController {
       res.setHeader('Cache-Control', 'no-cache');
       res.setHeader('Connection', 'keep-alive');
 
-      const { conversation, responsesInput } = await chatService.prepareForStreaming({ message: message.trim(), sessionId });
+      const { conversation, responsesInput } = await chatService.prepareForStreaming({ message: message.trim(), sessionId, userId: req.user?.uid });
 
       // Start Responses API stream
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -111,6 +111,7 @@ export class ChatController {
       const chatRequest: ChatRequest = {
         message: message.trim(),
         sessionId,
+        userId: req.user?.uid,
       };
 
       const response = await chatService.sendMessage(chatRequest);

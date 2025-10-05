@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import dotenv from 'dotenv';
 import { DataSource } from 'typeorm';
-import { User, Conversation, Message } from '../models';
+import { User, Conversation, Message, Document, DocumentChunk } from '../models';
 
 // Load environment variables
 dotenv.config();
@@ -15,7 +15,7 @@ const dataSourceOptions = {
   database: process.env.DB_NAME || 'ux_interview_app',
   synchronize: false, // Always false for migrations
   logging: process.env.NODE_ENV === 'development',
-  entities: [User, Conversation, Message],
+  entities: [User, Conversation, Message, Document, DocumentChunk],
   migrations: ['src/migrations/*.ts'],
   subscribers: ['src/subscribers/*.ts'],
 };

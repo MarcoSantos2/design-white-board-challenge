@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 import { DataSource } from 'typeorm';
-import { User, Conversation, Message } from '../models';
+import { User, Conversation, Message, Document, DocumentChunk } from '../models';
 
 export const AppDataSource = new DataSource({
   type: 'postgres',
@@ -11,7 +11,7 @@ export const AppDataSource = new DataSource({
   database: process.env.DB_NAME || 'ux_interview_app',
   synchronize: process.env.NODE_ENV === 'development', // Only sync in development
   logging: process.env.NODE_ENV === 'development',
-  entities: [User, Conversation, Message],
+  entities: [User, Conversation, Message, Document, DocumentChunk],
   migrations: ['src/migrations/*.ts'],
   subscribers: ['src/subscribers/*.ts'],
   migrationsRun: process.env.NODE_ENV !== 'development', // Auto-run migrations in production

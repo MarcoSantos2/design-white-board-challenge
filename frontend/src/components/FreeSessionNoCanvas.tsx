@@ -8,6 +8,8 @@ import { useNavigate } from 'react-router-dom';
 const FreeSessionNoCanvas: React.FC = () => {
   const navigate = useNavigate();
   const [inputValue, setInputValue] = useState('');
+  const [inputHeight, setInputHeight] = useState(20);
+  // Note: no ref needed for current implementation
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       id: 1,
@@ -52,66 +54,55 @@ const FreeSessionNoCanvas: React.FC = () => {
     scrollToBottom();
   }, [messages]);
 
+  // Initialize input height on component mount
+  useEffect(() => {
+    setInputHeight(20);
+  }, []);
+
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInputValue(e.target.value);
 
-    // Auto-resize functionality - only resize when text wraps to new line
+    // Auto-resize (match FreeSession.tsx): only grow when text wraps to new line
     const textarea = e.target;
-    const minHeight = 102;
-    const maxHeight = 200;
+    const minHeight = 20;
+    const maxHeight = 100;
 
     // If input is empty, reset to minimum height
     if (!e.target.value.trim()) {
       textarea.style.height = `${minHeight}px`;
+      setInputHeight(minHeight);
       return;
     }
 
     // Store the current scroll position
     const scrollTop = textarea.scrollTop;
 
-    // Reset height to get accurate scrollHeight
-    textarea.style.height = 'auto';
+    // Reset height to single-line baseline to avoid UA default multi-row height on 'auto'
+    textarea.style.height = `${minHeight}px`;
 
-    // Get the scrollHeight
+    // Measure required height
     const scrollHeight = textarea.scrollHeight;
 
-    // Get computed style for line height calculation
+    // Get computed style for accurate single-line height (includes vertical padding)
     const computedStyle = getComputedStyle(textarea);
-
-    // Get line height for more accurate calculation
     const lineHeight = parseFloat(computedStyle.lineHeight) || 20;
+    const paddingTop = parseFloat(computedStyle.paddingTop) || 0;
+    const paddingBottom = parseFloat(computedStyle.paddingBottom) || 0;
+    const singleLineTotalHeight = lineHeight + paddingTop + paddingBottom;
 
-    // Create a temporary element to measure text width
-    const tempDiv = document.createElement('div');
-    tempDiv.style.position = 'absolute';
-    tempDiv.style.visibility = 'hidden';
-    tempDiv.style.height = 'auto';
-    tempDiv.style.width = textarea.clientWidth + 'px';
-    tempDiv.style.fontFamily = computedStyle.fontFamily;
-    tempDiv.style.fontSize = computedStyle.fontSize;
-    tempDiv.style.fontWeight = computedStyle.fontWeight;
-    tempDiv.style.lineHeight = computedStyle.lineHeight;
-    tempDiv.style.letterSpacing = computedStyle.letterSpacing;
-    tempDiv.style.padding = '0';
-    tempDiv.style.border = 'none';
-    tempDiv.style.whiteSpace = 'pre-wrap';
-    tempDiv.style.wordWrap = 'break-word';
-    tempDiv.textContent = e.target.value;
-
-    document.body.appendChild(tempDiv);
-    const textHeight = tempDiv.offsetHeight;
-    document.body.removeChild(tempDiv);
-
-    // Use the measured text height to determine if we need to resize
-    if (textHeight > lineHeight) {
+    // Only grow when content exceeds one full line including padding
+    if (scrollHeight > singleLineTotalHeight + 1) {
       const newHeight = Math.min(scrollHeight, maxHeight);
       textarea.style.height = `${newHeight}px`;
+      setInputHeight(newHeight);
     } else {
       textarea.style.height = `${minHeight}px`;
+      setInputHeight(minHeight);
     }
 
     // Restore scroll position
     textarea.scrollTop = scrollTop;
+
   };
 
   const handleSendMessage = async () => {
@@ -125,13 +116,16 @@ const FreeSessionNoCanvas: React.FC = () => {
       isTyping: false,
     };
 
-    setMessages(prev => [...prev, userMessage]);
     setInputValue('');
 
+    const placeholderId = Date.now() + 1;
     try {
-      // Stream response
-      const placeholderId = Date.now() + 1;
-      setMessages(prev => [...prev, { id: placeholderId, type: 'assistant', content: '', timestamp: new Date(), isTyping: true }]);
+      // Stream response: append user message and placeholder together to preserve order
+      setMessages(prev => [
+        ...prev,
+        userMessage,
+        { id: placeholderId, type: 'assistant', content: '', timestamp: new Date(), isTyping: true }
+      ]);
 
       await chatService.sendMessageStream(inputValue, (chunk) => {
         setMessages(prev => prev.map(m => m.id === placeholderId ? { ...m, content: m.content + chunk } : m));
@@ -140,12 +134,16 @@ const FreeSessionNoCanvas: React.FC = () => {
       setMessages(prev => prev.map(m => m.id === placeholderId ? { ...m, isTyping: false, timestamp: new Date() } : m));
     } catch (error) {
       console.error('Error sending message:', error);
-      
-      // Show error message to user
+
+      // Remove typing placeholder on failure
+      setMessages(prev => prev.filter(m => m.id !== placeholderId));
+
+      // Show concise error message
+      const reason = (error as Error)?.message || 'Unknown error';
       const errorMessage: ChatMessage = {
         id: Date.now() + 1,
         type: 'assistant',
-        content: "I'm sorry, I'm having trouble connecting to the server. Please check your connection and try again.",
+        content: `Sorry, something went wrong: ${reason}`,
         timestamp: new Date(),
         isTyping: false,
       };
@@ -224,6 +222,14 @@ const FreeSessionNoCanvas: React.FC = () => {
             >
               <Icon name="arrow-left" size="sm" />
             </Button>
+            <img 
+              src="/logo/logo1.png" 
+              alt="UX Whiteboard Logo" 
+              style={{
+                width: '24px',
+                height: '24px',
+              }}
+            />
             <h1 style={{
               fontSize: '18px',
               fontWeight: '600',
@@ -285,8 +291,9 @@ const FreeSessionNoCanvas: React.FC = () => {
                   className={message.type === 'user' ? 'user-message' : ''}
                   style={{
                     display: 'flex',
-                    minHeight: message.type === 'user' ? '102px' : 'auto',
-                    height: message.type === 'user' ? '102px' : 'auto',
+                    // Let message containers auto-grow with content
+                    minHeight: 'auto',
+                    height: 'auto',
                     padding: 'var(--spacing-7, 24px)',
                     alignItems: 'flex-start',
                     alignSelf: 'stretch',
@@ -303,6 +310,9 @@ const FreeSessionNoCanvas: React.FC = () => {
                     boxShadow: 'none',
                     fontSize: '14px',
                     lineHeight: '1.5',
+                    whiteSpace: 'pre-wrap',
+                    wordBreak: 'break-word',
+                    overflowWrap: 'anywhere',
                     maxWidth: message.type === 'user' ? '814px' : '70%',
                     width: message.type === 'user' ? '814px' : 'auto'
                   }}
@@ -330,9 +340,9 @@ const FreeSessionNoCanvas: React.FC = () => {
             backgroundColor: 'var(--surface-secondary, #F2F2F2)',
             border: '1px solid var(--stroke-stroke)',
             borderRadius: '50px',
-            padding: '8px 16px',
+            padding: 'var(--spacing-2) var(--spacing-4)',
             gap: '12px',
-            minHeight: '102px'
+            minHeight: '44px'
           }}>
             {/* Plus Icon */}
             <div style={{
@@ -355,20 +365,21 @@ const FreeSessionNoCanvas: React.FC = () => {
               className="chat-input-textarea"
               style={{
                 flex: 1,
-                border: 'none',
-                outline: 'none',
-                backgroundColor: 'transparent',
-                color: 'var(--text-primary)',
-                fontSize: '14px',
-                lineHeight: '20px',
-                resize: 'none',
+                height: `${inputHeight}px`,
                 minHeight: '20px',
                 maxHeight: '100px',
-                fontFamily: 'inherit',
-                padding: '12px 0',
-                display: 'flex',
-                alignItems: 'center',
-                verticalAlign: 'middle'
+                padding: 'var(--spacing-1) 0',
+                border: 'none',
+                backgroundColor: 'transparent',
+                color: 'var(--text-primary)',
+                fontFamily: 'Roboto, sans-serif',
+                fontSize: 'var(--Static-Body-Medium-Size)',
+                fontWeight: 'var(--Static-Body-Medium-Weight)',
+                lineHeight: 'var(--Static-Body-Medium-Line-Height)',
+                letterSpacing: 'var(--Static-Body-Medium-Tracking)',
+                resize: 'none',
+                outline: 'none',
+                overflow: inputHeight >= 100 ? 'auto' : 'hidden',
               }}
             />
 
