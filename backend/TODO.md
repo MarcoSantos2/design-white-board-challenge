@@ -1,3 +1,5 @@
+# HI JIARONG. I LOVE YOU SO MUCH.
+
 # Backend Development TODO - UX Whiteboard Challenge
 
 ## 🎯 **CURRENT PRIORITY: Frontend-Backend Integration & OpenAI API Connection**
