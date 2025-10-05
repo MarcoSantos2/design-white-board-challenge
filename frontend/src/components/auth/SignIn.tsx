@@ -25,6 +25,7 @@ export const SignIn: React.FC = () => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [loadingLocal, setLoadingLocal] = useState(false);
 
   const handleEmailSignIn = async () => {
@@ -51,29 +52,43 @@ export const SignIn: React.FC = () => {
   return (
     <div style={{ display: 'flex', minHeight: '100vh', alignItems: 'center', justifyContent: 'center', padding: '24px' }}>
       <div style={{ width: '100%', maxWidth: '420px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
-        <h1 style={{ margin: 0 }}>Sign in</h1>
+        <h1 style={{ margin: 0 }}>Log in</h1>
         {error && (
           <div style={{ color: 'var(--danger, #b91c1c)', fontSize: 14 }}>{error}</div>
         )}
-        <Button variant="primary" size="medium" onClick={handleProvider}>
-          <Icon name="login" size="sm" style={{ marginRight: 8 }} /> Continue with Google
+
+        <Button variant="secondary" size="medium" onClick={handleProvider}>
+          <Icon name="login" size="sm" style={{ marginRight: 8 }} /> CONTINUE WITH GOOGLE
         </Button>
 
-        <div style={{ height: 1, backgroundColor: 'var(--stroke-stroke)' }} />
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+          <div style={{ flex: 1, height: 1, backgroundColor: 'var(--stroke-stroke)' }} />
+          <span style={{ fontSize: 12, color: 'var(--text-secondary-alt)' }}>OR</span>
+          <div style={{ flex: 1, height: 1, backgroundColor: 'var(--stroke-stroke)' }} />
+        </div>
 
         <Input
-          placeholder="Email"
+          placeholder="Email*"
           value={email}
           onChange={(e: any) => setEmail(e.target.value)}
+          variant="outlined"
+          size="large"
+          helperText=""
         />
         <Input
-          placeholder="Password"
-          type="password"
+          placeholder="Password*"
+          type={showPassword ? 'text' : 'password'}
           value={password}
           onChange={(e: any) => setPassword(e.target.value)}
+          variant="outlined"
+          size="large"
+          endIcon={showPassword ? 'eye-off' : 'eye'}
+          onEndIconClick={() => setShowPassword(v => !v)}
+          endIconAriaLabel={showPassword ? 'Hide password' : 'Show password'}
+          helperText="Password should be at least 6 characters"
         />
-        <Button variant="secondary" size="medium" onClick={handleEmailSignIn} disabled={loadingLocal}>
-          {loadingLocal ? 'Signing in…' : 'Sign in with Email'}
+        <Button variant="primary" size="medium" onClick={handleEmailSignIn} disabled={loadingLocal}>
+          {loadingLocal ? 'LOGGING IN…' : 'LOG IN'}
         </Button>
         <div style={{ fontSize: 12, color: 'var(--text-secondary)' }}>
           By continuing you agree to our Terms and Privacy Policy.
