@@ -1,4 +1,5 @@
 import React, { forwardRef, useState } from 'react';
+import './Input.css';
 import { Icon } from '../Icon/Icon';
 import type { IconName } from '../Icon/Icon';
 
@@ -25,6 +26,10 @@ export interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElem
   startIcon?: IconName;
   /** Icon to display at the end of the input */
   endIcon?: IconName;
+  /** Optional click handler for the end icon (useful for password visibility toggles) */
+  onEndIconClick?: () => void;
+  /** Optional aria-label for the end icon button */
+  endIconAriaLabel?: string;
   /** Whether the input is required */
   required?: boolean;
   /** Whether to show character count */
@@ -47,6 +52,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(({
   successMessage,
   startIcon,
   endIcon,
+  onEndIconClick,
+  endIconAriaLabel,
   required,
   showCharCount,
   maxLength,
@@ -184,6 +191,9 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(({
               name={endIcon} 
               size={size === 'small' ? 'xs' : size === 'large' ? 'sm' : 'xs'} 
               variant="outline"
+              onClick={onEndIconClick}
+              aria-label={endIconAriaLabel}
+              style={onEndIconClick ? { cursor: 'pointer' } : undefined}
             />
           </div>
         )}

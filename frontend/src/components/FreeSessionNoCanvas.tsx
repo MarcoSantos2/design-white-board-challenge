@@ -4,11 +4,13 @@ import { Button } from './ui/Button/Button';
 import { chatService } from '../services/chatService';
 import type { ChatMessage } from '../services/chatService';
 import { useNavigate } from 'react-router-dom';
+import Logo from './Logo';
 
 const FreeSessionNoCanvas: React.FC = () => {
   const navigate = useNavigate();
   const [inputValue, setInputValue] = useState('');
   const [inputHeight, setInputHeight] = useState(20);
+  // Note: no ref needed for current implementation
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       id: 1,
@@ -26,7 +28,7 @@ const FreeSessionNoCanvas: React.FC = () => {
   useEffect(() => {
     let interval: number;
     if (isSessionActive) {
-      interval = setInterval(() => {
+      interval = window.setInterval(() => {
         setSessionTime(prev => {
           if (prev <= 1) {
             setIsSessionActive(false);
@@ -36,7 +38,7 @@ const FreeSessionNoCanvas: React.FC = () => {
         });
       }, 1000);
     }
-    return () => clearInterval(interval);
+    return () => window.clearInterval(interval);
   }, [isSessionActive]);
 
   const formatTime = (seconds: number) => {
@@ -76,10 +78,10 @@ const FreeSessionNoCanvas: React.FC = () => {
     // Store the current scroll position
     const scrollTop = textarea.scrollTop;
 
-    // Reset height to get accurate scrollHeight
-    textarea.style.height = 'auto';
+    // Reset height to single-line baseline to avoid UA default multi-row height on 'auto'
+    textarea.style.height = `${minHeight}px`;
 
-    // Get the scrollHeight
+    // Measure required height
     const scrollHeight = textarea.scrollHeight;
 
     // Get computed style for accurate single-line height (includes vertical padding)
@@ -101,6 +103,7 @@ const FreeSessionNoCanvas: React.FC = () => {
 
     // Restore scroll position
     textarea.scrollTop = scrollTop;
+
   };
 
   const handleSendMessage = async () => {
@@ -114,13 +117,16 @@ const FreeSessionNoCanvas: React.FC = () => {
       isTyping: false,
     };
 
-    setMessages(prev => [...prev, userMessage]);
     setInputValue('');
 
+    const placeholderId = Date.now() + 1;
     try {
-      // Stream response
-      const placeholderId = Date.now() + 1;
-      setMessages(prev => [...prev, { id: placeholderId, type: 'assistant', content: '', timestamp: new Date(), isTyping: true }]);
+      // Stream response: append user message and placeholder together to preserve order
+      setMessages(prev => [
+        ...prev,
+        userMessage,
+        { id: placeholderId, type: 'assistant', content: '', timestamp: new Date(), isTyping: true }
+      ]);
 
       await chatService.sendMessageStream(inputValue, (chunk) => {
         setMessages(prev => prev.map(m => m.id === placeholderId ? { ...m, content: m.content + chunk } : m));
@@ -129,12 +135,16 @@ const FreeSessionNoCanvas: React.FC = () => {
       setMessages(prev => prev.map(m => m.id === placeholderId ? { ...m, isTyping: false, timestamp: new Date() } : m));
     } catch (error) {
       console.error('Error sending message:', error);
-      
-      // Show error message to user
+
+      // Remove typing placeholder on failure
+      setMessages(prev => prev.filter(m => m.id !== placeholderId));
+
+      // Show concise error message
+      const reason = (error as Error)?.message || 'Unknown error';
       const errorMessage: ChatMessage = {
         id: Date.now() + 1,
         type: 'assistant',
-        content: "I'm sorry, I'm having trouble connecting to the server. Please check your connection and try again.",
+        content: `Sorry, something went wrong: ${reason}`,
         timestamp: new Date(),
         isTyping: false,
       };
@@ -213,14 +223,8 @@ const FreeSessionNoCanvas: React.FC = () => {
             >
               <Icon name="arrow-left" size="sm" />
             </Button>
-            <h1 style={{
-              fontSize: '18px',
-              fontWeight: '600',
-              margin: 0,
-              color: 'var(--text-primary)'
-            }}>
-              UX Whiteboard Agent
-            </h1>
+            <Logo size={101} />
+            {/* Title removed per request; logo only */}
           </div>
           
           {/* Timer */}
@@ -274,8 +278,9 @@ const FreeSessionNoCanvas: React.FC = () => {
                   className={message.type === 'user' ? 'user-message' : ''}
                   style={{
                     display: 'flex',
-                    minHeight: message.type === 'user' ? '102px' : 'auto',
-                    height: message.type === 'user' ? '102px' : 'auto',
+                    // Let message containers auto-grow with content
+                    minHeight: 'auto',
+                    height: 'auto',
                     padding: 'var(--spacing-7, 24px)',
                     alignItems: 'flex-start',
                     alignSelf: 'stretch',
@@ -292,6 +297,9 @@ const FreeSessionNoCanvas: React.FC = () => {
                     boxShadow: 'none',
                     fontSize: '14px',
                     lineHeight: '1.5',
+                    whiteSpace: 'pre-wrap',
+                    wordBreak: 'break-word',
+                    overflowWrap: 'anywhere',
                     maxWidth: message.type === 'user' ? '814px' : '70%',
                     width: message.type === 'user' ? '814px' : 'auto'
                   }}

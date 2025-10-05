@@ -52,10 +52,12 @@ class ChatService {
    */
   async sendMessage(message: string): Promise<ChatResponse> {
     try {
+      const token = await import('./auth').then(m => m.getIdToken()).catch(() => null);
       const response = await fetch(`${this.baseUrl}/api/chat/message`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
         },
         body: JSON.stringify({
           message: message.trim(),
@@ -86,9 +88,10 @@ class ChatService {
    */
   async sendMessageStream(message: string, onChunk: (text: string) => void): Promise<{ conversationId: string | null }> {
     const url = `${this.baseUrl}/api/chat/message/stream`;
+    const token = await import('./auth').then(m => m.getIdToken()).catch(() => null);
     const res = await fetch(url, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', ...(token ? { 'Authorization': `Bearer ${token}` } : {}) },
       body: JSON.stringify({ message: message.trim(), sessionId: this.currentSessionId })
     });
 
@@ -100,6 +103,7 @@ class ChatService {
     const decoder = new TextDecoder('utf-8');
     let done = false;
     let acc = '';
+    let sawAnyData = false;
     while (!done) {
       const { value, done: readerDone } = await reader.read();
       done = readerDone;
@@ -110,6 +114,8 @@ class ChatService {
         acc = lines.pop() || '';
         for (const block of lines) {
           const isSession = block.split('\n').some(l => l.trim() === 'event: session');
+          const isError = block.split('\n').some(l => l.trim() === 'event: error');
+          const isDone = block.split('\n').some(l => l.trim() === 'event: done');
           const dataLine = block.split('\n').find(l => l.startsWith('data: '));
           if (!dataLine) continue;
           try {
@@ -118,12 +124,28 @@ class ChatService {
               this.currentSessionId = payload.conversationId;
               continue;
             }
-            if (payload.text) onChunk(payload.text);
+            if (isError) {
+              const msg = (payload && (payload.error || payload.message)) || 'streaming failed';
+              throw new Error(typeof msg === 'string' ? msg : 'streaming failed');
+            }
+            if (isDone) {
+              done = true;
+              break;
+            }
+            if (payload && typeof payload.text === 'string' && payload.text.length > 0) {
+              sawAnyData = true;
+              onChunk(payload.text);
+            }
           } catch {
             // ignore malformed chunk
           }
         }
       }
+    }
+
+    if (!sawAnyData) {
+      // Best-effort surface empty-stream situations
+      throw new Error('No response received from server');
     }
 
     // return current session

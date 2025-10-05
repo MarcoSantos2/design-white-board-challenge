@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Button, Icon } from './ui';
+import Logo from './Logo';
 import { ExcalidrawWhiteboard } from './ui/Whiteboard';
 import { chatService } from '../services/chatService';
 import type { ChatMessage } from '../services/chatService';
@@ -42,7 +43,7 @@ export const FreeSession: React.FC = () => {
   useEffect(() => {
     let interval: number;
     if (isSessionActive) {
-      interval = setInterval(() => {
+      interval = window.setInterval(() => {
         setSessionTime(prev => {
           if (prev <= 1) {
             setIsSessionActive(false);
@@ -52,7 +53,7 @@ export const FreeSession: React.FC = () => {
         });
       }, 1000);
     }
-    return () => clearInterval(interval);
+    return () => window.clearInterval(interval);
   }, [isSessionActive]);
 
   const formatTime = (seconds: number) => {
@@ -133,10 +134,10 @@ export const FreeSession: React.FC = () => {
     // Store the current scroll position
     const scrollTop = textarea.scrollTop;
     
-    // Reset height to get accurate scrollHeight
-    textarea.style.height = 'auto';
+    // Reset height to single-line baseline to avoid UA default multi-row height on 'auto'
+    textarea.style.height = `${minHeight}px`;
     
-    // Get the scrollHeight
+    // Measure required height
     const scrollHeight = textarea.scrollHeight;
     
     // Get computed style for accurate single-line height (includes vertical padding)
@@ -158,6 +159,7 @@ export const FreeSession: React.FC = () => {
     
     // Restore scroll position
     textarea.scrollTop = scrollTop;
+
   };
 
 
@@ -193,14 +195,8 @@ export const FreeSession: React.FC = () => {
           >
             <Icon name="arrow-left" size="sm" />
           </Button>
-          <h1 style={{
-            fontSize: '18px',
-            fontWeight: '600',
-            margin: 0,
-            color: 'var(--text-primary)'
-          }}>
-            UX Whiteboard Agent
-          </h1>
+          <Logo size={101} />
+          {/* Title removed per request; logo only */}
         </div>
         
         {/* Timer */}

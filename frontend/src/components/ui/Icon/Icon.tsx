@@ -55,7 +55,10 @@ export type IconName =
   | 'home' | 'shield' | 'trending-up'
   
   // Theme & Display Icons
-  | 'sun' | 'moon';
+  | 'sun' | 'moon'
+  
+  // Visibility Icons
+  | 'eye' | 'eye-off';
 
 export interface IconProps {
   /** Icon name from the comprehensive library */
@@ -233,6 +236,10 @@ const iconPaths: Record<IconName, string | { outline: string; filled?: string; d
   // Theme & Display Icons
   'sun': 'M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42M12 17a5 5 0 100-10 5 5 0 000 10z',
   'moon': 'M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z',
+  
+  // Visibility Icons
+  'eye': 'M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12zm11 3a3 3 0 110-6 3 3 0 010 6z',
+  'eye-off': 'M3 3l18 18M10.58 10.58A3 3 0 0012 15a3 3 0 002.42-4.42M9.88 5.46A10.94 10.94 0 0112 5c7 0 11 7 11 7a18.54 18.54 0 01-5.08 5.66M6.11 8.53A18.93 18.93 0 001 12s4 7 11 7a10.94 10.94 0 004.18-.8'
 };
 
 // ========================================
