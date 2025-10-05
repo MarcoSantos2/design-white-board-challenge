@@ -4,6 +4,7 @@ import { Button } from './ui/Button/Button';
 import { chatService } from '../services/chatService';
 import type { ChatMessage } from '../services/chatService';
 import { useNavigate } from 'react-router-dom';
+import Logo from './Logo';
 
 const FreeSessionNoCanvas: React.FC = () => {
   const navigate = useNavigate();
@@ -27,7 +28,7 @@ const FreeSessionNoCanvas: React.FC = () => {
   useEffect(() => {
     let interval: number;
     if (isSessionActive) {
-      interval = setInterval(() => {
+      interval = window.setInterval(() => {
         setSessionTime(prev => {
           if (prev <= 1) {
             setIsSessionActive(false);
@@ -37,7 +38,7 @@ const FreeSessionNoCanvas: React.FC = () => {
         });
       }, 1000);
     }
-    return () => clearInterval(interval);
+    return () => window.clearInterval(interval);
   }, [isSessionActive]);
 
   const formatTime = (seconds: number) => {
@@ -222,22 +223,8 @@ const FreeSessionNoCanvas: React.FC = () => {
             >
               <Icon name="arrow-left" size="sm" />
             </Button>
-            <img 
-              src="/logo/logo1.png" 
-              alt="UX Whiteboard Logo" 
-              style={{
-                width: '24px',
-                height: '24px',
-              }}
-            />
-            <h1 style={{
-              fontSize: '18px',
-              fontWeight: '600',
-              margin: 0,
-              color: 'var(--text-primary)'
-            }}>
-              UX Whiteboard Agent
-            </h1>
+            <Logo size={101} />
+            {/* Title removed per request; logo only */}
           </div>
           
           {/* Timer */}

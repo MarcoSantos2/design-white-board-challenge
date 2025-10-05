@@ -3,6 +3,7 @@ import { Button, Icon, Input } from '../ui';
 import { getGoogleProvider, signInWithProvider, signInWithEmail, syncUserWithBackend } from '../../services/auth';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import Logo from '../Logo';
 
 export const SignIn: React.FC = () => {
   const { loading } = useAuth();
@@ -52,6 +53,9 @@ export const SignIn: React.FC = () => {
   return (
     <div style={{ display: 'flex', minHeight: '100vh', alignItems: 'center', justifyContent: 'center', padding: '24px' }}>
       <div style={{ width: '100%', maxWidth: '420px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <Logo size={101} />
+        </div>
         <h1 style={{ margin: 0 }}>Log in</h1>
         {error && (
           <div style={{ color: 'var(--danger, #b91c1c)', fontSize: 14 }}>{error}</div>

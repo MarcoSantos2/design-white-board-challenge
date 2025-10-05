@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Button, Input } from '../ui';
 import { signUpWithEmail, getGoogleProvider, signInWithProvider, syncUserWithBackend } from '../../services/auth';
 import { useNavigate } from 'react-router-dom';
+import Logo from '../Logo';
 
 export const SignUp: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -44,6 +45,9 @@ export const SignUp: React.FC = () => {
   return (
     <div style={{ display: 'flex', minHeight: '100vh', alignItems: 'center', justifyContent: 'center', padding: '24px' }}>
       <div style={{ width: '100%', maxWidth: '420px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <Logo size={101} />
+        </div>
         <h1 style={{ margin: 0 }}>Sign up</h1>
         {error && <div style={{ color: 'var(--danger, #b91c1c)', fontSize: 14 }}>{error}</div>}
 
