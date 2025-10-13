@@ -338,8 +338,36 @@ export const Homepage: React.FC = () => {
         textAlign: 'center',
         padding: 'clamp(var(--spacing-8), 8vw, var(--spacing-15)) var(--spacing-4)',
         gap: 'clamp(var(--spacing-6), 6vw, var(--spacing-8))',
+        position: 'relative',
       }}>
-        {/* Main Title */}
+        {/* Dotted overlay (hero only) */}
+        <div
+          aria-hidden="true"
+          style={{
+            position: 'absolute',
+            inset: 0,
+            pointerEvents: 'none',
+            opacity: 0.2,
+            zIndex: 0,
+            backgroundImage: 'radial-gradient(var(--text-primary) 1px, transparent 1px)',
+            backgroundSize: '10px 10px',
+            backgroundRepeat: 'repeat',
+          }}
+        >
+        </div>
+        {/* Content wrapper to keep content above the dots */}
+        <div
+          style={{
+            position: 'relative',
+            zIndex: 1,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: 'clamp(var(--spacing-6), 6vw, var(--spacing-8))',
+            width: '100%',
+          }}
+        >
+          {/* Main Title */}
         <h2 style={{
           fontFamily: 'Roboto, sans-serif',
           fontSize: 'clamp(48px, 8vw, 72px)',
@@ -353,87 +381,88 @@ export const Homepage: React.FC = () => {
           Practice for UX Whiteboard Challenges
         </h2>
 
-        {/* Subtitle */}
-        <p style={{
-          fontFamily: 'Roboto, sans-serif',
-          fontSize: 'clamp(18px, 3vw, 24px)',
-          fontWeight: 'var(--Static-Body-Medium-Weight)',
-          lineHeight: 'clamp(24px, 4vw, 32px)',
-          letterSpacing: 'var(--Static-Body-Medium-Tracking)',
-          margin: 0,
-          color: 'var(--text-secondary-alt)',
-          maxWidth: '600px',
-        }}>
-          Master your UX design skills with interactive whiteboard challenges. 
-          Practice real-world scenarios and improve your design thinking process.
-        </p>
+          {/* Subtitle */}
+          <p style={{
+            fontFamily: 'Roboto, sans-serif',
+            fontSize: 'clamp(18px, 3vw, 24px)',
+            fontWeight: 'var(--Static-Body-Medium-Weight)',
+            lineHeight: 'clamp(24px, 4vw, 32px)',
+            letterSpacing: 'var(--Static-Body-Medium-Tracking)',
+            margin: 0,
+            color: 'var(--text-secondary-alt)',
+            maxWidth: '600px',
+          }}>
+            Master your UX design skills with interactive whiteboard challenges. 
+            Practice real-world scenarios and improve your design thinking process.
+          </p>
 
-        {/* CTA Button */}
-        <div style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: 'var(--spacing-4)',
-        }}>
+          {/* CTA Button */}
           <div style={{
             display: 'flex',
             flexDirection: 'column',
-            gap: 'var(--spacing-4)',
             alignItems: 'center',
-            width: '100%',
-            maxWidth: '400px'
+            gap: 'var(--spacing-4)',
           }}>
-            <Link to={user ? '/session' : '/signin'} style={{ width: '100%', textDecoration: 'none' }}>
-              <Button
-                variant="primary"
-                size="large"
-                style={{
-                  fontSize: '18px',
-                  padding: 'var(--spacing-4) var(--spacing-8)',
-                  minWidth: '200px',
-                  width: '100%'
-                }}
-              >
-                Start Free Session (with Canvas)
-              </Button>
-            </Link>
-            <Link to={'/session-chat'} style={{ width: '100%', textDecoration: 'none' }}>
-              <Button
-                variant="secondary"
-                size="large"
-                style={{
-                  fontSize: '18px',
-                  padding: 'var(--spacing-4) var(--spacing-8)',
-                  minWidth: '200px',
-                  width: '100%',
-                  borderColor: 'var(--accent-primary)',
-                  color: 'var(--accent-primary)',
-                  backgroundColor: 'transparent'
-                }}
-              >
-                Start Free Session (Chat Only)
-              </Button>
-            </Link>
+            <div style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 'var(--spacing-4)',
+              alignItems: 'center',
+              width: '100%',
+              maxWidth: '400px'
+            }}>
+              <Link to={user ? '/session' : '/signin'} style={{ width: '100%', textDecoration: 'none' }}>
+                <Button
+                  variant="primary"
+                  size="large"
+                  style={{
+                    fontSize: '18px',
+                    padding: 'var(--spacing-4) var(--spacing-8)',
+                    minWidth: '200px',
+                    width: '100%'
+                  }}
+                >
+                  Start Free Session (with Canvas)
+                </Button>
+              </Link>
+              <Link to={'/session-chat'} style={{ width: '100%', textDecoration: 'none' }}>
+                <Button
+                  variant="secondary"
+                  size="large"
+                  style={{
+                    fontSize: '18px',
+                    padding: 'var(--spacing-4) var(--spacing-8)',
+                    minWidth: '200px',
+                    width: '100%',
+                    borderColor: 'var(--accent-primary)',
+                    color: 'var(--accent-primary)',
+                    backgroundColor: 'transparent'
+                  }}
+                >
+                  Start Free Session (Chat Only)
+                </Button>
+              </Link>
+            </div>
+            
+            <p style={{
+              fontFamily: 'Roboto, sans-serif',
+              fontSize: 'var(--Static-Body-Small-Size)',
+              fontWeight: 'var(--Static-Body-Small-Weight)',
+              lineHeight: 'var(--Static-Body-Small-Line-Height)',
+              letterSpacing: 'var(--Static-Body-Small-Tracking)',
+              margin: 0,
+              color: 'var(--text-secondary)',
+            }}>
+              No credit card required
+            </p>
           </div>
-          
-          <p style={{
-            fontFamily: 'Roboto, sans-serif',
-            fontSize: 'var(--Static-Body-Small-Size)',
-            fontWeight: 'var(--Static-Body-Small-Weight)',
-            lineHeight: 'var(--Static-Body-Small-Line-Height)',
-            letterSpacing: 'var(--Static-Body-Small-Tracking)',
-            margin: 0,
-            color: 'var(--text-secondary)',
-          }}>
-            No credit card required
-          </p>
         </div>
       </main>
 
       {/* Features Section */}
       <section id="features" style={{
         padding: 'clamp(var(--spacing-8), 8vw, var(--spacing-15)) var(--spacing-4)',
-        backgroundColor: 'var(--surface-secondary)',
+        backgroundColor: 'var(--surface-primary)',
       }}>
         <div style={{
           maxWidth: '1200px',
