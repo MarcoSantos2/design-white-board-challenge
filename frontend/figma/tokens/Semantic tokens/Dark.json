@@ -1,0 +1,138 @@
+{
+  "surface": {
+    "primary": {
+      "value": "{neutral.900}",
+      "type": "color"
+    },
+    "secondary": {
+      "value": "{neutral.800}",
+      "type": "color"
+    }
+  },
+  "text": {
+    "primary": {
+      "value": "{neutral.50}",
+      "type": "color"
+    },
+    "secondary": {
+      "value": "{neutral.0}",
+      "type": "color"
+    },
+    "secondary-alt": {
+      "value": "{neutral.300}",
+      "type": "color"
+    },
+    "dialogue": {
+      "value": "{neutral.300}",
+      "type": "color"
+    },
+    "dialogue-bg": {
+      "value": "{neutral.800}",
+      "type": "color"
+    }
+  },
+  "button": {
+    "primary": {
+      "value": "{yellow.300}",
+      "type": "color"
+    },
+    "on-primary": {
+      "value": "{neutral.900}",
+      "type": "color"
+    },
+    "secondary": {
+      "value": "{neutral.900}",
+      "type": "color"
+    },
+    "on-secondary": {
+      "value": "{yellow.300}",
+      "type": "color"
+    },
+    "secondary-alt": {
+      "value": "{neutral.700}",
+      "type": "color"
+    },
+    "on-secondary-alt": {
+      "value": "{neutral.0}",
+      "type": "color"
+    },
+    "primary-alt": {
+      "value": "{neutral.0}",
+      "type": "color"
+    },
+    "on-primary-alt": {
+      "value": "{neutral.700}",
+      "type": "color"
+    }
+  },
+  "stroke": {
+    "stroke": {
+      "value": "{neutral.700}",
+      "type": "color"
+    },
+    "stroke-contrast": {
+      "value": "{neutral.400}",
+      "type": "color"
+    }
+  },
+  "art": {
+    "red": {
+      "value": "{red.500}",
+      "type": "color"
+    },
+    "orange": {
+      "value": "{orange.500}",
+      "type": "color"
+    },
+    "pink": {
+      "value": "{pink.500}",
+      "type": "color"
+    },
+    "purple": {
+      "value": "{purple.500}",
+      "type": "color"
+    },
+    "green": {
+      "value": "{green.400}",
+      "type": "color"
+    },
+    "blue": {
+      "value": "{blue.500}",
+      "type": "color"
+    }
+  },
+  "art surface": {
+    "red": {
+      "value": "{red.200}",
+      "type": "color"
+    },
+    "orange": {
+      "value": "{orange.300}",
+      "type": "color"
+    },
+    "pink": {
+      "value": "{pink.400}",
+      "type": "color"
+    },
+    "purple": {
+      "value": "{purple.400}",
+      "type": "color"
+    },
+    "green": {
+      "value": "{green.300}",
+      "type": "color"
+    },
+    "blue": {
+      "value": "{blue.50}",
+      "type": "color"
+    },
+    "gray high contrast": {
+      "value": "{neutral.200}",
+      "type": "color"
+    },
+    "gray low contrast": {
+      "value": "{neutral.700}",
+      "type": "color"
+    }
+  }
+}

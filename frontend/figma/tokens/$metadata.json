@@ -1,0 +1,8 @@
+{
+  "tokenSetOrder": [
+    "global",
+    "Primitive tokens/Mode 1",
+    "Semantic tokens/Light",
+    "Semantic tokens/Dark"
+  ]
+}

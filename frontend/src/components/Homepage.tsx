@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import { useTheme } from '../design-tokens/SimpleThemeProvider';
 import { useNavigate } from 'react-router-dom';
 import { signOutUser } from '../services/auth';
+import { HeroShowcase } from './hero/HeroShowcase';
 
 /**
  * Homepage Component
@@ -405,37 +406,35 @@ export const Homepage: React.FC = () => {
           }}>
             <div style={{
               display: 'flex',
-              flexDirection: 'column',
+              flexDirection: 'row',
               gap: 'var(--spacing-4)',
               alignItems: 'center',
-              width: '100%',
-              maxWidth: '400px'
+              justifyContent: 'center',
+              flexWrap: 'wrap'
             }}>
-              <Link to={user ? '/session' : '/signin'} style={{ width: '100%', textDecoration: 'none' }}>
+              <Link to={user ? '/session' : '/signin'} style={{ textDecoration: 'none' }}>
                 <Button
                   variant="primary"
-                  size="large"
+                  size="medium"
                   style={{
-                    fontSize: '18px',
-                    padding: 'var(--spacing-4) var(--spacing-8)',
-                    minWidth: '200px',
-                    width: '100%'
+                    fontSize: '16px',
+                    padding: 'var(--spacing-3) var(--spacing-6)',
+                    minWidth: '160px'
                   }}
                 >
                   Start Free Session (with Canvas)
                 </Button>
               </Link>
-              <Link to={'/session-chat'} style={{ width: '100%', textDecoration: 'none' }}>
+              <Link to={'/session-chat'} style={{ textDecoration: 'none' }}>
                 <Button
                   variant="secondary"
-                  size="large"
+                  size="medium"
                   style={{
-                    fontSize: '18px',
-                    padding: 'var(--spacing-4) var(--spacing-8)',
-                    minWidth: '200px',
-                    width: '100%',
-                    borderColor: 'var(--accent-primary)',
-                    color: 'var(--accent-primary)',
+                    fontSize: '16px',
+                    padding: 'var(--spacing-3) var(--spacing-6)',
+                    minWidth: '160px',
+                    borderColor: mode === 'dark' ? '#FFE268' : '#1A1A1A',
+                    color: mode === 'dark' ? '#FFE268' : '#1A1A1A',
                     backgroundColor: 'transparent'
                   }}
                 >
@@ -456,6 +455,8 @@ export const Homepage: React.FC = () => {
               No credit card required
             </p>
           </div>
+          {/* Hero showcase visuals */}
+          <HeroShowcase />
         </div>
       </main>
 

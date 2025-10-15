@@ -1,0 +1,28 @@
+{
+  "theme": "dark",
+  "containerWidth": 1440,
+  "stickyNotes": [
+    { "group": "left", "variant": "art/red", "size": "md", "lines": 2, "left": 216, "top": 454, "height": 100, "width": 100},
+    { "group": "left", "variant": "art surface orange", "size": "md", "lines": 3, "left": 398, "top": 551, "height": 100, "width": 100},
+    { "group": "left", "variant": "art/blue", "size": "md", "lines": 2, "left": 345, "top": 623, "height": 100, "width": 100},
+    { "group": "left", "variant": "art/purple", "size": "md", "lines": 3, "left": 437, "top": 698, "height": 100, "width": 100},
+    { "group": "left", "variant": "art surface green", "size": "md", "lines": 2, "left": 513, "top": 514, "height": 100, "width": 100},
+    { "group": "left", "variant": "art surface blue", "size": "md", "lines": 1, "left": 700, "top": 653, "height": 50, "width": 100},
+    { "group": "left", "variant": "art surface red", "size": "md", "lines": 2, "left": 792, "top": 728, "height": 100, "width": 100}
+  ],
+  "labels": [
+    { "group": "left", "text": "Think aloud!", "left": 250, "top": 120, "width": 192, "fontSize": 24, "weight": 700, "colorToken": "var(--text-primary)", "z": 3 }
+  ],
+  "decor": [
+    { "group": "left", "type": "sparkles", "left": 262, "top": 112, "width": 72, "z": 4 },
+    { "group": "left", "type": "scribble", "left": 300, "top": 210, "width": 120, "z": 2 }
+  ],
+  "arrows": [
+    { "group": "left", "icon": "arrowRightDownSkinny2", "left": 240, "top": 180, "size": 39, "rotate": 0, "z": 3 },
+    { "group": "left", "icon": "arrowRightDown", "left": 420, "top": 180, "size": 56, "rotate": 0, "z": 3 }
+  ],
+  "personas": [
+    { "group": "center", "icon": "personBlue.svg", "left": 560, "top": 150, "size": 72, "z": 2 }
+  ],
+  "phone": { "group": "right", "left": 775, "top": 60, "w": 220, "h": 420, "z": 1 }
+}

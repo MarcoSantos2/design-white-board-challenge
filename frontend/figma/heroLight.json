@@ -1,0 +1,28 @@
+{
+    "theme": "light",
+    "containerWidth": 1440,
+    "stickyNotes": [
+      { "group": "left", "variant": "art/red", "size": "md", "lines": 2, "left": 216, "top": 454, "height": 100, "width": 100},
+      { "group": "left", "variant": "art surface orange", "size": "md", "lines": 3, "left": 398, "top": 551, "height": 100, "width": 100},
+      { "group": "left", "variant": "art/blue", "size": "md", "lines": 2, "left": 345, "top": 623, "height": 100, "width": 100},
+      { "group": "left", "variant": "art/purple", "size": "md", "lines": 3, "left": 437, "top": 698, "height": 100, "width": 100},
+      { "group": "left", "variant": "art surface green", "size": "md", "lines": 2, "left": 532, "top": 496, "height": 100, "width": 100},
+      { "group": "right", "variant": "art surface blue", "size": "md", "lines": 1, "left": 700, "top": 653, "height": 50, "width": 100},
+      { "group": "right", "variant": "art surface red", "size": "md", "lines": 2, "left": 792, "top": 728, "height": 100, "width": 100}
+    ],
+    "arrows": [
+      { "group": "left", "icon": "arrowRightDown", "left": 216.3513, "top": 570, "height": 105.1998, "width": 105.1998 },
+      { "group": "left", "icon": "arrowRightDownSkinny2", "left": 462, "top": 653, "height": 43, "width": 43 }
+    ],
+    "labels": [
+      { "group": "left", "text": "Think aloud!", "left": 396, "top": 433, "width": 192, "fontSize": 28, "weight": 700, "colorToken": "var(--text-primary)", "height": 36 }
+    ],
+    "decor": [
+      { "group": "left", "type": "sparkles", "left": 547, "top": 372, "width": 104, "height": 104 },
+      { "group": "left", "type": "scribble", "left": 480, "top": 475, "width": 89.9206, "height": 89.9206 }
+    ],
+    "personas": [
+      { "group": "center", "icon": "personBlue.svg", "left": 560, "top": 150, "size": 72, "z": 2 }
+    ],
+    "phone": { "group": "right", "left": 775, "top": 60, "w": 220, "h": 420, "z": 1 }
+  }
