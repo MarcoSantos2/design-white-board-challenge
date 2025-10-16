@@ -7,6 +7,55 @@ import { useTheme } from '../design-tokens/SimpleThemeProvider';
 import { useNavigate } from 'react-router-dom';
 import { signOutUser } from '../services/auth';
 
+interface HeroIllustrationProps { mode?: 'light' | 'dark' | string }
+const HeroIllustration: React.FC<HeroIllustrationProps> = ({ mode = 'light' }) => {
+  const isDark = mode === 'dark';
+  const parts = isDark
+    ? [
+        '/hero/heroPart1Dark.svg',
+        '/hero/heroPart2Dark.svg',
+        '/hero/heroPart3Dark.svg',
+        '/hero/heroPart4Dark.svg',
+      ]
+    : [
+        '/hero/heroPart1.svg',
+        '/hero/heroPart2.svg',
+        '/hero/heroPart3.svg',
+        '/hero/heroPart4.svg',
+      ];
+  const staggerMs = 800; // delay between parts
+
+  return (
+    <div
+      className="hero-illustration"
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 'var(--spacing-2)',
+        width: '100%',
+        maxWidth: '1200px',
+        margin: '0 auto',
+        overflow: 'hidden',
+      }}
+      aria-hidden="true"
+   >
+      {parts.map((src, index) => (
+        <img
+          key={src}
+          src={src}
+          alt=""
+          className="is-visible"
+          style={{
+            width: 'auto',
+            animationDelay: `${index * staggerMs}ms`,
+          }}
+        />
+      ))}
+    </div>
+  );
+};
+
 /**
  * Homepage Component
  * 
@@ -43,6 +92,20 @@ export const Homepage: React.FC = () => {
           .mobile-menu-toggle {
             display: flex !important;
           }
+        }
+        @keyframes heroFadeInUp {
+          0% { opacity: 0; transform: translateY(8px); }
+          100% { opacity: 1; transform: translateY(0); }
+        }
+        .hero-illustration img { opacity: 0; transform: translateY(8px); height: clamp(160px, 32vw, 280px); }
+        .hero-illustration img.is-visible {
+          animation: heroFadeInUp 500ms ease-out forwards;
+        }
+        @media (min-width: 1280px) {
+          .hero-illustration img { height: clamp(280px, 24vw, 420px); }
+        }
+        @media (min-width: 768px) {
+          .hero-cta { flex-direction: row !important; }
         }
       `}</style>
       <div style={{
@@ -337,6 +400,7 @@ export const Homepage: React.FC = () => {
         justifyContent: 'center',
         textAlign: 'center',
         padding: 'clamp(var(--spacing-8), 8vw, var(--spacing-15)) var(--spacing-4)',
+        paddingTop: 'clamp(var(--spacing-6), 6vw, var(--spacing-12))',
         gap: 'clamp(var(--spacing-6), 6vw, var(--spacing-8))',
         position: 'relative',
       }}>
@@ -393,7 +457,6 @@ export const Homepage: React.FC = () => {
             maxWidth: '600px',
           }}>
             Master your UX design skills with interactive whiteboard challenges. 
-            Practice real-world scenarios and improve your design thinking process.
           </p>
 
           {/* CTA Button */}
@@ -403,40 +466,39 @@ export const Homepage: React.FC = () => {
             alignItems: 'center',
             gap: 'var(--spacing-4)',
           }}>
-            <div style={{
+            <div className="hero-cta" style={{
               display: 'flex',
-              flexDirection: 'column',
-              gap: 'var(--spacing-4)',
+              flexDirection: 'row',
+              flexWrap: 'wrap',
+              justifyContent: 'center',
+              gap: 'var(--spacing-3)',
               alignItems: 'center',
               width: '100%',
-              maxWidth: '400px'
+              maxWidth: '720px'
             }}>
-              <Link to={user ? '/session' : '/signin'} style={{ width: '100%', textDecoration: 'none' }}>
+              <Link to={user ? '/session' : '/signin'} style={{ textDecoration: 'none' }}>
                 <Button
                   variant="primary"
                   size="large"
                   style={{
                     fontSize: '18px',
                     padding: 'var(--spacing-4) var(--spacing-8)',
-                    minWidth: '200px',
-                    width: '100%'
+                    minWidth: '220px'
                   }}
                 >
                   Start Free Session (with Canvas)
                 </Button>
               </Link>
-              <Link to={'/session-chat'} style={{ width: '100%', textDecoration: 'none' }}>
+              <Link to={'/session-chat'} style={{ textDecoration: 'none' }}>
                 <Button
                   variant="secondary"
                   size="large"
                   style={{
                     fontSize: '18px',
                     padding: 'var(--spacing-4) var(--spacing-8)',
-                    minWidth: '200px',
-                    width: '100%',
-                    borderColor: 'var(--accent-primary)',
-                    color: 'var(--accent-primary)',
-                    backgroundColor: 'transparent'
+                    minWidth: '220px',
+                    backgroundColor: 'var(--button-secondary)',
+                    color: 'var(--button-on-secondary)'
                   }}
                 >
                   Start Free Session (Chat Only)
@@ -453,9 +515,10 @@ export const Homepage: React.FC = () => {
               margin: 0,
               color: 'var(--text-secondary)',
             }}>
-              No credit card required
             </p>
           </div>
+          {/* Hero Illustration (SVG parts with staggered fade-in) */}
+          <HeroIllustration mode={mode} />
         </div>
       </main>
 
