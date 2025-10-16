@@ -2,6 +2,13 @@
 
 ## Make sure to follow a mobile first approach. Make sure to always use Roboto font for all text.
 
+## 🔧 Global Development Guidelines
+- Always consult tokens under `frontend/figma/tokens` before creating or editing any UI component.
+  - Map colors, spacing, radius, typography, and shadows to existing tokens.
+  - Prefer CSS custom properties (exported variables) over hardcoded values.
+  - If a needed value is missing, add a token first (do not hardcode).
+  - Keep light/dark parity: verify both themes with the same token set.
+
 ## ✅ COMPLETED
 - [x] Project setup (React + Vite + TypeScript)
 - [x] Backend API setup (Express + TypeScript)

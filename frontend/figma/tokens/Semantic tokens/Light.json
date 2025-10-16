@@ -1,0 +1,138 @@
+{
+  "surface": {
+    "primary": {
+      "$type": "color",
+      "$value": "{neutral.0}"
+    },
+    "secondary": {
+      "$type": "color",
+      "$value": "{neutral.50}"
+    }
+  },
+  "text": {
+    "primary": {
+      "$type": "color",
+      "$value": "{neutral.800}"
+    },
+    "secondary": {
+      "$type": "color",
+      "$value": "{neutral.900}"
+    },
+    "secondary-alt": {
+      "$type": "color",
+      "$value": "{neutral.600}"
+    },
+    "dialogue": {
+      "$type": "color",
+      "$value": "{neutral.600}"
+    },
+    "dialogue-bg": {
+      "$type": "color",
+      "$value": "{neutral.50}"
+    }
+  },
+  "button": {
+    "primary": {
+      "$type": "color",
+      "$value": "{neutral.900}"
+    },
+    "on-primary": {
+      "$type": "color",
+      "$value": "{yellow.300}"
+    },
+    "secondary": {
+      "$type": "color",
+      "$value": "{neutral.0}"
+    },
+    "on-secondary": {
+      "$type": "color",
+      "$value": "{neutral.900}"
+    },
+    "secondary-alt": {
+      "$type": "color",
+      "$value": "{neutral.200}"
+    },
+    "on-secondary-alt": {
+      "$type": "color",
+      "$value": "{neutral.800}"
+    },
+    "primary-alt": {
+      "$type": "color",
+      "$value": "{neutral.800}"
+    },
+    "on-primary-alt": {
+      "$type": "color",
+      "$value": "{neutral.200}"
+    }
+  },
+  "stroke": {
+    "stroke": {
+      "$type": "color",
+      "$value": "{neutral.300}"
+    },
+    "stroke-contrast": {
+      "$type": "color",
+      "$value": "{neutral.600}"
+    }
+  },
+  "art": {
+    "red": {
+      "$type": "color",
+      "$value": "{red.500}"
+    },
+    "orange": {
+      "$type": "color",
+      "$value": "{orange.500}"
+    },
+    "pink": {
+      "$type": "color",
+      "$value": "{pink.500}"
+    },
+    "purple": {
+      "$type": "color",
+      "$value": "{purple.500}"
+    },
+    "green": {
+      "$type": "color",
+      "$value": "{green.400}"
+    },
+    "blue": {
+      "$type": "color",
+      "$value": "{blue.500}"
+    }
+  },
+  "art surface": {
+    "red": {
+      "$type": "color",
+      "$value": "{red.200}"
+    },
+    "orange": {
+      "$type": "color",
+      "$value": "{orange.300}"
+    },
+    "pink": {
+      "$type": "color",
+      "$value": "{pink.50}"
+    },
+    "purple": {
+      "$type": "color",
+      "$value": "{purple.50}"
+    },
+    "green": {
+      "$type": "color",
+      "$value": "{green.50}"
+    },
+    "blue": {
+      "$type": "color",
+      "$value": "{blue.50}"
+    },
+    "gray high contrast": {
+      "$type": "color",
+      "$value": "{neutral.700}"
+    },
+    "gray low contrast": {
+      "$type": "color",
+      "$value": "{neutral.50}"
+    }
+  }
+}
